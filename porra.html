@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>La Gran PORRA - Mundial 2026</title>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --azul:   #0A1F5C;
+      --rojo:   #C8102E;
+      --dorado: #C9A84C;
+      --gris:   #f4f4f4;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Open Sans', sans-serif; background: var(--gris); color: #333; padding-bottom: 40px; }
+    header { background: linear-gradient(135deg, var(--azul) 60%, var(--rojo) 100%); color: white; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 4px solid var(--dorado); }
+    header h2 { font-family: 'Oswald', sans-serif; font-size: 20px; color: var(--dorado); letter-spacing: 1px; }
+    .nav { display: flex; justify-content: center; background: #fff; box-shadow: 0 2px 4px rgba(0,0,0,0.05); gap: 5px; padding: 5px; }
+    .nav button { background: none; border: none; padding: 10px 20px; font-family: 'Oswald', sans-serif; font-size: 14px; text-transform: uppercase; cursor: pointer; color: #666; border-bottom: 3px solid transparent; }
+    .nav button.active { color: var(--azul); border-bottom-color: var(--azul); font-weight: 600; }
+    .container { max-width: 800px; margin: 20px auto; padding: 0 15px; }
+    .page { display: none; background: white; padding: 25px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); border: 1px solid #eee; }
+    .page.active { display: block; }
+    .msg { padding: 12px; border-radius: 6px; margin-bottom: 15px; font-size: 14px; display: none; text-align: center; font-weight: 600; }
+    .msg.danger { background: #fde8e8; color: #c81e1e; }
+    .msg.success { background: #def7ec; color: #03543f; }
+    .form-group { margin-bottom: 15px; }
+    .form-group label { display: block; margin-bottom: 5px; font-size: 13px; font-weight: 600; color: #555; }
+    .form-control { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; font-size: 14px; }
+    .btn-block { width: 100%; padding: 12px; background: var(--rojo); color: white; border: none; border-radius: 5px; font-weight: 600; cursor: pointer; font-size: 15px; }
+    .btn-block:hover { background: #a50d25; }
+    .tabs-grupos { display: flex; gap: 5px; margin-bottom: 15px; overflow-x: auto; padding-bottom: 5px; }
+    .btn-tab { background: #e8edf7; border: 1px solid rgba(10,31,92,0.1); padding: 6px 12px; border-radius: 4px; font-size: 12px; font-weight: 600; color: var(--azul); cursor: pointer; white-space: nowrap; }
+    .btn-tab.active { background: var(--azul); color: white; }
+    table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 14px; }
+    th { background: #f8f9fa; color: #555; font-family: 'Oswald', sans-serif; font-weight: 600; padding: 10px; border-bottom: 2px solid #eee; text-align: left; }
+    td { padding: 10px; border-bottom: 1px solid #eee; vertical-align: middle; }
+    .badge { padding: 3px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; color: white; }
+    .badge.green { background: #2f9e44; }
+    .badge.yellow { background: #f59f00; color: #333; }
+    .badge.red { background: #e03131; }
+    .btn-save { background: var(--azul); color: white; border: none; padding: 6px 12px; border-radius: 4px; font-size: 12px; cursor: pointer; font-weight: 600; }
+    .cargando { text-align: center; padding: 20px; color: #666; font-style: italic; display: none; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h2>🏆 LA GRAN PORRA 2026</h2>
+    <div id="headerUser"></div>
+  </header>
+
+  <div class="nav" id="mainNav" style="display:none;">
+    <button id="nav-quiniela" class="active" onclick="goTo('quiniela')">📋 Mi Quiniela</button>
+    <button id="nav-ranking" onclick="goTo('ranking')">📊 Ranking</button>
+    <button id="nav-admin" style="display:none;" onclick="goTo('admin')">⚙️ Admin</button>
+  </div>
+
+  <div class="container">
+    <div id="msgBox" class="msg"></div>
+
+    <div id="page-inicio" class="page active">
+      <div id="loginForm">
+        <h3 style="font-family:'Oswald'; margin-bottom:15px; color:var(--azul);">INICIAR SESIÓN</h3>
+        <div class="form-group">
+          <label>Tu Alias (Ej: juan99)</label>
+          <input type="text" id="loginAlias" class="form-control" placeholder="Introduce tu alias">
+        </div>
+        <div class="form-group">
+          <label>Contraseña</label>
+          <input type="password" id="loginPass" class="form-control" placeholder="••••••••">
+        </div>
+        <button class="btn-block" onclick="doLogin()">ENTRAR AL SISTEMA</button>
+        <p style="margin-top:20px; font-size:13px; text-align:center;">
+          ¿No tienes cuenta? <a href="#" onclick="document.getElementById('loginForm').style.display='none'; document.getElementById('registroForm').style.display='block'; return false;" style="color:var(--rojo); font-weight:600;">Regístrate aquí</a>
+        </p>
+      </div>
+
+      <div id="registroForm" style="display:none;">
+        <h3 style="font-family:'Oswald'; margin-bottom:15px; color:var(--azul);">REGISTRO DE PARTICIPANTE</h3>
+        <div class="form-group"><label>Alias Único</label><input type="text" id="regAlias" class="form-control" placeholder="juan99"></div>
+        <div class="form-group"><label>Nombre</label><input type="text" id="regNombre" class="form-control" placeholder="Juan"></div>
+        <div class="form-group"><label>Apellidos</label><input type="text" id="regApellidos" class="form-control" placeholder="Pérez"></div>
+        <div class="form-group"><label>Contraseña</label><input type="password" id="regPass" class="form-control" placeholder="••••••••"></div>
+        <div class="form-group"><label>Repetir Contraseña</label><input type="password" id="regPass2" class="form-control" placeholder="••••••••"></div>
+        <button class="btn-block" style="background:var(--azul);" onclick="doRegistro()">CREAR MI CUENTA</button>
+        <p style="margin-top:20px; font-size:13px; text-align:center;">
+          ¿Ya tienes cuenta? <a href="#" onclick="document.getElementById('registroForm').style.display='none'; document.getElementById('loginForm').style.display='block'; return false;" style="color:var(--azul); font-weight:600;">Volver al Login</a>
+        </p>
+      </div>
+
+      <div id="loginCargando" class="cargando">🔌 Conectando de forma segura con el servidor...</div>
+      <div id="registroCargando" class="cargando">✍️ Creando tu cuenta en la base de datos...</div>
+    </div>
+
+    <div id="page-quiniela" class="page">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px; flex-wrap:wrap; gap:10px;">
+        <h3 style="font-family:'Oswald'; color:var(--azul);" id="completados">0/48 completados</h3>
+        <button id="btnGuardar" class="btn-save" style="background:var(--rojo); padding:10px 20px; font-size:14px;" onclick="guardarTodos()">💾 Guardar pronósticos</button>
+      </div>
+      <div id="quinielaCerradaMsg" class="msg danger" style="display:none; margin-bottom:15px;">🔒 Tiempo límite agotado. La quiniela está oficialmente CERRADA.</div>
+
+      <div class="tabs-grupos" id="tabsQuiniela"></div>
+      <div style="overflow-x:auto;">
+        <table>
+          <thead>
+            <tr>
+              <th style="width:70px; text-align:center;">Fecha</th>
+              <th style="width:40px; text-align:center;">Gr.</th>
+              <th>Partido</th>
+              <th style="width:110px; text-align:center;">Mi Pronóstico</th>
+              <th style="width:80px; text-align:center;">Resultado</th>
+              <th style="width:70px; text-align:center;">Puntos</th>
+            </tr>
+          </thead>
+          <tbody id="bodyQuiniela"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div id="page-ranking" class="page">
+      <h3 style="font-family:'Oswald'; color:var(--azul); margin-bottom:15px;">📊 TABLA DE POSICIONES</h3>
+      <div id="rankingCargando" class="cargando">📈 Calculando puntuaciones y ordenando ranking...</div>
+      <div style="overflow-x:auto;">
+        <table>
+          <thead>
+            <tr>
+              <th style="text-align:center; width:60px;">Pos</th>
+              <th>Participante</th>
+              <th style="text-align:center; width:80px;">Puntos</th>
+              <th style="text-align:center; width:90px;">Acertados</th>
+              <th style="text-align:center; width:80px;">Exactos</th>
+            </tr>
+          </thead>
+          <tbody id="bodyRanking"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div id="page-admin" class="page">
+      <h3 style="font-family:'Oswald'; color:var(--azul); margin-bottom:15px;">⚙️ PANEL DE CONTROL (ADMIN)</h3>
+      <div style="background:#f8f9fa; padding:15px; border-radius:6px; margin-bottom:20px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+        <span id="estadoQuinielaTexto" style="font-size:14px; font-weight:600;">Cargando estado...</span>
+        <button id="btnToggleQuiniela" class="btn-save" onclick="toggleQuiniela()">Cambiar Estado</button>
+      </div>
+      <div class="tabs-grupos" id="tabsAdmin"></div>
+      <div style="overflow-x:auto;">
+        <table>
+          <thead>
+            <tr>
+              <th style="width:70px; text-align:center;">Fecha</th>
+              <th>Partido</th>
+              <th style="width:110px; text-align:center;">Marcador Real</th>
+              <th style="width:100px; text-align:center;">Acción</th>
+            </tr>
+          </thead>
+          <tbody id="bodyAdmin"></tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // ═══════════════════════════════════════════════════════════
+    // PON AQUÍ TU URL EN LUGAR DE ESTE TEXTO:
+    // ═══════════════════════════════════════════════════════════
+    const API_URL = "https://script.google.com/macros/s/AKfycbyIxxO-jeFSdAyK8fjQ5hrN3kOs8yroNqD5OWN_tL6ZATsS_EHtowwZU3Y50MCE9uAy/exec";
+
+    var FLAGS={"México":"mx","Polonia":"pl","Arabia Saudí":"sa","Argentina":"ar","Gales":"gb-wls","EEUU":"us","Inglaterra":"gb-eng","Irán":"ir","Senegal":"sn","Países Bajos":"nl","Ecuador":"ec","Qatar":"qa","Dinamarca":"dk","Túnez":"tn","Francia":"fr","Australia":"au","España":"es","Costa Rica":"cr","Alemania":"de","Japón":"jp","Marruecos":"ma","Croacia":"hr","Bélgica":"be","Canadá":"ca","Suiza":"ch","Camerún":"cm","Brasil":"br","Serbia":"rs","Uruguay":"uy","Corea del Sur":"kr","Portugal":"pt","Ghana":"gh"};
+    function flag(pais){ var cod=FLAGS[pais]; if(!cod) return ""; return '<img src="https://flagcdn.com/24x18/'+cod+'.png" style="margin-right:4px;vertical-align:middle;">'; }
+
+    var PARTIDOS=[
+      {id:1,g:"A",f:"11/06",h:"21:00",l:"México",v:"Polonia"},{id:2,g:"A",f:"12/06",h:"18:00",l:"Arabia Saudí",v:"Argentina"},{id:3,g:"B",f:"12/06",h:"21:00",l:"Gales",v:"EEUU"},{id:4,g:"B",f:"13/06",h:"18:00",l:"Inglaterra",v:"Irán"},{id:5,g:"C",f:"13/06",h:"21:00",l:"Senegal",v:"Países Bajos"},{id:6,g:"C",f:"14/06",h:"18:00",l:"Ecuador",v:"Qatar"},{id:7,g:"D",f:"14/06",h:"21:00",l:"Dinamarca",v:"Túnez"},{id:8,g:"D",f:"15/06",h:"18:00",l:"Francia",v:"Australia"},{id:9,g:"E",f:"15/06",h:"21:00",l:"España",v:"Costa Rica"},{id:10,g:"E",f:"16/06",h:"18:00",l:"Alemania",v:"Japón"},{id:11,g:"F",f:"16/06",h:"21:00",l:"Marruecos",v:"Croacia"},{id:12,g:"F",f:"17/06",h:"18:00",l:"Bélgica",v:"Canadá"},{id:13,g:"G",f:"17/06",h:"21:00",l:"Suiza",v:"Camerún"},{id:14,g:"G",f:"18/06",h:"18:00",l:"Brasil",v:"Serbia"},{id:15,g:"H",f:"18/06",h:"21:00",l:"Uruguay",v:"Corea del Sur"},{id:16,g:"H",f:"19/06",h:"18:00",l:"Portugal",v:"Ghana"},{id:17,g:"A",f:"19/06",h:"21:00",l:"Polonia",v:"Arabia Saudí"},{id:18,g:"A",f:"20/06",h:"18:00",l:"Argentina",v:"México"},{id:19,g:"B",f:"20/06",h:"21:00",l:"EEUU",v:"Inglaterra"},{id:20,g:"B",f:"21/06",h:"18:00",l:"Irán",v:"Gales"},{id:21,g:"C",f:"21/06",h:"21:00",l:"Qatar",v:"Senegal"},{id:22,g:"C",f:"22/06",h:"18:00",l:"Países Bajos",v:"Ecuador"},{id:23,g:"D",f:"22/06",h:"21:00",l:"Francia",v:"Dinamarca"},{id:24,g:"D",f:"23/06",h:"18:00",l:"Australia",v:"Túnez"},{id:25,g:"E",f:"23/06",h:"21:00",l:"Japón",v:"Costa Rica"},{id:26,g:"E",f:"24/06",h:"18:00",l:"España",v:"Alemania"},{id:27,g:"F",f:"24/06",h:"21:00",l:"Bélgica",v:"Marruecos"},{id:28,g:"F",f:"25/06",h:"18:00",l:"Croacia",v:"Canadá"},{id:29,g:"G",f:"25/06",h:"21:00",l:"Brasil",v:"Suiza"},{id:30,g:"G",f:"26/06",h:"18:00",l:"Camerún",v:"Serbia"},{id:31,g:"H",f:"26/06",h:"21:00",l:"Portugal",v:"Uruguay"},{id:32,g:"H",f:"27/06",h:"18:00",l:"Corea del Sur",v:"Ghana"},{id:33,g:"A",f:"27/06",h:"20:00",l:"Polonia",v:"Argentina"},{id:34,g:"A",f:"27/06",h:"20:00",l:"Arabia Saudí",v:"México"},{id:35,g:"B",f:"28/06",h:"20:00",l:"EEUU",v:"Irán"},{id:36,g:"B",f:"28/06",h:"20:00",l:"Gales",v:"Inglaterra"},{id:37,g:"C",f:"29/06",h:"20:00",l:"Ecuador",v:"Senegal"},{id:38,g:"C",f:"29/06",h:"20:00",l:"Países Bajos",v:"Qatar"},{id:39,g:"D",f:"30/06",h:"20:00",l:"Túnez",v:"Francia"},{id:40,g:"D",f:"30/06",h:"20:00",l:"Australia",v:"Dinamarca"},{id:41,g:"E",f:"01/07",h:"20:00",l:"Japón",v:"España"},{id:42,g:"E",f:"01/07",h:"20:00",l:"Costa Rica",v:"Alemania"},{id:43,g:"F",f:"02/07",h:"20:00",l:"Croacia",v:"Bélgica"},{id:44,g:"F",f:"02/07",h:"20:00",l:"Canadá",v:"Marruecos"},{id:45,g:"G",f:"03/07",h:"20:00",l:"Camerún",v:"Brasil"},{id:46,g:"G",f:"03/07",h:"20:00",l:"Serbia",v:"Suiza"},{id:47,g:"H",f:"04/07",h:"20:00",l:"Ghana",v:"Uruguay"},{id:48,g:"H",f:"04/07",h:"20:00",l:"Corea del Sur",v:"Portugal"}
+    ];
+    var GRUPOS=["A","B","C","D","E","F","G","H"];
+
+    async function fetchAPI(method, bodyData, queryParams = "") {
+      const options = { method: method };
+      if (method === "POST" && bodyData) options.body = JSON.stringify(bodyData);
+      try {
+        const response = await fetch(`${API_URL}${queryParams}`, options);
+        const result = await response.json();
+        if (!result.ok) throw result.error || "Error desconocido";
+        return result.datos !== undefined ? result.datos : result;
+      } catch (err) { throw err.message || err; }
+    }
+
+    var me=null, grupoQ="A", grupoA="A", quinielaAbierta=true;
+    var misPronosticos={}, resultados={};
+
+    function showMsg(txt,type){
+      type=type||"danger"; var m=document.getElementById("msgBox"); if(!m) return;
+      m.className="msg "+type; m.textContent=txt; m.style.display="block";
+      setTimeout(function(){m.style.display="none";},4000);
+    }
+    function clearMsg(){ var m=document.getElementById("msgBox"); if(m) m.style.display="none";}
+    function onError(e){showMsg(e.message||e);}
+
+    async function goTo(page){
+      document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+      const pageElem = document.getElementById("page-"+page); if(pageElem) pageElem.classList.add("active");
+      document.querySelectorAll(".nav button").forEach(b=>b.classList.remove("active"));
+      var nb=document.getElementById("nav-"+page); if(nb) nb.classList.add("active");
+
+      if(page==="quiniela") renderQuiniela();
+      if(page==="ranking")  renderRanking();
+      if(page==="admin"){
+        try { const res = await fetchAPI("GET", null, "?action=getEstado"); quinielaAbierta = res.abierto; renderAdmin(); } catch (err) { onError(err); }
+      }
+    }
+
+    function updateHeader(){
+      var h=document.getElementById("headerUser"), nav=document.getElementById("mainNav");
+      var quinielaBtn=document.getElementById("nav-quiniela"), adminBtn=document.getElementById("nav-admin");
+      if(!h || !nav) return;
+      if(me){
+        h.innerHTML='<span style="font-size:12px;margin-right:10px;">'+me.nombre+'</span>'
+          +'<button onclick="doLogout()" style="font-size:11px;background:rgba(255,255,255,0.2);border:1px solid #fff;color:#fff;border-radius:4px;padding:2px 8px;cursor:pointer;">Salir</button>';
+        nav.style.display="flex";
+        if(me.admin){ if(quinielaBtn) quinielaBtn.style.display="none"; if(adminBtn) adminBtn.style.display="inline-block"; }
+        else { if(quinielaBtn) quinielaBtn.style.display="inline-block"; if(adminBtn) adminBtn.style.display="none"; }
+      } else { h.innerHTML=""; nav.style.display="none"; }
+    }
+
+    async function doLogin(){
+      var alias=document.getElementById("loginAlias").value.trim();
+      var pass=document.getElementById("loginPass").value;
+      if(!alias||!pass){showMsg("Rellena todos los campos.");return;}
+      document.getElementById("loginForm").style.display="none"; document.getElementById("loginCargando").style.display="block";
+      try {
+        const user = await fetchAPI("POST", { action: "verificarPassword", form: { alias: alias, password: pass } });
+        me = user; updateHeader();
+        const estado = await fetchAPI("GET", null, "?action=getEstado"); quinielaAbierta = estado.abierto;
+        if(me.admin){ document.getElementById("loginCargando").style.display="none"; goTo("admin"); }
+        else {
+          const pron = await fetchAPI("GET", null, `?action=getPronosticos&alias=${encodeURIComponent(user.alias)}`); misPronosticos = pron || {};
+          const res = await fetchAPI("GET", null, "?action=getResultados"); resultados = res || {};
+          document.getElementById("loginCargando").style.display="none"; goTo("quiniela"); clearMsg();
+        }
+      } catch (err) { document.getElementById("loginCargando").style.display="none"; document.getElementById("loginForm").style.display="block"; showMsg(err); }
+    }
+
+    async function doRegistro(){
+      var alias=document.getElementById("regAlias").value.trim();
+      var nombre=document.getElementById("regNombre").value.trim();
+      var apellidos=document.getElementById("regApellidos").value.trim();
+      var pass=document.getElementById("regPass").value;
+      var pass2=document.getElementById("regPass2").value;
+      if(!alias||!nombre||!apellidos||!pass){showMsg("Rellena todos los campos.");return;}
+      if(pass!==pass2){showMsg("Las contraseñas no coinciden.");return;}
+      document.getElementById("registroForm").style.display="none"; document.getElementById("registroCargando").style.display="block";
+      try {
+        await fetchAPI("POST", { action: "crearUsuario", form: { alias: alias, nombre: nombre, apellidos: apellidos, password: pass } });
+        const user = await fetchAPI("POST", { action: "verificarPassword", form: { alias: alias, password: pass } });
+        me = user; updateHeader();
+        const estado = await fetchAPI("GET", null, "?action=getEstado"); quinielaAbierta = estado.abierto; misPronosticos = {};
+        const res = await fetchAPI("GET", null, "?action=getResultados"); resultados = res || {};
+        document.getElementById("registroCargando").style.display="none"; goTo("quiniela");
+        showMsg("¡Bienvenido "+nombre+"! Ya puedes participar.","success");
+      } catch (err) { document.getElementById("registroCargando").style.display="none"; document.getElementById("registroForm").style.display="block"; showMsg(err); }
+    }
+
+    function doLogout(){ me=null; misPronosticos={}; quinielaAbierta=true; document.getElementById("loginAlias").value=""; document.getElementById("loginPass").value=""; document.getElementById("loginForm").style.display="block"; document.getElementById("loginCargando").style.display="none"; updateHeader(); goTo("inicio"); }
+
+    function renderQuiniela(){
+      if(!me) return;
+      var completados=PARTIDOS.filter(p=>{ var r=misPronosticos[p.id]||{}; return r.l!==""&&r.l!==undefined&&r.v!==""&&r.v!==undefined; }).length;
+      document.getElementById("completados").textContent=completados+"/48 completados";
+      var btnG=document.getElementById("btnGuardar"), msgC=document.getElementById("quinielaCerradaMsg");
+      if(quinielaAbierta){ if(btnG) btnG.style.display="inline-block"; if(msgC) msgC.style.display="none"; }
+      else { if(btnG) btnG.style.display="none"; if(msgC) msgC.style.display="block"; }
+      var tc=document.getElementById("tabsQuiniela"); tc.innerHTML="";
+      GRUPOS.forEach(g=>{ var b=document.createElement("button"); b.className="btn-tab"+(grupoQ===g?" active":""); b.textContent="Grupo "+g; b.onclick=function(){grupoQ=g; renderQuiniela();}; tc.appendChild(b); });
+      var tbody=document.getElementById("bodyQuiniela"); tbody.innerHTML="";
+      PARTIDOS.filter(p=>p.g===grupoQ).forEach(p=>{
+        var rp=misPronosticos[p.id]||{}, rr=resultados[p.id];
+        var pts=rr?calcPts(rr.l,rr.v,rp.l,rp.v):null, ptsHtml="–";
+        if(pts!==null){ var cls=pts>=5?"green":pts>0?"yellow":"red"; ptsHtml='<span class="badge '+cls+'">'+pts+' pts</span>'; }
+        var tr=document.createElement("tr");
+        tr.innerHTML='<td style="text-align:center;color:#666;font-size:12px;">'+p.f+'<br>'+p.h+'</td><td style="text-align:center;font-size:11px;color:#999;">'+p.g+'</td><td><div>'+flag(p.l)+p.l+'</div><div>'+flag(p.v)+p.v+'</div></td><td style="text-align:center;"><div style="display:flex;align-items:center;justify-content:center;gap:4px;"><input type="number" min="0" value="'+(rp.l!==undefined&&rp.l!==""?rp.l:"")+'" placeholder="–" onchange="setPron('+p.id+',\'l\',this.value)" style="width:38px;text-align:center;padding:4px;border:1px solid #ccc;border-radius:3px;font-weight:bold;"><span style="color:#999;">-</span><input type="number" min="0" value="'+(rp.v!==undefined&&rp.v!==""?rp.v:"")+'" placeholder="–" onchange="setPron('+p.id+',\'v\',this.value)" style="width:38px;text-align:center;padding:4px;border:1px solid #ccc;border-radius:3px;font-weight:bold;"></div></td><td style="text-align:center;font-weight:bold;color:var(--azul);">'+(rr?rr.l+'-'+rr.v:'–')+'</td><td style="text-align:center;">'+ptsHtml+'</td>';
+        tbody.appendChild(tr);
+      });
+    }
+
+    function setPron(id,lado,val){ misPronosticos[id]=misPronosticos[id]||{}; misPronosticos[id][lado]=val===""?"":Math.max(0,parseInt(val)||0); }
+
+    async function guardarTodos(){
+      if(!me){showMsg("Debes iniciar sesión.");return;}
+      var btnG=document.getElementById("btnGuardar"); if(btnG){btnG.disabled=true; btnG.textContent="Guardando...";}
+      try {
+        await fetchAPI("POST", { action: "guardarPronosticos", alias: me.alias, pronosticos: misPronosticos });
+        if(btnG){btnG.disabled=false; btnG.textContent="💾 Guardar pronósticos";} showMsg("Pronósticos guardados correctamente.","success");
+      } catch (err) { if(btnG){btnG.disabled=false; btnG.textContent="💾 Guardar pronósticos";} showMsg("Error al guardar."); }
+    }
+
+    async function renderRanking(){
+      document.getElementById("rankingCargando").style.display="block"; document.getElementById("bodyRanking").innerHTML="";
+      try {
+        const ranking = await fetchAPI("GET", null, "?action=getRanking"); document.getElementById("rankingCargando").style.display="none";
+        var tbody=document.getElementById("bodyRanking"); if(!tbody) return;
+        if(!ranking||ranking.length===0){ tbody.innerHTML='<tr><td colspan="5" style="text-align:center;padding:20px;color:#999;">Aún no hay participantes.</td></tr>'; return; }
+        var med=["🥇","🥈","🥉"];
+        ranking.forEach((u,i)=>{
+          var esYo=me&&u.alias===me.alias; var tr=document.createElement("tr"); if(esYo) tr.style.background="rgba(10,31,92,0.07)";
+          tr.innerHTML='<td style="text-align:center;font-size:16px;">'+(i<3?med[i]:i+1)+'</td><td><div style="font-weight:bold;">'+u.nombre+' '+u.apellidos+'</div><div style="font-size:11px;color:#888;">@'+u.alias+'</div></td><td style="text-align:center;font-size:16px;font-weight:bold;color:var(--azul);">'+u.total+'</td><td style="text-align:center;">'+u.acertados+'</td><td style="text-align:center;">'+u.exactos+'</td>'; tbody.appendChild(tr);
+        });
+      } catch (err) { document.getElementById("rankingCargando").style.display="none"; showMsg(err); }
+    }
+
+    async function renderAdmin(){
+      if(!me||!me.admin) return; actualizarBotonesAdmin();
+      var tc=document.getElementById("tabsAdmin"); if(!tc) return; tc.innerHTML="";
+      GRUPOS.forEach(g=>{ var b=document.createElement("button"); b.className="btn-tab"+(grupoA===g?" active":""); b.textContent="Grupo "+g; b.onclick=function(){grupoA=g; renderAdmin();}; tc.appendChild(b); });
+      try {
+        const res = await fetchAPI("GET", null, "?action=getResultados"); resultados=res||{};
+        var tbody=document.getElementById("bodyAdmin"); if(!tbody) return; tbody.innerHTML="";
+        PARTIDOS.filter(p=>p.g===grupoA).forEach(p=>{
+          var rr=resultados[p.id]||{}, guardado=rr.l!==undefined&&rr.l!==""; var tr=document.createElement("tr"); if(guardado) tr.style.background="#e8f5e9";
+          tr.innerHTML='<td style="text-align:center;font-size:12px;color:#666;">'+p.f+'<br>'+p.h+'</td><td><div>'+flag(p.l)+p.l+'</div><div>'+flag(p.v)+p.v+'</div></td><td style="text-align:center;"><div style="display:flex;align-items:center;justify-content:center;gap:4px;"><input type="number" min="0" id="rl'+p.id+'" value="'+(guardado?rr.l:"")+'" style="width:38px;text-align:center;font-weight:bold;"><span style="color:#999;">-</span><input type="number" min="0" id="rv'+p.id+'" value="'+(guardado?rr.v:"")+'" style="width:38px;text-align:center;font-weight:bold;"></div></td><td style="text-align:center;"><button class="btn-save" onclick="guardarRes('+p.id+')">'+(guardado?"✓ Act.":"Guardar")+'</button></td>'; tbody.appendChild(tr);
+        });
+      } catch (err) { onError(err); }
+    }
+
+    function actualizarBotonesAdmin(){
+      var txt=document.getElementById("estadoQuinielaTexto"), btn=document.getElementById("btnToggleQuiniela"); if(!txt||!btn) return;
+      if(quinielaAbierta){ txt.textContent="✅ Abierta (Se pueden editar pronósticos)"; btn.textContent="🔒 Cerrar quiniela"; btn.style.background="var(--rojo)"; }
+      else { txt.textContent="⛔ Cerrada (Edición bloqueada)"; btn.textContent="🔓 Abrir quiniela"; btn.style.background="var(--azul)"; }
+    }
+
+    async function toggleQuiniela(){
+      if(!me||!me.admin) return;
+      try { const res = await fetchAPI("POST", { action: "toggleQuiniela", alias: me.alias }); quinielaAbierta = res.abierto; actualizarBotonesAdmin(); showMsg(quinielaAbierta?"✅ Abierta.":"⛔ Cerrada.","success"); } catch (err) { onError(err); }
+    }
+
+    async function guardarRes(id){
+      var l=document.getElementById("rl"+id).value, v=document.getElementById("rv"+id).value; if(l===""||v===""){showMsg("Introduce ambos goles.");return;}
+      try { await fetchAPI("POST", { action: "guardarResultado", alias: me.alias, id: id, l: parseInt(l), v: parseInt(v) }); showMsg("Resultado guardado.","success"); renderAdmin(); } catch (err) { onError(err); }
+    }
+
+    function calcPts(rr1,rr2,rp1,rp2){
+      if(rp1===""||rp2===""||rp1===undefined||rp2===undefined) return null;
+      rr1=parseInt(rr1); rr2=parseInt(rr2); rp1=parseInt(rp1); rp2=parseInt(rp2); if(isNaN(rp1)||isNaN(rp2)) return null;
+      var pts=0, gep=(rr1>rr2&&rp1>rp2)||(rr1===rr2&&rp1===rp2)||(rr1<rr2&&rp1<rp2);
+      if(gep) pts+=5; if(rr1===rp1&&rr2===rp2){pts+=3;} else{if(rr1===rp1)pts+=1;if(rr2===rp2)pts+=1;} return pts;
+    }
+  </script>
+</body>
+</html>
