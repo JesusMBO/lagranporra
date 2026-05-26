@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portada Mundial 2026</title>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --azul:   #0A1F5C;
+      --rojo:   #C8102E;
+      --dorado: #C9A84C;
+      --gris:   #f4f4f4;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Open Sans', sans-serif;
+      background-color: var(--gris);
+      color: #333;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 0; /* Cambia esto a 0 para que en móvil aproveche cada milímetro */
+    }
+
+    .welcome-card {
+      background: #ffffff;
+      max-width: 750px;
+      width: 100%; /* Esto está perfecto */
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+      border: 1px solid #ddd;
+    }
+
+    /* Encabezado Temático Mundial */
+    .hero-header {
+      background: linear-gradient(135deg, var(--azul) 60%, var(--rojo) 100%);
+      color: #fff;
+      padding: 40px 20px;
+      text-align: center;
+      border-bottom: 5px solid var(--dorado);
+      position: relative;
+    }
+
+    .hero-header h1 {
+      font-family: 'Oswald', sans-serif;
+      font-weight: 600;
+      font-size: 32px;
+      letter-spacing: 2px;
+      color: var(--dorado);
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .hero-header p {
+      font-size: 14px;
+      opacity: 0.9;
+      letter-spacing: 1px;
+    }
+
+    /* Contenido Principal */
+    .main-content {
+      padding: 30px 20px;
+      text-align: center;
+    }
+
+    .intro-text {
+      font-size: 16px;
+      line-height: 1.6;
+      margin-bottom: 25px;
+      color: #555;
+    }
+
+    /* Sección Cuenta Atrás */
+    .countdown-container {
+      background: var(--azul);
+      color: white;
+      padding: 20px;
+      border-radius: 8px;
+      margin-bottom: 30px;
+      border-left: 5px solid var(--rojo);
+    }
+
+    .countdown-title {
+      font-family: 'Oswald', sans-serif;
+      font-size: 16px;
+      color: var(--dorado);
+      letter-spacing: 1px;
+      margin-bottom: 12px;
+      text-transform: uppercase;
+    }
+
+    .timer {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      flex-wrap: wrap; /* Permite que los bloques bajen si la pantalla es muy estrecha */
+    }
+
+    .time-block {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 10px 15px;
+      border-radius: 6px;
+      min-width: 70px;
+    }
+
+    .time-block span {
+      display: block;
+      font-family: 'Oswald', sans-serif;
+      font-size: 24px;
+      font-weight: 600;
+      color: #fff;
+    }
+
+    .time-block .label {
+      font-size: 10px;
+      text-transform: uppercase;
+      color: var(--dorado);
+      margin-top: 2px;
+    }
+
+    /* Botón de Acción para abrir tu Web App */
+    .btn-enter {
+      background: var(--rojo);
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      padding: 15px 32px;
+      font-size: 16px;
+      font-family: 'Open Sans', sans-serif;
+      font-weight: 600;
+      cursor: pointer;
+      letter-spacing: 0.5px;
+      transition: background 0.3s ease;
+      text-decoration: none;
+      display: inline-block;
+      box-shadow: 0 4px 12px rgba(200, 16, 46, 0.3);
+    }
+
+    .btn-enter:hover {
+      background: #a50d25;
+    }
+
+    /* Info Sedes */
+    .sedes-badge {
+      margin-top: 25px;
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .country {
+      background: #e8edf7;
+      color: var(--azul);
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      border: 1px solid rgba(10, 31, 92, 0.2);
+    }
+
+    /* Ajustes específicos para pantallas móviles */
+    @media (max-width: 600px) {
+      body {
+        padding: 10px; /* Menos margen en los bordes del móvil */
+      }
+      .hero-header h1 {
+        font-size: 24px; /* Texto un poco más pequeño para que no se corte */
+      }
+      .time-block {
+        min-width: 60px; /* Bloques ligeramente más compactos */
+        padding: 8px 10px;
+      }
+    }
+
+  </style>
+</head>
+<body>
+
+  <div class="welcome-card">
+    <!-- Cabecera -->
+    <div class="hero-header">
+      <h1>Copa Mundial de la FIFA 2026</h1>
+      <p>Canadá • Estados Unidos • México</p>
+    </div>
+
+    <!-- Contenido -->
+    <div class="main-content">
+      <p class="intro-text">
+        ¡Bienvenido al portal oficial de gestión del torneo! Accede al sistema para gestionar partidos, consultar estadísticas en tiempo real y coordinar eventos.
+      </p>
+
+      <!-- Cuenta atrás dinámica -->
+      <div class="countdown-container">
+        <div class="countdown-title" id="countdown-status">Tiempo restante para el pitazo inicial</div>
+        <div class="timer" id="timer-grid">
+          <div class="time-block">
+            <span id="days">00</span>
+            <div class="label">Días</div>
+          </div>
+          <div class="time-block">
+            <span id="hours">00</span>
+            <div class="label">Horas</div>
+          </div>
+          <div class="time-block">
+            <span id="minutes">00</span>
+            <div class="label">Min.</div>
+          </div>
+          <div class="time-block">
+            <span id="seconds">00</span>
+            <div class="label">Seg.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Botón (Aquí pones el enlace a la página de tu script) -->
+      <a href="https://script.google.com/macros/s/AKfycby0qZOuJlOXhkEX4joh_lXfN16L3uqUYMbPvS6WYlT8qNnI7gp4e6zDGzfwOqL0CqQG/exec" target="_blank" class="btn-enter">
+        INGRESAR AL SISTEMA
+      </a>
+
+      <!-- Sedes -->
+      <div class="sedes-badge">
+        <span class="country">🇨🇦 Canadá</span>
+        <span class="country">🇺🇸 Estados Unidos</span>
+        <span class="country">🇲🇽 México</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Lógica de la Cuenta Atrás -->
+  <script>
+    // Fecha del partido inaugural: 11 de Junio de 2026
+    const targetDate = new Date('June 11, 2026 00:00:00').getTime();
+
+    const countdownInterval = setInterval(function() {
+      const now = new Date().getTime();
+      const difference = targetDate - now;
+
+      if (difference <= 0) {
+        clearInterval(countdownInterval);
+        document.getElementById('countdown-status').innerText = "¡EL MUNDIAL HA COMENZADO!";
+        document.getElementById('timer-grid').style.display = 'none';
+        return;
+      }
+
+      // Cálculos de tiempo
+      const d = Math.floor(difference / (1000 * 60 * 60 * 24));
+      const h = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const m = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+      const s = Math.floor((difference % (1000 * 60)) / 1000);
+
+      // Añadir ceros a la izquierda si es necesario
+      document.getElementById('days').innerText = d < 10 ? '0' + d : d;
+      document.getElementById('hours').innerText = h < 10 ? '0' + h : h;
+      document.getElementById('minutes').innerText = m < 10 ? '0' + m : m;
+      document.getElementById('seconds').innerText = s < 10 ? '0' + s : s;
+    }, 1000);
+  </script>
+
+</body>
+</html>
