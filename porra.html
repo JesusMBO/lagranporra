@@ -33,11 +33,12 @@
     .btn-block:hover { background: #a50d25; }
 
     .tabs-grupos { 
-      display: flex; 
-      gap: 8px 6px;          /* El primer número separa las dos líneas entre sí; el segundo separa los botones */
-      margin-bottom: 15px; 
-      flex-wrap: wrap;       /* 👈 ¡Esta es la magia! Permite que los botones salten de línea cuando no quepan */
-      justify-content: center; /* Centra los botones de las dos líneas para que quede simétrico */
+      display: flex !important; 
+      gap: 8px 6px !important;
+      margin-bottom: 15px !important; 
+      flex-wrap: wrap !important;       /* 👈 Esto obliga a Bootstrap a saltar de línea */
+      justify-content: left !important; /* Centra los botones de las dos filas */
+      overflow-x: visible !important;   /* Elimina rastro de la barra de desplazamiento */
     }
 
     .btn-tab { background: #e8edf7; border: 1px solid rgba(10,31,92,0.1); padding: 6px 12px; border-radius: 4px; font-size: 12px; font-weight: 600; color: var(--azul); cursor: pointer; white-space: nowrap; }
