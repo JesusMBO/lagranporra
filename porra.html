@@ -250,84 +250,102 @@
     
   function flag(pais){ var cod=FLAGS[pais]; if(!cod) return ""; return '<img src="https://flagcdn.com/24x18/'+cod+'.png" style="margin-right:4px;vertical-align:middle;">'; }
   var PARTIDOS = [
-    // JORNADA 1
+    // 👥 GRUPO A (Columnas 1 a 12 en el Excel)
     {id:1,g:"A",f:"11/06",h:"21:00",l:"México",v:"Sudáfrica"},
     {id:2,g:"A",f:"12/06",h:"04:00",l:"Corea del Sur",v:"República Checa"},
-    {id:3,g:"B",f:"12/06",h:"21:00",l:"Canadá",v:"Bosnia Herzegovina"},
-    {id:4,g:"D",f:"13/06",h:"03:00",l:"Estados Unidos",v:"Paraguay"},
-    {id:5,g:"B",f:"13/06",h:"21:00",l:"Qatar",v:"Suiza"},
-    {id:6,g:"C",f:"14/06",h:"00:00",l:"Brasil",v:"Marruecos"},
-    {id:7,g:"C",f:"14/06",h:"03:00",l:"Haití",v:"Escocia"},
-    {id:8,g:"D",f:"14/06",h:"06:00",l:"Australia",v:"Turquía"},
-    {id:9,g:"E",f:"14/06",h:"19:00",l:"Alemania",v:"Curaçao"},
-    {id:10,g:"F",f:"14/06",h:"22:00",l:"Países Bajos",v:"Japón"},
-    {id:11,g:"E",f:"15/06",h:"01:00",l:"Costa de Marfil",v:"Ecuador"},
-    {id:12,g:"F",f:"15/06",h:"04:00",l:"Suecia",v:"Túnez"},
-    {id:13,g:"H",f:"15/06",h:"18:00",l:"España",v:"Cabo Verde"},
-    {id:14,g:"G",f:"15/06",h:"21:00",l:"Bélgica",v:"Egipto"},
-    {id:15,g:"H",f:"16/06",h:"00:00",l:"Arabia Saudí",v:"Uruguay"},
-    {id:16,g:"G",f:"16/06",h:"03:00",l:"Irán",v:"Nueva Zelanda"},
-    {id:17,g:"I",f:"16/06",h:"21:00",l:"Francia",v:"Senegal"},
-    {id:18,g:"I",f:"17/06",h:"00:00",l:"Iraq",v:"Noruega"},
-    {id:19,g:"J",f:"17/06",h:"03:00",l:"Argentina",v:"Argelia"},
-    {id:20,g:"J",f:"17/06",h:"06:00",l:"Austria",v:"Jordania"},
-    {id:21,g:"K",f:"17/06",h:"19:00",l:"Portugal",v:"Congo"},
-    {id:22,g:"L",f:"17/06",h:"22:00",l:"Inglaterra",v:"Croacia"},
-    {id:23,g:"L",f:"18/06",h:"01:00",l:"Ghana",v:"Panamá"},
-    {id:24,g:"K",f:"18/06",h:"04:00",l:"Uzbekistán",v:"Colombia"},
-    
-    // JORNADA 2
-    {id:25,g:"A",f:"18/06",h:"18:00",l:"República Checa",v:"Sudáfrica"},
-    {id:26,g:"B",f:"18/06",h:"21:00",l:"Suiza",v:"Bosnia Herzegovina"},
-    {id:27,g:"B",f:"19/06",h:"00:00",l:"Canadá",v:"Qatar"},
-    {id:28,g:"A",f:"19/06",h:"03:00",l:"México",v:"Corea del Sur"},
-    {id:29,g:"D",f:"19/06",h:"21:00",l:"Estados Unidos",v:"Australia"},
-    {id:30,g:"C",f:"20/06",h:"00:00",l:"Escocia",v:"Marruecos"},
-    {id:31,g:"C",f:"20/06",h:"02:30",l:"Brasil",v:"Haití"},
-    {id:32,g:"D",f:"20/06",h:"05:00",l:"Turquía",v:"Paraguay"},
+    {id:3,g:"A",f:"18/06",h:"18:00",l:"República Checa",v:"Sudáfrica"},
+    {id:4,g:"A",f:"19/06",h:"03:00",l:"México",v:"Corea del Sur"},
+    {id:5,g:"A",f:"25/06",h:"03:00",l:"República Checa",v:"México"},
+    {id:6,g:"A",f:"25/06",h:"03:00",l:"Sudáfrica",v:"Corea del Sur"},
+  
+    // 👥 GRUPO B (Columnas 13 a 24 en el Excel)
+    {id:7,g:"B",f:"12/06",h:"21:00",l:"Canadá",v:"Bosnia Herzegovina"},
+    {id:8,g:"B",f:"13/06",h:"21:00",l:"Qatar",v:"Suiza"},
+    {id:9,g:"B",f:"18/06",h:"21:00",l:"Suiza",v:"Bosnia Herzegovina"},
+    {id:10,g:"B",f:"19/06",h:"00:00",l:"Canadá",v:"Qatar"},
+    {id:11,g:"B",f:"24/06",h:"21:00",l:"Bosnia Herzegovina",v:"Qatar"},
+    {id:12,g:"B",f:"24/06",h:"21:00",l:"Suiza",v:"Canadá"},
+  
+    // 👥 GRUPO C (Columnas 25 a 36 en el Excel)
+    {id:13,g:"C",f:"14/06",h:"00:00",l:"Brasil",v:"Marruecos"},
+    {id:14,g:"C",f:"14/06",h:"03:00",l:"Haití",v:"Escocia"},
+    {id:15,g:"C",f:"20/06",h:"00:00",l:"Escocia",v:"Marruecos"},
+    {id:16,g:"C",f:"20/06",h:"02:30",l:"Brasil",v:"Haití"},
+    {id:17,g:"C",f:"25/06",h:"00:00",l:"Marruecos",v:"Haití"},
+    {id:18,g:"C",f:"25/06",h:"00:00",l:"Escocia",v:"Brasil"},
+  
+    // 👥 GRUPO D (Columnas 37 a 48 en el Excel)
+    {id:19,g:"D",f:"13/06",h:"03:00",l:"Estados Unidos",v:"Paraguay"},
+    {id:20,g:"D",f:"14/06",h:"06:00",l:"Australia",v:"Turquía"},
+    {id:21,g:"D",f:"19/06",h:"21:00",l:"Estados Unidos",v:"Australia"},
+    {id:22,g:"D",f:"20/06",h:"05:00",l:"Turquía",v:"Paraguay"},
+    {id:23,g:"D",f:"26/06",h:"04:00",l:"Paraguay",v:"Australia"},
+    {id:24,g:"D",f:"26/06",h:"04:00",l:"Turquía",v:"Estados Unidos"},
+  
+    // 👥 GRUPO E (Columnas 49 a 60 en el Excel)
+    {id:25,g:"E",f:"14/06",h:"19:00",l:"Alemania",v:"Curaçao"},
+    {id:26,g:"E",f:"15/06",h:"01:00",l:"Costa de Marfil",v:"Ecuador"},
+    {id:27,g:"E",f:"20/06",h:"22:00",l:"Alemania",v:"Costa de Marfil"},
+    {id:28,g:"E",f:"21/06",h:"02:00",l:"Ecuador",v:"Curaçao"},
+    {id:29,g:"E",f:"25/06",h:"22:00",l:"Curaçao",v:"Costa de Marfil"},
+    {id:30,g:"E",f:"25/06",h:"22:00",l:"Ecuador",v:"Alemania"},
+  
+    // 👥 GRUPO F (Columnas 61 a 72 en el Excel)
+    {id:31,g:"F",f:"14/06",h:"22:00",l:"Países Bajos",v:"Japón"},
+    {id:32,g:"F",f:"15/06",h:"04:00",l:"Suecia",v:"Túnez"},
     {id:33,g:"F",f:"20/06",h:"19:00",l:"Países Bajos",v:"Suecia"},
-    {id:34,g:"E",f:"20/06",h:"22:00",l:"Alemania",v:"Costa de Marfil"},
-    {id:35,g:"E",f:"21/06",h:"02:00",l:"Ecuador",v:"Curaçao"},
-    {id:36,g:"F",f:"21/06",h:"06:00",l:"Túnez",v:"Japón"},
-    {id:37,g:"H",f:"21/06",h:"18:00",l:"España",v:"Arabia Saudí"},
-    {id:38,g:"G",f:"21/06",h:"21:00",l:"Bélgica",v:"Irán"},
-    {id:39,g:"H",f:"22/06",h:"00:00",l:"Uruguay",v:"Cabo Verde"},
+    {id:34,g:"F",f:"21/06",h:"06:00",l:"Túnez",v:"Japón"},
+    {id:35,g:"F",f:"26/06",h:"01:00",l:"Japón",v:"Suecia"},
+    {id:36,g:"F",f:"26/06",h:"01:00",l:"Túnez",v:"Países Bajos"},
+  
+    // 👥 GRUPO G (Columnas 73 a 84 en el Excel)
+    {id:37,g:"G",f:"15/06",h:"21:00",l:"Bélgica",v:"Egipto"},
+    {id:38,g:"G",f:"16/06",h:"03:00",l:"Irán",v:"Nueva Zelanda"},
+    {id:39,g:"G",f:"21/06",h:"21:00",l:"Bélgica",v:"Irán"},
     {id:40,g:"G",f:"22/06",h:"03:00",l:"Nueva Zelanda",v:"Egipto"},
-    {id:41,g:"J",f:"22/06",h:"19:00",l:"Argentina",v:"Austria"},
-    {id:42,g:"I",f:"22/06",h:"23:00",l:"Francia",v:"Iraq"},
-    {id:43,g:"I",f:"23/06",h:"02:00",l:"Noruega",v:"Senegal"},
-    {id:44,g:"J",f:"23/06",h:"05:00",l:"Jordania",v:"Argelia"},
-    {id:45,g:"K",f:"23/06",h:"19:00",l:"Portugal",v:"Uzbekistán"},
-    {id:46,g:"L",f:"23/06",h:"22:00",l:"Inglaterra",v:"Ghana"},
-    {id:47,g:"L",f:"24/06",h:"01:00",l:"Panamá",v:"Croacia"},
-    {id:48,g:"K",f:"24/06",h:"04:00",l:"Croacia",v:"Colombia"}, // Nota: en tu texto ponía Croacia-Colombia aquí por error de volcado, si es Congo lo cambias en tu Excel/Código
-    
-      // JORNADA 3
-    {id:49,g:"B",f:"24/06",h:"21:00",l:"Bosnia Herzegovina",v:"Qatar"},
-    {id:50,g:"B",f:"24/06",h:"21:00",l:"Suiza",v:"Canadá"},
-    {id:51,g:"C",f:"25/06",h:"00:00",l:"Marruecos",v:"Haití"},
-    {id:52,g:"C",f:"25/06",h:"00:00",l:"Escocia",v:"Brasil"},
-    {id:53,g:"A",f:"25/06",h:"03:00",l:"República Checa",v:"México"},
-    {id:54,g:"A",f:"25/06",h:"03:00",l:"Sudáfrica",v:"Corea del Sur"},
-    {id:55,g:"E",f:"25/06",h:"22:00",l:"Curaçao",v:"Costa de Marfil"},
-    {id:56,g:"E",f:"25/06",h:"22:00",l:"Ecuador",v:"Alemania"},
-    {id:57,g:"F",f:"26/06",h:"01:00",l:"Japón",v:"Suecia"},
-    {id:58,g:"F",f:"26/06",h:"01:00",l:"Túnez",v:"Países Bajos"},
-    {id:59,g:"D",f:"26/06",h:"04:00",l:"Paraguay",v:"Australia"},
-    {id:60,g:"D",f:"26/06",h:"04:00",l:"Turquía",v:"Estados Unidos"},
-    {id:61,g:"I",f:"26/06",h:"21:00",l:"Noruega",v:"Francia"},
-    {id:62,g:"I",f:"26/06",h:"21:00",l:"Senegal",v:"Iraq"},
-    {id:63,g:"H",f:"27/06",h:"02:00",l:"Cabo Verde",v:"Arabia Saudí"},
-    {id:64,g:"H",f:"27/06",h:"02:00",l:"Uruguay",v:"España"},
-    {id:65,g:"G",f:"27/06",h:"05:00",l:"Egipto",v:"Irán"},
-    {id:66,g:"G",f:"27/06",h:"05:00",l:"Nueva Zelanda",v:"Bélgica"},
-    {id:67,g:"L",f:"27/06",h:"23:00",l:"Croacia",v:"Ghana"},
-    {id:68,g:"L",f:"27/06",h:"23:00",l:"Panamá",v:"Inglaterra"},
-    {id:69,g:"K",f:"28/06",h:"01:30",l:"Colombia",v:"Portugal"},
-    {id:70,g:"K",f:"28/06",h:"01:30",l:"Congo",v:"Uzbekistán"},
-    {id:71,g:"J",f:"28/06",h:"04:00",l:"Argelia",v:"Austria"},
-    {id:72,g:"J",f:"28/06",h:"04:00",l:"Jordania",v:"Argentina"}
-    ];
+    {id:41,g:"G",f:"27/06",h:"05:00",l:"Egipto",v:"Irán"},
+    {id:42,g:"G",f:"27/06",h:"05:00",l:"Nueva Zelanda",v:"Bélgica"},
+  
+    // 👥 GRUPO H (Columnas 85 a 96 en el Excel)
+    {id:43,g:"H",f:"15/06",h:"18:00",l:"España",v:"Cabo Verde"},
+    {id:44,g:"H",f:"16/06",h:"00:00",l:"Arabia Saudí",v:"Uruguay"},
+    {id:45,g:"H",f:"21/06",h:"18:00",l:"España",v:"Arabia Saudí"},
+    {id:46,g:"H",f:"22/06",h:"00:00",l:"Uruguay",v:"Cabo Verde"},
+    {id:47,g:"H",f:"27/06",h:"02:00",l:"Cabo Verde",v:"Arabia Saudí"},
+    {id:48,g:"H",f:"27/06",h:"02:00",l:"Uruguay",v:"España"},
+  
+    // 👥 GRUPO I (Columnas 97 a 108 en el Excel)
+    {id:49,g:"I",f:"16/06",h:"21:00",l:"Francia",v:"Senegal"},
+    {id:50,g:"I",f:"17/06",h:"00:00",l:"Iraq",v:"Noruega"},
+    {id:51,g:"I",f:"22/06",h:"23:00",l:"Francia",v:"Iraq"},
+    {id:52,g:"I",f:"23/06",h:"02:00",l:"Noruega",v:"Senegal"},
+    {id:53,g:"I",f:"26/06",h:"21:00",l:"Noruega",v:"Francia"},
+    {id:54,g:"I",f:"26/06",h:"21:00",l:"Senegal",v:"Iraq"},
+  
+    // 👥 GRUPO J (Columnas 109 a 120 en el Excel)
+    {id:55,g:"J",f:"17/06",h:"03:00",l:"Argentina",v:"Argelia"},
+    {id:56,g:"J",f:"17/06",h:"06:00",l:"Austria",v:"Jordania"},
+    {id:57,g:"J",f:"22/06",h:"19:00",l:"Argentina",v:"Austria"},
+    {id:58,g:"J",f:"23/06",h:"05:00",l:"Jordania",v:"Argelia"},
+    {id:59,g:"J",f:"28/06",h:"04:00",l:"Argelia",v:"Austria"},
+    {id:60,g:"J",f:"28/06",h:"04:00",l:"Jordania",v:"Argentina"},
+  
+    // 👥 GRUPO K (Columnas 121 a 132 en el Excel)
+    {id:61,g:"K",f:"17/06",h:"19:00",l:"Portugal",v:"Congo"},
+    {id:62,g:"K",f:"18/06",h:"04:00",l:"Uzbekistán",v:"Colombia"},
+    {id:63,g:"K",f:"23/06",h:"19:00",l:"Portugal",v:"Uzbekistán"},
+    {id:64,g:"K",f:"24/06",h:"04:00",l:"Colombia",v:"Congo"},
+    {id:65,g:"K",f:"28/06",h:"01:30",l:"Colombia",v:"Portugal"},
+    {id:66,g:"K",f:"28/06",h:"01:30",l:"Congo",v:"Uzbekistán"},
+  
+    // 👥 GRUPO L (Columnas 133 a 144 en el Excel)
+    {id:67,g:"L",f:"17/06",h:"22:00",l:"Inglaterra",v:"Croacia"},
+    {id:68,g:"L",f:"18/06",h:"01:00",l:"Ghana",v:"Panamá"},
+    {id:69,g:"L",f:"23/06",h:"22:00",l:"Inglaterra",v:"Ghana"},
+    {id:70,g:"L",f:"24/06",h:"01:00",l:"Panamá",v:"Croacia"},
+    {id:71,g:"L",f:"27/06",h:"23:00",l:"Croacia",v:"Ghana"},
+    {id:72,g:"L",f:"27/06",h:"23:00",l:"Panamá",v:"Inglaterra"}
+  ];
 
     var GRUPOS = ["A","B","C","D","E","F","G","H","I","J","K","L"];
     
