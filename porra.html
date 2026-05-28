@@ -189,11 +189,88 @@
     var FLAGS={"México":"mx","Polonia":"pl","Arabia Saudí":"sa","Argentina":"ar","Gales":"gb-wls","EEUU":"us","Inglaterra":"gb-eng","Irán":"ir","Senegal":"sn","Países Bajos":"nl","Ecuador":"ec","Qatar":"qa","Dinamarca":"dk","Túnez":"tn","Francia":"fr","Australia":"au","España":"es","Costa Rica":"cr","Alemania":"de","Japón":"jp","Marruecos":"ma","Croacia":"hr","Bélgica":"be","Canadá":"ca","Suiza":"ch","Camerún":"cm","Brasil":"br","Serbia":"rs","Uruguay":"uy","Corea del Sur":"kr","Portugal":"pt","Ghana":"gh"};
     function flag(pais){ var cod=FLAGS[pais]; if(!cod) return ""; return '<img src="https://flagcdn.com/24x18/'+cod+'.png" style="margin-right:4px;vertical-align:middle;">'; }
 
-    var PARTIDOS=[
-      {id:1,g:"A",f:"11/06",h:"21:00",l:"México",v:"Polonia"},{id:2,g:"A",f:"12/06",h:"18:00",l:"Arabia Saudí",v:"Argentina"},{id:3,g:"B",f:"12/06",h:"21:00",l:"Gales",v:"EEUU"},{id:4,g:"B",f:"13/06",h:"18:00",l:"Inglaterra",v:"Irán"},{id:5,g:"C",f:"13/06",h:"21:00",l:"Senegal",v:"Países Bajos"},{id:6,g:"C",f:"14/06",h:"18:00",l:"Ecuador",v:"Qatar"},{id:7,g:"D",f:"14/06",h:"21:00",l:"Dinamarca",v:"Túnez"},{id:8,g:"D",f:"15/06",h:"18:00",l:"Francia",v:"Australia"},{id:9,g:"E",f:"15/06",h:"21:00",l:"España",v:"Costa Rica"},{id:10,g:"E",f:"16/06",h:"18:00",l:"Alemania",v:"Japón"},{id:11,g:"F",f:"16/06",h:"21:00",l:"Marruecos",v:"Croacia"},{id:12,g:"F",f:"17/06",h:"18:00",l:"Bélgica",v:"Canadá"},{id:13,g:"G",f:"17/06",h:"21:00",l:"Suiza",v:"Camerún"},{id:14,g:"G",f:"18/06",h:"18:00",l:"Brasil",v:"Serbia"},{id:15,g:"H",f:"18/06",h:"21:00",l:"Uruguay",v:"Corea del Sur"},{id:16,g:"H",f:"19/06",h:"18:00",l:"Portugal",v:"Ghana"},{id:17,g:"A",f:"19/06",h:"21:00",l:"Polonia",v:"Arabia Saudí"},{id:18,g:"A",f:"20/06",h:"18:00",l:"Argentina",v:"México"},{id:19,g:"B",f:"20/06",h:"21:00",l:"EEUU",v:"Inglaterra"},{id:20,g:"B",f:"21/06",h:"18:00",l:"Irán",v:"Gales"},{id:21,g:"C",f:"21/06",h:"21:00",l:"Qatar",v:"Senegal"},{id:22,g:"C",f:"22/06",h:"18:00",l:"Países Bajos",v:"Ecuador"},{id:23,g:"D",f:"22/06",h:"21:00",l:"Francia",v:"Dinamarca"},{id:24,g:"D",f:"23/06",h:"18:00",l:"Australia",v:"Túnez"},{id:25,g:"E",f:"23/06",h:"21:00",l:"Japón",v:"Costa Rica"},{id:26,g:"E",f:"24/06",h:"18:00",l:"España",v:"Alemania"},{id:27,g:"F",f:"24/06",h:"21:00",l:"Bélgica",v:"Marruecos"},{id:28,g:"F",f:"25/06",h:"18:00",l:"Croacia",v:"Canadá"},{id:29,g:"G",f:"25/06",h:"21:00",l:"Brasil",v:"Suiza"},{id:30,g:"G",f:"26/06",h:"18:00",l:"Camerún",v:"Serbia"},{id:31,g:"H",f:"26/06",h:"21:00",l:"Portugal",v:"Uruguay"},{id:32,g:"H",f:"27/06",h:"18:00",l:"Corea del Sur",v:"Ghana"},{id:33,g:"A",f:"27/06",h:"20:00",l:"Polonia",v:"Argentina"},{id:34,g:"A",f:"27/06",h:"20:00",l:"Arabia Saudí",v:"México"},{id:35,g:"B",f:"28/06",h:"20:00",l:"EEUU",v:"Irán"},{id:36,g:"B",f:"28/06",h:"20:00",l:"Gales",v:"Inglaterra"},{id:37,g:"C",f:"29/06",h:"20:00",l:"Ecuador",v:"Senegal"},{id:38,g:"C",f:"29/06",h:"20:00",l:"Países Bajos",v:"Qatar"},{id:39,g:"D",f:"30/06",h:"20:00",l:"Túnez",v:"Francia"},{id:40,g:"D",f:"30/06",h:"20:00",l:"Australia",v:"Dinamarca"},{id:41,g:"E",f:"01/07",h:"20:00",l:"Japón",v:"España"},{id:42,g:"E",f:"01/07",h:"20:00",l:"Costa Rica",v:"Alemania"},{id:43,g:"F",f:"02/07",h:"20:00",l:"Croacia",v:"Bélgica"},{id:44,g:"F",f:"02/07",h:"20:00",l:"Canadá",v:"Marruecos"},{id:45,g:"G",f:"03/07",h:"20:00",l:"Camerún",v:"Brasil"},{id:46,g:"G",f:"03/07",h:"20:00",l:"Serbia",v:"Suiza"},{id:47,g:"H",f:"04/07",h:"20:00",l:"Ghana",v:"Uruguay"},{id:48,g:"H",f:"04/07",h:"20:00",l:"Corea del Sur",v:"Portugal"}
+    var PARTIDOS = [
+      // JORNADA 1
+      {id:1,g:"A",f:"11/06",h:"18:00",l:"México",v:"Por definir A4"},
+      {id:2,g:"D",f:"11/06",h:"20:00",l:"Canadá",v:"Por definir D4"},
+      {id:3,g:"B",f:"12/06",h:"16:00",l:"Estados Unidos",v:"Por definir B4"},
+      {id:4,g:"B",f:"12/06",h:"19:00",l:"Por definir B2",v:"Por definir B3"},
+      {id:5,g:"A",f:"13/06",h:"13:00",l:"Por definir A2",v:"Por definir A3"},
+      {id:6,g:"C",f:"13/06",h:"16:00",l:"Por definir C1",v:"Por definir C2"},
+      {id:7,g:"C",f:"13/06",h:"19:00",l:"Por definir C3",v:"Por definir C4"},
+      {id:8,g:"D",f:"13/06",h:"22:00",l:"Por definir D2",v:"Por definir D3"},
+      {id:9,g:"E",f:"14/06",h:"14:00",l:"Por definir E1",v:"Por definir E2"},
+      {id:10,g:"E",f:"14/06",h:"17:00",l:"Por definir E3",v:"Por definir E4"},
+      {id:11,g:"F",f:"14/06",h:"20:00",l:"Por definir F1",v:"Por definir F2"},
+      {id:12,g:"F",f:"14/06",h:"23:00",l:"Por definir F3",v:"Por definir F4"},
+      {id:13,g:"G",f:"15/06",h:"13:00",l:"Por definir G1",v:"Por definir G2"},
+      {id:14,g:"G",f:"15/06",h:"16:00",l:"Por definir G3",v:"Por definir G4"},
+      {id:15,g:"H",f:"15/06",h:"19:00",l:"Por definir H1",v:"Por definir H2"},
+      {id:16,g:"H",f:"15/06",h:"22:00",l:"Por definir H3",v:"Por definir H4"},
+      {id:17,g:"I",f:"16/06",h:"14:00",l:"Por definir I1",v:"Por definir I2"},
+      {id:18,g:"I",f:"16/06",h:"17:00",l:"Por definir I3",v:"Por definir I4"},
+      {id:19,g:"J",f:"16/06",h:"20:00",l:"Por definir J1",v:"Por definir J2"},
+      {id:20,g:"J",f:"16/06",h:"23:00",l:"Por definir J3",v:"Por definir J4"},
+      {id:21,g:"K",f:"17/06",h:"13:00",l:"Por definir K1",v:"Por definir K2"},
+      {id:22,g:"K",f:"17/06",h:"16:00",l:"Por definir K3",v:"Por definir K4"},
+      {id:23,g:"L",f:"17/06",h:"19:00",l:"Por definir L1",v:"Por definir L2"},
+      {id:24,g:"L",f:"17/06",h:"22:00",l:"Por definir L3",v:"Por definir L4"},
+    
+      // JORNADA 2
+      {id:25,g:"A",f:"18/06",h:"15:00",l:"México",v:"Por definir A3"},
+      {id:26,g:"A",f:"18/06",h:"18:00",l:"Por definir A4",v:"Por definir A2"},
+      {id:27,g:"B",f:"19/06",h:"15:00",l:"Estados Unidos",v:"Por definir B3"},
+      {id:28,g:"B",f:"19/06",h:"18:00",l:"Por definir B4",v:"Por definir B2"},
+      {id:29,g:"C",f:"19/06",h:"21:00",l:"Por definir C1",v:"Por definir C3"},
+      {id:30,g:"C",f:"19/06",h:"00:00",l:"Por definir C4",v:"Por definir C2"},
+      {id:31,g:"D",f:"20/06",h:"14:00",l:"Canadá",v:"Por definir D3"},
+      {id:32,g:"D",f:"20/06",h:"17:00",l:"Por definir D4",v:"Por definir D2"},
+      {id:33,g:"E",f:"20/06",h:"20:00",l:"Por definir E1",v:"Por definir E3"},
+      {id:34,g:"E",f:"20/06",h:"23:00",l:"Por definir E4",v:"Por definir E2"},
+      {id:35,g:"F",f:"21/06",h:"13:00",l:"Por definir F1",v:"Por definir F3"},
+      {id:36,g:"F",f:"21/06",h:"16:00",l:"Por definir F4",v:"Por definir F2"},
+      {id:37,g:"G",f:"21/06",h:"19:00",l:"Por definir G1",v:"Por definir G3"},
+      {id:38,g:"G",f:"21/06",h:"22:00",l:"Por definir G4",v:"Por definir G2"},
+      {id:39,g:"H",f:"22/06",h:"14:00",l:"Por definir H1",v:"Por definir H3"},
+      {id:40,g:"H",f:"22/06",h:"17:00",l:"Por definir H4",v:"Por definir H2"},
+      {id:41,g:"I",f:"22/06",h:"20:00",l:"Por definir I1",v:"Por definir I3"},
+      {id:42,g:"I",f:"22/06",h:"23:00",l:"Por definir I4",v:"Por definir I2"},
+      {id:43,g:"J",f:"23/06",h:"13:00",l:"Por definir J1",v:"Por definir J3"},
+      {id:44,g:"J",f:"23/06",h:"16:00",l:"Por definir J4",v:"Por definir J2"},
+      {id:45,g:"K",f:"23/06",h:"19:00",l:"Por definir K1",v:"Por definir K3"},
+      {id:46,g:"K",f:"23/06",h:"22:00",l:"Por definir K4",v:"Por definir K2"},
+      {id:47,g:"L",f:"24/06",h:"14:00",l:"Por definir L1",v:"Por definir L3"},
+      {id:48,g:"L",f:"24/06",h:"17:00",l:"Por definir L4",v:"Por definir L2"},
+    
+      // JORNADA 3
+      {id:49,g:"A",f:"24/06",h:"20:00",l:"Por definir A4",v:"México"},
+      {id:50,g:"A",f:"24/06",h:"20:00",l:"Por definir A2",v:"Por definir A3"},
+      {id:51,g:"B",f:"25/06",h:"20:00",l:"Por definir B4",v:"Estados Unidos"},
+      {id:52,g:"B",f:"25/06",h:"20:00",l:"Por definir B2",v:"Por definir B3"},
+      {id:53,g:"C",f:"25/06",h:"23:00",l:"Por definir C4",v:"Por definir C1"},
+      {id:54,g:"C",f:"25/06",h:"23:00",l:"Por definir C2",v:"Por definir C3"},
+      {id:55,g:"D",f:"26/06",h:"20:00",l:"Por definir D4",v:"Canadá"},
+      {id:56,g:"D",f:"26/06",h:"20:00",l:"Por definir D2",v:"Por definir D3"},
+      {id:57,g:"E",f:"26/06",h:"23:00",l:"Por definir E4",v:"Por definir E1"},
+      {id:58,g:"E",f:"26/06",h:"23:00",l:"Por definir E2",v:"Por definir E3"},
+      {id:59,g:"F",f:"27/06",h:"18:00",l:"Por definir F4",v:"Por definir F1"},
+      {id:60,g:"F",f:"27/06",h:"18:00",l:"Por definir F2",v:"Por definir F3"},
+      {id:61,g:"G",f:"27/06",h:"21:00",l:"Por definir G4",v:"Por definir G1"},
+      {id:62,g:"G",f:"27/06",h:"21:00",l:"Por definir G2",v:"Por definir G3"},
+      {id:63,g:"H",f:"27/06",h:"00:00",l:"Por definir H4",v:"Por definir H1"},
+      {id:64,g:"H",f:"27/06",h:"00:00",l:"Por definir H2",v:"Por definir H3"},
+      {id:65,g:"I",f:"28/06",h:"15:00",l:"Por definir I4",v:"Por definir I1"},
+      {id:66,g:"I",f:"28/06",h:"15:00",l:"Por definir I2",v:"Por definir I3"},
+      {id:67,g:"J",f:"28/06",h:"18:00",l:"Por definir J4",v:"Por definir J1"},
+      {id:68,g:"J",f:"28/06",h:"18:00",l:"Por definir J2",v:"Por definir J3"},
+      {id:69,g:"K",f:"28/06",h:"21:00",l:"Por definir K4",v:"Por definir K1"},
+      {id:70,g:"K",f:"28/06",h:"21:00",l:"Por definir K2",v:"Por definir K3"},
+      {id:71,g:"L",f:"28/06",h:"00:00",l:"Por definir L4",v:"Por definir L1"},
+      {id:72,g:"L",f:"28/06",h:"00:00",l:"Por definir L2",v:"Por definir L3"}
     ];
-    var GRUPOS=["A","B","C","D","E","F","G","H"];
 
+    var GRUPOS = ["A","B","C","D","E","F","G","H","I","J","K","L"];
+    
     async function fetchAPI(method, bodyData, queryParams = "") {
       const options = { method: method };
       if (method === "POST" && bodyData) options.body = JSON.stringify(bodyData);
