@@ -362,7 +362,7 @@
     function renderQuiniela(){
       if(!me) return;
       var completados=PARTIDOS.filter(p=>{ var r=misPronosticos[p.id]||{}; return r.l!==""&&r.l!==undefined&&r.v!==""&&r.v!==undefined; }).length;
-      document.getElementById("completados").textContent=completados+"/48 completados";
+      document.getElementById("completados").textContent = completados + "/72 completados";
       var btnG=document.getElementById("btnGuardar"), msgC=document.getElementById("quinielaCerradaMsg");
       if(quinielaAbierta){ if(btnG) btnG.style.display="inline-block"; if(msgC) msgC.style.display="none"; }
       else { if(btnG) btnG.style.display="none"; if(msgC) msgC.style.display="block"; }
