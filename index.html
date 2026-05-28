@@ -285,31 +285,36 @@
     }, 1000);
   </script>
 
+  <!-- Lógica de buscar participantes -->
   <script>
     // ═══════════════════════════════════════════════════════════
-    // CAMBIA ESTA URL POR LA TUYA DE GOOGLE SCRIPT (/exec):
+    // REVISA QUE ESTA URL SEA TU ENLACE /exec REAL DE GOOGLE:
     // ═══════════════════════════════════════════════════════════
-    const API_URL_INDEX = "https://script.google.com/macros/s/AKfycbzPe7Jshn0YUd9uvipyLickpz4b7kwGGMhwEAWazfzJ6kx_d1NnyLS2tCeMfI-dAgsF/exec";
+    const API_URL_INDEX = "https://script.google.com/macros/s/AKfycbxcoFN86Ym9xMPZIkn8x7nm7BQgFDDrZjNFYhOhxQI23kYaYwumADmQvi7ouPha7Nw/exec";
   
     async function obtenerTotalParticipantes() {
+      const selectorContador = document.getElementById("total-jugadores");
+      if (!selectorContador) return;
+  
       try {
-        // Llamamos a la nueva acción de Google Script
-        const response = await fetch(`${API_URL_INDEX}?action=getTotalParticipantes`);
+        // Añadimos un pequeño truco anticonexiones viejas (un número aleatorio al final)
+        const cacheBuster = "&_cb=" + new Date().getTime();
+        const response = await fetch(`${API_URL_INDEX}?action=getTotalParticipantes${cacheBuster}`);
         const result = await response.json();
         
-        if (result.ok && result.datos) {
-          // Ponemos el número real sustituyendo los tres puntitos "..."
-          document.getElementById("total-jugadores").textContent = result.datos.total;
+        if (result.ok && result.datos && result.datos.total !== undefined) {
+          // Forzamos a que pinte el número limpio
+          selectorContador.textContent = parseInt(result.datos.total);
         } else {
-          document.getElementById("total-jugadores").textContent = "0";
+          selectorContador.textContent = "0";
         }
       } catch (err) {
         console.error("Error al cargar participantes:", err);
-        document.getElementById("total-jugadores").textContent = "–";
+        selectorContador.textContent = "0";
       }
     }
   
-    // Ejecutar de forma automática cuando cargue la portada
+    // Se ejecuta en cuanto carga la página por completo
     window.addEventListener('load', obtenerTotalParticipantes);
   </script>
   
