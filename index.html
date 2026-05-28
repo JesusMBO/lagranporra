@@ -307,7 +307,7 @@
         
         if (result && result.ok === true && result.datos && result.datos.total !== undefined) {
           // Forzamos a convertir el dato en número real
-          const total Final = parseInt(result.datos.total, 10);
+          const totalFinal = parseInt(result.datos.total, 10);
           selectorContador.textContent = isNaN(totalFinal) ? "0" : totalFinal;
         } else {
           selectorContador.textContent = "0";
