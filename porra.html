@@ -83,13 +83,16 @@
 
         <!--- ___________________________________________   LINEA DE PORRA CERRADA _____________________________________________________________________
         <button class="btn-block" onclick="doLogin()">INICIAR SESIÓN</button>
-        ________________________________________________________________________________________________________________________________________________ -->
-        
-        <button class="btn-block" disabled style="background: #ccc; cursor: not-allowed; box-shadow: none;">ENTRAR AL SISTEMA</button>
-        
         <p style="margin-top:20px; font-size:13px; text-align:center;">
           ¿No tienes cuenta? <a href="#" onclick="document.getElementById('loginForm').style.display='none'; document.getElementById('registroForm').style.display='block'; return false;" style="color:var(--rojo); font-weight:600;">Regístrate aquí</a>
         </p>
+        ________________________________________________________________________________________________________________________________________________ -->
+        
+        <button class="btn-block" disabled style="background: #ccc; cursor: not-allowed; box-shadow: none;">ENTRAR AL SISTEMA</button>
+        <p style="margin-top:20px; font-size:13px; text-align:center; color: #999;">
+          ¿No tienes cuenta? <span style="color:#ccc; font-weight:600; cursor: not-allowed;">Regístrate aquí</span>
+        </p>
+
       </div>
 
       <div id="registroForm" style="display:none;">
