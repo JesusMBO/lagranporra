@@ -157,10 +157,17 @@
 
     <div id="page-admin" class="page">
       <h3 style="font-family:'Oswald'; color:var(--azul); margin-bottom:15px;">⚙️ PANEL DE CONTROL (ADMIN)</h3>
+      
       <div style="background:#f8f9fa; padding:15px; border-radius:6px; margin-bottom:20px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
         <span id="estadoQuinielaTexto" style="font-size:14px; font-weight:600;">Cargando estado...</span>
         <button id="btnToggleQuiniela" class="btn-save" onclick="toggleQuiniela()">Cambiar Estado</button>
       </div>
+  
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
+        <span style="font-size:13px; color:#666; font-style:italic;">Escribe los marcadores del grupo y dale a guardar:</span>
+        <button id="btnGuardarAdminGlobal" class="btn-save" style="background:var(--rojo); padding:10px 20px; font-size:14px;" onclick="guardarTodosResultadosAdmin()">💾 Guardar Resultados introducidos</button>
+      </div>
+  
       <div class="tabs-grupos" id="tabsAdmin"></div>
       <div style="overflow-x:auto;">
         <table>
@@ -168,15 +175,13 @@
             <tr>
               <th style="width:70px; text-align:center;">Fecha</th>
               <th>Partido</th>
-              <th style="width:110px; text-align:center;">Marcador Real</th>
-              <th style="width:100px; text-align:center;">Acción</th>
+              <th style="width:140px; text-align:center;">Marcador Real</th>
             </tr>
           </thead>
           <tbody id="bodyAdmin"></tbody>
         </table>
       </div>
     </div>
-  </div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
   <script src="config.js"></script>
