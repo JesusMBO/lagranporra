@@ -374,7 +374,18 @@
         var pts=rr?calcPts(rr.l,rr.v,rp.l,rp.v):null, ptsHtml="–";
         if(pts!==null){ var cls=pts>=5?"green":pts>0?"yellow":"red"; ptsHtml='<span class="badge '+cls+'">'+pts+' pts</span>'; }
         var tr=document.createElement("tr");
-        tr.innerHTML='<td style="text-align:center;color:#666;font-size:12px;">'+p.f+'<br>'+p.h+'</td><td style="text-align:center;font-size:11px;color:#999;">'+p.g+'</td><td><div>'+flag(p.l)+p.l+'</div><div>'+flag(p.v)+p.v+'</div></td><td style="text-align:center;"><div style="display:flex;align-items:center;justify-content:center;gap:4px;"><input type="number" min="0" value="'+(rp.l!==undefined&&rp.l!==""?rp.l:"")+'" placeholder="–" onchange="setPron('+p.id+',\'l\',this.value)" style="width:38px;text-align:center;padding:4px;border:1px solid #ccc;border-radius:3px;font-weight:bold;"><span style="color:#999;">-</span><input type="number" min="0" value="'+(rp.v!==undefined&&rp.v!==""?rp.v:"")+'" placeholder="–" onchange="setPron('+p.id+',\'v\',this.value)" style="width:38px;text-align:center;padding:4px;border:1px solid #ccc;border-radius:3px;font-weight:bold;"></div></td><td style="text-align:center;font-weight:bold;color:var(--azul);">'+(rr?rr.l+'-'+rr.v:'–')+'</td><td style="text-align:center;">'+ptsHtml+'</td>';
+        tr.innerHTML = '<td style="text-align:center;color:#666;font-size:12px;">'+p.f+'<br>'+p.h+'</td>' +
+           '<td style="text-align:center;font-size:11px;color:#999;">'+p.g+'</td>' +
+           '<td><div>'+flag(p.l)+p.l+'</div><div>'+flag(p.v)+p.v+'</div></td>' +
+           '<td style="text-align:center;">' +
+           '<div style="display:flex;align-items:center;justify-content:center;gap:6px;">' +
+           '<input type="number" min="0" value="'+(rp.l!==undefined&&rp.l!==""?rp.l:"")+'" onchange="setPron('+p.id+',\'l\',this.value)" style="width:42px;text-align:center;padding:6px 4px;border:1px solid #ccc;border-radius:4px;font-weight:bold;">' +
+           '<span style="color:#999;font-weight:bold;">-</span>' +
+           '<input type="number" min="0" value="'+(rp.v!==undefined&&rp.v!==""?rp.v:"")+'" onchange="setPron('+p.id+',\'v\',this.value)" style="width:42px;text-align:center;padding:6px 4px;border:1px solid #ccc;border-radius:4px;font-weight:bold;">' +
+           '</div>' +
+           '</td>' +
+           '<td style="text-align:center;font-weight:bold;color:var(--azul);">'+(rr?rr.l+'-'+rr.v:'–')+'</td>' +
+           '<td style="text-align:center;">'+ptsHtml+'</td>';
         tbody.appendChild(tr);
       });
     }
