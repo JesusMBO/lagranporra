@@ -241,6 +241,10 @@
         📋 VER REGLAS
       </a>
 
+
+      <div id="contador-caja" style="margin-bottom: 20px; font-size: 14px; color: #555; background: #e8edf7; display: inline-block; padding: 6px 15px; border-radius: 20px; font-weight: 600;">
+        🏃 Participantes registrados: <span id="total-jugadores" style="color: var(--azul); font-weight: bold;">...</span>
+      </div>
       <!-- Sedes -->
       <div class="sedes-badge">
         <span class="country">🇨🇦 Canadá</span>
@@ -280,5 +284,33 @@
     }, 1000);
   </script>
 
+  <script>
+    // ═══════════════════════════════════════════════════════════
+    // CAMBIA ESTA URL POR LA TUYA DE GOOGLE SCRIPT (/exec):
+    // ═══════════════════════════════════════════════════════════
+    const API_URL_INDEX = "AQUÍ_PEGAS_TU_URL_DE_GOOGLE_QUE_TERMINA_EN_EXEC";
+  
+    async function obtenerTotalParticipantes() {
+      try {
+        // Llamamos a la nueva acción de Google Script
+        const response = await fetch(`${API_URL_INDEX}?action=getTotalParticipantes`);
+        const result = await response.json();
+        
+        if (result.ok && result.datos) {
+          // Ponemos el número real sustituyendo los tres puntitos "..."
+          document.getElementById("total-jugadores").textContent = result.datos.total;
+        } else {
+          document.getElementById("total-jugadores").textContent = "0";
+        }
+      } catch (err) {
+        console.error("Error al cargar participantes:", err);
+        document.getElementById("total-jugadores").textContent = "–";
+      }
+    }
+  
+    // Ejecutar de forma automática cuando cargue la portada
+    window.addEventListener('load', obtenerTotalParticipantes);
+  </script>
+  
 </body>
 </html>
