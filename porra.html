@@ -336,7 +336,7 @@
         var tbody=document.getElementById("bodyAdmin"); if(!tbody) return; tbody.innerHTML="";
         PARTIDOS.filter(p=>p.g===grupoA).forEach(p=>{
           var rr=resultados[p.id]||{}, guardado=rr.l!==undefined&&rr.l!==""; var tr=document.createElement("tr"); if(guardado) tr.style.background="#e8f5e9";
-          tr.innerHTML='<td style="text-align:center;font-size:12px;color:#666;">'+p.f+'<br>'+p.h+'</td><td><div>'+flag(p.l)+p.l+'</div><div>'+flag(p.v)+p.v+'</div></td><td style="text-align:center;"><div style="display:flex;align-items:center;justify-content:center;gap:4px;"><input type="number" min="0" id="rl'+p.id+'" value="'+(guardado?rr.l:"")+'" style="width:38px;text-align:center;font-weight:bold;"><span style="color:#999;">-</span><input type="number" min="0" id="rv'+p.id+'" value="'+(guardado?rr.v:"")+'" style="width:38px;text-align:center;font-weight:bold;"></div></td><td style="text-align:center;"><button class="btn-save" onclick="guardarRes('+p.id+')">'+(guardado?"✓ Act.":"Guardar")+'</button></td>'; tbody.appendChild(tr);
+          tr.innerHTML='<td style="text-align:center;font-size:12px;color:#666;">'+p.f+'<br>'+p.h+'</td><td><div>'+flag(p.l)+p.l+'</div><div>'+flag(p.v)+p.v+'</div></td><td style="text-align:center;"><div style="display:flex;align-items:center;justify-content:center;gap:4px;"><input type="number" min="0" id="rl'+p.id+'" value="'+(guardado?rr.l:"")+'" style="width:45px;text-align:center;font-weight:bold;" data-partidoid="'+p.id+'" class="input-goles-local"><span style="color:#999;">-</span><input type="number" min="0" id="rv'+p.id+'" value="'+(guardado?rr.v:"")+'" style="width:45px;text-align:center;font-weight:bold;" data-partidoid="'+p.id+'" class="input-goles-visitante"></div></td>'; tbody.appendChild(tr);
         });
       } catch (err) { onError(err); }
     }
@@ -352,9 +352,46 @@
       try { const res = await fetchAPI("POST", { action: "toggleQuiniela", alias: me.alias }); quinielaAbierta = res.abierto; actualizarBotonesAdmin(); showMsg(quinielaAbierta?"✅ Abierta.":"⛔ Cerrada.","success"); } catch (err) { onError(err); }
     }
 
-    async function guardarRes(id){
-      var l=document.getElementById("rl"+id).value, v=document.getElementById("rv"+id).value; if(l===""||v===""){showMsg("Introduce ambos goles.");return;}
-      try { await fetchAPI("POST", { action: "guardarResultado", alias: me.alias, id: id, l: parseInt(l), v: parseInt(v) }); showMsg("Resultado guardado.","success"); renderAdmin(); } catch (err) { onError(err); }
+    async function guardarTodosResultadosAdmin() {
+      if(!me||!me.admin) return;
+      
+      var btn = document.getElementById("btnGuardarAdminGlobal");
+      if(btn) { btn.disabled = true; btn.textContent = "⌛ Guardando marcadores..."; }
+
+      // Recopilamos todos los inputs que tengan datos introducidos en la pantalla actual
+      var resultadosAEnviar = {};
+      var inputsLocal = document.querySelectorAll(".input-goles-local");
+      
+      inputsLocal.forEach(inputL => {
+        var id = inputL.getAttribute("data-partidoid");
+        var inputV = document.getElementById("rv" + id);
+        
+        // Si el administrador ha rellenado ambas casillas, las añadimos al paquete
+        if(inputL.value !== "" && inputV && inputV.value !== "") {
+          resultadosAEnviar[id] = {
+            l: parseInt(inputL.value, 10),
+            v: parseInt(inputV.value, 10)
+          };
+        }
+      });
+
+      // Si no se ha escrito ningún marcador completo, avisamos y paramos
+      if(Object.keys(resultadosAEnviar).length === 0) {
+        showMsg("No has introducido ningún marcador completo nuevo.");
+        if(btn) { btn.disabled = false; btn.textContent = "💾 Guardar Resultados introducidos"; }
+        return;
+      }
+
+      try {
+        // Enviamos el bloque completo a la nueva función del servidor
+        await fetchAPI("POST", { action: "guardarTodosResultados", alias: me.alias, resultados: resultadosAEnviar });
+        showMsg("Todos los resultados se han guardado e indexado con éxito.", "success");
+        await renderAdmin(); // Recarga la tabla para aplicar los fondos verdes decorativos
+      } catch (err) {
+        onError(err);
+      } finally {
+        if(btn) { btn.disabled = false; btn.textContent = "💾 Guardar Resultados introducidos"; }
+      }
     }
 
     function calcPts(rr1,rr2,rp1,rp2){
