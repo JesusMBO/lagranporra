@@ -294,19 +294,26 @@
       if (!selectorContador) return;
   
       try {
-        // Añadimos un pequeño truco anticonexiones viejas (un número aleatorio al final)
-        const cacheBuster = "&_cb=" + new Date().getTime();
-        const response = await fetch(`${API_URL_INDEX}?action=getTotalParticipantes${cacheBuster}`);
+        // Usamos la variable API_URL (comprueba si en tu archivo se llama API_URL o API_URL_INDEX)
+        // Aseguramos que si la URL ya tiene un '?', el truco de la caché use '&'
+        const baseURl = typeof API_URL !== 'undefined' ? API_URL : API_URL_INDEX;
+        const conector = baseURl.includes('?') ? '&' : '?';
+        const cacheBuster = `${conector}action=getTotalParticipantes&_cb=` + new Date().getTime();
+        
+        const response = await fetch(`${baseURl}${cacheBuster}`);
         const result = await response.json();
         
-        if (result.ok && result.datos && result.datos.total !== undefined) {
-          // Forzamos a que pinte el número limpio
-          selectorContador.textContent = parseInt(result.datos.total);
+        console.log("Respuesta de la API recibida en portada:", result); // Esto te servirá para espiar en la consola (F12)
+        
+        if (result && result.ok === true && result.datos && result.datos.total !== undefined) {
+          // Forzamos a convertir el dato en número real
+          const total Final = parseInt(result.datos.total, 10);
+          selectorContador.textContent = isNaN(totalFinal) ? "0" : totalFinal;
         } else {
           selectorContador.textContent = "0";
         }
       } catch (err) {
-        console.error("Error al cargar participantes:", err);
+        console.error("Error crítico al cargar participantes en portada:", err);
         selectorContador.textContent = "0";
       }
     }
