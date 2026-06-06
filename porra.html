@@ -488,7 +488,7 @@
         var med=["🥇","🥈","🥉"];
         ranking.forEach((u,i)=>{
           var esYo=me&&u.alias===me.alias; var tr=document.createElement("tr"); if(esYo) tr.style.background="rgba(10,31,92,0.07)";
-          tr.innerHTML = '<td style="text-align:center;font-size:16px;">'+(i<3?med[i]:i+1)+'</td><td><div style="font-weight:bold; font-size:15px; color:#333;">@'+u.alias+'</div></td><td style="text-align:center;font-size:16px;font-weight:bold;color:var(--azul);">'+u.total+'</td><td style="text-align:center;">'+u.acertados+'</td><td style="text-align:center;">'+u.exactos+'</td>'; tbody.appendChild(tr);
+          tr.innerHTML = '<td style="text-align:center;font-size:16px;">'+(i<3?med[i]:i+1)+'</td><td><div style="font-weight:bold; font-size:15px; color:#333;">'+u.alias+'</div></td><td style="text-align:center;font-size:16px;font-weight:bold;color:var(--azul);">'+u.total+'</td><td style="text-align:center;">'+u.acertados+'</td><td style="text-align:center;">'+u.exactos+'</td>'; tbody.appendChild(tr);
         });
       } catch (err) { document.getElementById("rankingCargando").style.display="none"; onError(err); }
     }
