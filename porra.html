@@ -579,13 +579,10 @@
       boton.innerText = "⏳ Generando PDF Oficial... Espera...";
       boton.style.background = "#718096";
     
-      // 🕵️ BUSCAMOS LA VARIABLE REAL DE LOS PARTIDOS
-      // Si en tu JS de GitHub la lista real de partidos se llama diferente, 
-      // cambia "infoPartidos" por el nombre de tu variable de la web.
+      // Buscamos tu variable real de partidos de la web (infoPartidos o similar)
       var listaReal = (typeof infoPartidos !== 'undefined') ? infoPartidos : null;
     
-      // Plan B: Si la web no encuentra la variable estructurada, fabricamos el cascarón
-      // para que Google Apps Script dibuje el PDF sin romperse.
+      // Si no se encuentra, creamos el cascarón de seguridad de 72 partidos
       if (!listaReal) {
         listaReal = [];
         for (var i = 1; i <= 72; i++) {
@@ -593,27 +590,35 @@
         }
       }
     
-      google.script.run
-        .withSuccessHandler(function(url) {
-          boton.disabled = false;
-          boton.innerText = "📄 Generar PDF Oficial de Pronósticos";
-          boton.style.background = "#2b6cb0";
-          
-          if (url) {
-            window.open(url, '_blank'); // Abre el PDF en una pestaña nueva al momento
-            alert("¡Perfecto! El PDF oficial se ha guardado en tu Google Drive y se ha abierto en una pestaña nueva.");
-          } else {
-            alert("El PDF se ha guardado en tu Drive con éxito.");
-          }
+      // Hacemos una petición POST estándar a tu Google Apps Script sin usar la palabra "google"
+      fetch(API_URL, {  // <-- Asegúrate de que tu variable de enlace se llame API_URL
+        method: "POST",
+        mode: "cors",
+        body: JSON.stringify({
+          action: "exportarPDF",
+          partidos: listaReal
         })
-        .withFailureHandler(function(error) {
-          boton.disabled = false;
-          boton.innerText = "📄 Generar PDF Oficial de Pronósticos";
-          boton.style.background = "#2b6cb0";
-          alert("Error al generar el PDF: " + error.message);
-        })
-        .exportarPronosticosAPDF(listaReal); // 👈 ¡Ahora sí le mandamos la lista real/reconstruida y no el número 72!
-    }  
+      })
+      .then(function(response) { return response.json(); })
+      .then(function(data) {
+        boton.disabled = false;
+        boton.innerText = "📄 Generar PDF Oficial de Pronósticos";
+        boton.style.background = "#2b6cb0";
+    
+        if (data.ok && data.datos && data.datos.url) {
+          window.open(data.datos.url, '_blank'); // Abre el PDF en una pestaña nueva al momento
+          alert("¡Perfecto! El PDF oficial se ha guardado en tu Google Drive y se ha abierto en una pestaña nueva.");
+        } else {
+          alert("Error en la respuesta del servidor: " + (data.error || "No se recibió la URL"));
+        }
+      })
+      .catch(function(error) {
+        boton.disabled = false;
+        boton.innerText = "📄 Generar PDF Oficial de Pronósticos";
+        boton.style.background = "#2b6cb0";
+        alert("Error de red al conectar con el generador de PDF: " + error.message);
+      });
+    } 
   </script>
 </body>
 </html>
