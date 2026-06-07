@@ -171,7 +171,10 @@
         <span id="estadoQuinielaTexto" style="font-size:14px; font-weight:600;">Cargando estado...</span>
         <button id="btnToggleQuiniela" class="btn-save" onclick="toggleQuiniela()">Cambiar Estado</button>
       </div>
-  
+      <button id="btnPdf" onclick="solicitarPDF()" style="background-color: #2b6cb0; color: white; padding: 10px 15px; border: none; border-radius: 4px; font-weight: bold; cursor: pointer; margin-top: 10px;">
+        📄 Generar PDF Oficial de Pronósticos
+      </button>
+ 
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
         <span style="font-size:13px; color:#666; font-style:italic;">Escribe los marcadores del grupo y dale a guardar:</span>
         <button id="btnGuardarAdminGlobal" class="btn-save" style="background:var(--rojo); padding:10px 20px; font-size:14px;" onclick="guardarTodosResultadosAdmin()">💾 Guardar Resultados introducidos</button>
@@ -566,6 +569,35 @@
       var pts=0, gep=(rr1>rr2&&rp1>rp2)||(rr1===rr2&&rp1===rp2)||(rr1<rr2&&rp1<rp2);
       if(gep) pts+=5; if(rr1===rp1&&rr2===rp2){pts+=3;} else{if(rr1===rp1)pts+=1;if(rr2===rp2)pts+=1;} return pts;
     }
+    
+    function solicitarPDF() {
+    var boton = document.getElementById("btnPdf");
+    
+    // Cambiamos el texto del botón para saber que está trabajando
+    boton.disabled = true;
+    boton.innerText = "⏳ Generando PDF... Espera por favor...";
+    boton.style.background = "#718096";
+  
+    // Llamamos directamente a la función que ya tienes en tu codigo.gs
+    google.script.run
+      .withSuccessHandler(function(url) {
+        // Cuando termina bien, reactivamos el botón y avisamos
+        boton.disabled = false;
+        boton.innerText = "📄 Generar PDF Oficial de Pronósticos";
+        boton.style.background = "#2b6cb0";
+        
+        alert("¡Impecable! El PDF se ha guardado en la raíz de tu Google Drive de Administrador.");
+      })
+      .withFailureHandler(function(error) {
+        // Por si ocurre algún error en el servidor
+        boton.disabled = false;
+        boton.innerText = "📄 Generar PDF Oficial de Pronósticos";
+        boton.style.background = "#2b6cb0";
+        
+        alert("Error al generar el PDF: " + error.message);
+      })
+      .exportarPronosticosAPDF(); // Nombre exacto de tu función en codigo.gs
+    }    
   </script>
 </body>
 </html>
