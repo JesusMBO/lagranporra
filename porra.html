@@ -579,10 +579,11 @@
       boton.innerText = "⏳ Generando PDF Oficial... Espera...";
       boton.style.background = "#718096";
     
-      // Buscamos tu variable real de partidos de la web (infoPartidos o similar)
+      // Capturamos el array de partidos reales de tu web
+      // Si en tu JS el array global se llama diferente a infoPartidos, usa el nombre correcto
       var listaReal = (typeof infoPartidos !== 'undefined') ? infoPartidos : null;
     
-      // Si no se encuentra, creamos el cascarón de seguridad de 72 partidos
+      // Si por lo que sea no detecta la variable, generamos el cascarón de seguridad
       if (!listaReal) {
         listaReal = [];
         for (var i = 1; i <= 72; i++) {
@@ -590,8 +591,8 @@
         }
       }
     
-      // Hacemos una petición POST estándar a tu Google Apps Script sin usar la palabra "google"
-      fetch(API_URL, {  // <-- Asegúrate de que tu variable de enlace se llame API_URL
+      // Petición POST limpia a la API_URL de tu Google Apps Script
+      fetch(API_URL, {
         method: "POST",
         mode: "cors",
         body: JSON.stringify({
@@ -606,19 +607,20 @@
         boton.style.background = "#2b6cb0";
     
         if (data.ok && data.datos && data.datos.url) {
-          window.open(data.datos.url, '_blank'); // Abre el PDF en una pestaña nueva al momento
-          alert("¡Perfecto! El PDF oficial se ha guardado en tu Google Drive y se ha abierto en una pestaña nueva.");
+          // ÉXITO: Abrimos el PDF generado en una pestaña nueva al instante
+          window.open(data.datos.url, '_blank');
+          alert("¡Brillante! El PDF se ha guardado en tu Google Drive y se ha abierto en una pestaña nueva.");
         } else {
-          alert("Error en la respuesta del servidor: " + (data.error || "No se recibió la URL"));
+          alert("Error devuelto por Google: " + (data.error || "No se recibió la URL"));
         }
       })
       .catch(function(error) {
         boton.disabled = false;
         boton.innerText = "📄 Generar PDF Oficial de Pronósticos";
         boton.style.background = "#2b6cb0";
-        alert("Error de red al conectar con el generador de PDF: " + error.message);
+        alert("Error de conexión con el servidor: " + error.message);
       });
-    } 
+    }
   </script>
 </body>
 </html>
