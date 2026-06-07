@@ -571,33 +571,30 @@
     }
     
     function solicitarPDF() {
-    var boton = document.getElementById("btnPdf");
+      var boton = document.getElementById("btnPdf");
+      
+      boton.disabled = true;
+      boton.innerText = "⏳ Generando PDF Oficial... Espera...";
+      boton.style.background = "#718096";
     
-    // Cambiamos el texto del botón para saber que está trabajando
-    boton.disabled = true;
-    boton.innerText = "⏳ Generando PDF... Espera por favor...";
-    boton.style.background = "#718096";
-  
-    // Llamamos directamente a la función que ya tienes en tu codigo.gs
-    google.script.run
-      .withSuccessHandler(function(url) {
-        // Cuando termina bien, reactivamos el botón y avisamos
-        boton.disabled = false;
-        boton.innerText = "📄 Generar PDF Oficial de Pronósticos";
-        boton.style.background = "#2b6cb0";
-        
-        alert("¡Impecable! El PDF se ha guardado en la raíz de tu Google Drive de Administrador.");
-      })
-      .withFailureHandler(function(error) {
-        // Por si ocurre algún error en el servidor
-        boton.disabled = false;
-        boton.innerText = "📄 Generar PDF Oficial de Pronósticos";
-        boton.style.background = "#2b6cb0";
-        
-        alert("Error al generar el PDF: " + error.message);
-      })
-      .exportarPronosticosAPDF(); // Nombre exacto de tu función en codigo.gs
-    }    
+      // LE PASAMOS LA VARIABLE 'PARTIDOS' DE TU WEB DIRECTAMENTE A GOOGLE
+      // Asegúrate de que tu variable global de la web se llame exactamente 'PARTIDOS' o cámbialo aquí
+      google.script.run
+        .withSuccessHandler(function(url) {
+          boton.disabled = false;
+          boton.innerText = "📄 Generar PDF Oficial de Pronósticos";
+          boton.style.background = "#2b6cb0";
+          
+          alert("¡Perfecto! El PDF con los nombres reales se ha guardado en tu Google Drive.");
+        })
+        .withFailureHandler(function(error) {
+          boton.disabled = false;
+          boton.innerText = "📄 Generar PDF Oficial de Pronósticos";
+          boton.style.background = "#2b6cb0";
+          alert("Error al generar el PDF: " + error.message);
+        })
+        .exportarPronosticosAPDF(PARTIDOS); // <--- Aquí ocurre la magia, se los mandamos
+    }  
   </script>
 </body>
 </html>
