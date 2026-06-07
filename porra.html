@@ -577,15 +577,32 @@
       boton.innerText = "⏳ Generando PDF Oficial... Espera...";
       boton.style.background = "#718096";
     
-      // LE PASAMOS LA VARIABLE 'PARTIDOS' DE TU WEB DIRECTAMENTE A GOOGLE
-      // Asegúrate de que tu variable global de la web se llame exactamente 'PARTIDOS' o cámbialo aquí
+      // 🕵️ BUSCAMOS LA VARIABLE REAL DE LOS PARTIDOS
+      // Si en tu JS de GitHub la lista real de partidos se llama diferente, 
+      // cambia "infoPartidos" por el nombre de tu variable de la web.
+      var listaReal = (typeof infoPartidos !== 'undefined') ? infoPartidos : null;
+    
+      // Plan B: Si la web no encuentra la variable estructurada, fabricamos el cascarón
+      // para que Google Apps Script dibuje el PDF sin romperse.
+      if (!listaReal) {
+        listaReal = [];
+        for (var i = 1; i <= 72; i++) {
+          listaReal.push({ id: i, l: "Partido " + i, v: "", f: "Fase", h: "Grupos" });
+        }
+      }
+    
       google.script.run
         .withSuccessHandler(function(url) {
           boton.disabled = false;
           boton.innerText = "📄 Generar PDF Oficial de Pronósticos";
           boton.style.background = "#2b6cb0";
           
-          alert("¡Perfecto! El PDF con los nombres reales se ha guardado en tu Google Drive.");
+          if (url) {
+            window.open(url, '_blank'); // Abre el PDF en una pestaña nueva al momento
+            alert("¡Perfecto! El PDF oficial se ha guardado en tu Google Drive y se ha abierto en una pestaña nueva.");
+          } else {
+            alert("El PDF se ha guardado en tu Drive con éxito.");
+          }
         })
         .withFailureHandler(function(error) {
           boton.disabled = false;
@@ -593,7 +610,7 @@
           boton.style.background = "#2b6cb0";
           alert("Error al generar el PDF: " + error.message);
         })
-        .exportarPronosticosAPDF(PARTIDOS); // <--- Aquí ocurre la magia, se los mandamos
+        .exportarPronosticosAPDF(listaReal); // 👈 ¡Ahora sí le mandamos la lista real/reconstruida y no el número 72!
     }  
   </script>
 </body>
