@@ -55,6 +55,7 @@
   </style>
   <script src="https://ssl.gstatic.com/accessibility/javascript/robot/acrobot.js"></script>
   <script src="https://apis.google.com/js/api.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </head>
 <body>
 
@@ -576,59 +577,64 @@
       var boton = document.getElementById("btnPdf");
       
       boton.disabled = true;
-      boton.innerText = "⏳ Generando PDF Oficial... Espera...";
+      boton.innerText = "⏳ Generando PDF Local... Espera...";
       boton.style.background = "#718096";
     
-      var listaReal = [];
+      // 1. Conseguimos los partidos reales desde tu HTML
+      var partidosImpresion = (typeof infoPartidos !== 'undefined') ? infoPartidos : [];
+      
+      // 2. Creamos un contenedor temporal en memoria para maquetar el PDF
+      var contenedor = document.createElement("div");
+      contenedor.style.padding = "20px";
+      contenedor.style.fontFamily = "'Segoe UI', Arial, sans-serif";
+      contenedor.style.color = "#2d3748";
     
-      try {
-        // Buscamos todos los bloques de partidos que se están mostrando en tu pantalla de Admin
-        // Reconstruimos la lista con los datos reales que tú estás viendo en la web
-        for (var i = 1; i <= 72; i++) {
-          // Intentamos buscar las etiquetas o variables donde tu web pinta los nombres de los equipos
-          // Si tu web usa variables globales como 'partidosData', las mapeamos aquí:
-          if (typeof infoPartidos !== 'undefined' && infoPartidos[i-1]) {
-            listaReal.push(infoPartidos[i-1]);
-          } else if (typeof partidosData !== 'undefined' && partidosData[i]) {
-            listaReal.push({ id: i, l: partidosData[i].l, v: partidosData[i].v, f: "", h: "" });
-          } else {
-            // Si no se encuentran las variables de arriba, leemos las banderas/nombres de la pantalla si existen,
-            // o si no, dejamos que el script de Google los gestione de forma nativa.
-            listaReal.push({ id: i, l: "Local " + i, v: "Visita " + i, f: "Fase", h: "Grupos" });
-          }
-        }
+      // 3. Montamos el encabezado
+      var html = '<div style="background: linear-gradient(135deg, #1a365d 0%, #2a4365 100%); color: white; padding: 15px; border-radius: 6px; margin-bottom: 15px;">';
+      html += '<h1 style="margin: 0; font-size: 20px; text-transform: uppercase;">🏆 La Gran Porra - Mundial 2026</h1>';
+      html += '<p style="margin: 4px 0 0 0; font-size: 12px; color: #e2e8f0;">Calendario Oficial de Partidos (Fase de Grupos)</p>';
+      html += '</div>';
     
-        // Al usar doGet, le mandamos la URL limpia
-        var urlPeticion = API_URL + "?action=exportarPDF&partidos=" + encodeURIComponent(JSON.stringify(listaReal));
+      // 4. Montamos la Guía de Referencia de Partidos con los datos reales del HTML
+      html += '<div style="background-color: #f7fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 12px; margin-bottom: 25px;">';
+      html += '<div style="font-size: 13px; font-weight: bold; color: #2c5282; margin-bottom: 8px; text-transform: uppercase; border-bottom: 2px solid #e2e8f0; padding-bottom: 3px;">📋 Guía de Referencia de Partidos Oficiales</div>';
+      html += '<div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; font-size: 11px;">';
+      
+      partidosImpresion.forEach(function(p) {
+        var local = p.l || "Local";
+        var visita = p.v || "Visitante";
+        var fecha = p.f || "";
+        var hora = p.h || "";
+        html += '<div style="background: white; padding: 5px; border: 1px solid #edf2f7; border-radius: 4px;">';
+        html += '<strong>P' + p.id + ':</strong> ' + local + ' vs ' + visita + ' <span style="color: #718096; font-size: 9px; font-style: italic; float: right;">' + fecha + ' ' + hora + '</span>';
+        html += '</div>';
+      });
+      
+      html += '</div></div>';
+      contenedor.innerHTML = html;
     
-        fetch(urlPeticion)
-        .then(function(response) { return response.json(); })
-        .then(function(data) {
-          boton.disabled = false;
-          boton.innerText = "📄 Generar PDF Oficial de Pronósticos";
-          boton.style.background = "#2b6cb0";
+      // 5. Configuramos la librería html2pdf para descarga apaisada
+      var opciones = {
+        margin:       10,
+        filename:     'Calendario_Oficial_LaGranPorra2026.pdf',
+        image:        { type: 'jpeg', quality: 0.98 },
+        html2canvas:  { scale: 2, useCORS: true },
+        jsPDF:        { unit: 'mm', format: 'a4', orientation: 'landscape' }
+      };
     
-          if (data.ok && data.datos && data.datos.url) {
-            window.open(data.datos.url, '_blank');
-            alert("¡Conseguido! El PDF se ha generado correctamente con los datos reales.");
-          } else {
-            alert("Error devuelto por Google: " + (data.error || "No se recibió el enlace"));
-          }
-        })
-        .catch(function(error) {
-          boton.disabled = false;
-          boton.innerText = "📄 Generar PDF Oficial de Pronósticos";
-          boton.style.background = "#2b6cb0";
-          alert("Error de conexión: " + error.message);
-        });
-    
-      } catch (err) {
+      // 6. Ejecutamos la generación y descarga directa
+      html2pdf().set(opciones).from(contenedor).save().then(function() {
         boton.disabled = false;
         boton.innerText = "📄 Generar PDF Oficial de Pronósticos";
         boton.style.background = "#2b6cb0";
-        alert("Error al preparar los datos en la web: " + err.message);
-      }
+      }).catch(function(err) {
+        boton.disabled = false;
+        boton.innerText = "📄 Generar PDF Oficial de Pronósticos";
+        boton.style.background = "#2b6cb0";
+        alert("Error al generar el PDF local: " + err.message);
+      });
     }
+
   </script>
 </body>
 </html>
