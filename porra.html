@@ -577,70 +577,47 @@
       var boton = document.getElementById("btnPdf");
       
       boton.disabled = true;
-      boton.innerText = "⏳ Generando PDF... Espera...";
+      boton.innerText = "⏳ Extrayendo datos y generando PDF... Espera...";
       boton.style.background = "#718096";
     
-      // 1. Buscamos la tabla o el contenedor donde se muestran los pronósticos en tu pantalla
-      // Intentamos capturar las tablas de los grupos que ya están renderizadas en tu panel
-      var tablas = document.querySelectorAll("table");
-      
-      if (tablas.length === 0) {
-        alert("No se encontraron tablas de pronósticos en la pantalla para exportar.");
-        boton.disabled = false;
-        boton.innerText = "📄 Generar PDF Oficial de Pronósticos";
-        boton.style.background = "#2b6cb0";
-        return;
+      // Preparamos la lista de partidos real de tu HTML para mandársela a Google
+      var listaReal = (typeof infoPartidos !== 'undefined') ? infoPartidos : [];
+      if (listaReal.length === 0) {
+        for (var i = 1; i <= 72; i++) {
+          listaReal.push({ id: i, l: "Partido " + i, v: "", f: "Fase", h: "Grupos" });
+        }
       }
     
-      // 2. Creamos un contenedor limpio en memoria para meter la copia de las tablas
-      var documentoTemporal = document.createElement("div");
-      documentoTemporal.style.padding = "15px";
-      documentoTemporal.style.fontFamily = "'Segoe UI', Arial, sans-serif";
-    
-      // Encabezado rápido y al grano
-      documentoTemporal.innerHTML = '<div style="background: #1a365d; color: white; padding: 12px; border-radius: 4px; margin-bottom: 15px;">' +
-        '<h2 style="margin: 0; font-size: 16px; text-transform: uppercase;">🏆 MATRIZ DE PRONÓSTICOS OFICIAL</h2>' +
-        '</div>';
-    
-      // 3. Clonamos las tablas que estás viendo en la pantalla y las metemos en el PDF
-      tablas.forEach(function(tabla) {
-        var copiaTabla = tabla.cloneNode(true);
-        copiaTabla.style.width = "100%";
-        copiaTabla.style.marginBottom = "20px";
-        copiaTabla.style.fontSize = "10px";
-        copiaTabla.style.borderCollapse = "collapse";
-        
-        // Le aplicamos un borde limpio a las celdas para que se vea impecable al imprimir
-        copiaTabla.querySelectorAll("th, td").forEach(function(celda) {
-          celda.style.border = "1px solid #cbd5e0";
-          celda.style.padding = "4px";
-          celda.style.textAlign = "center";
-        });
-    
-        documentoTemporal.appendChild(copiaTabla);
-      });
-    
-      // 4. Configuramos html2pdf para guardarlo en horizontal (Landscape)
-      var opciones = {
-        margin:       8,
-        filename:     'Matriz_Pronosticos_LaGranPorra.pdf',
-        image:        { type: 'jpeg', quality: 0.98 },
-        html2canvas:  { scale: 2, useCORS: true },
-        jsPDF:        { unit: 'mm', format: 'a4', orientation: 'landscape' }
-      };
-    
-      // 5. Descarga directa en el navegador del usuario
-      html2pdf().set(opciones).from(documentoTemporal).save().then(function() {
+      // Enviamos los datos por el cuerpo (POST) para que no sature la URL
+      fetch(API_URL, {
+        method: "POST",
+        mode: "cors",
+        body: JSON.stringify({
+          action: "exportarPDF",
+          partidos: listaReal
+        })
+      })
+      .then(function(response) { return response.json(); })
+      .then(function(data) {
         boton.disabled = false;
         boton.innerText = "📄 Generar PDF Oficial de Pronósticos";
         boton.style.background = "#2b6cb0";
-      }).catch(function(err) {
+    
+        if (data.ok && data.datos && data.datos.url) {
+          // Abre el PDF generado desde la base de datos en una pestaña nueva
+          window.open(data.datos.url, '_blank');
+        } else {
+          alert("Error del servidor: " + (data.error || "No se recibió el archivo."));
+        }
+      })
+      .catch(function(error) {
         boton.disabled = false;
         boton.innerText = "📄 Generar PDF Oficial de Pronósticos";
         boton.style.background = "#2b6cb0";
-        alert("Error al guardar: " + err.message);
+        alert("Error de conexión: " + error.message);
       });
     }
+
 
   </script>
 </body>
