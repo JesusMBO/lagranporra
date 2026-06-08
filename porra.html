@@ -577,53 +577,60 @@
       var boton = document.getElementById("btnPdf");
       
       boton.disabled = true;
-      boton.innerText = "⏳ Generando PDF Local... Espera...";
+      boton.innerText = "⏳ Generando PDF... Espera...";
       boton.style.background = "#718096";
     
-      // 1. Conseguimos los partidos reales desde tu HTML
-      var partidosImpresion = (typeof infoPartidos !== 'undefined') ? infoPartidos : [];
+      // 1. Buscamos la tabla o el contenedor donde se muestran los pronósticos en tu pantalla
+      // Intentamos capturar las tablas de los grupos que ya están renderizadas en tu panel
+      var tablas = document.querySelectorAll("table");
       
-      // 2. Creamos un contenedor temporal en memoria para maquetar el PDF
-      var contenedor = document.createElement("div");
-      contenedor.style.padding = "20px";
-      contenedor.style.fontFamily = "'Segoe UI', Arial, sans-serif";
-      contenedor.style.color = "#2d3748";
+      if (tablas.length === 0) {
+        alert("No se encontraron tablas de pronósticos en la pantalla para exportar.");
+        boton.disabled = false;
+        boton.innerText = "📄 Generar PDF Oficial de Pronósticos";
+        boton.style.background = "#2b6cb0";
+        return;
+      }
     
-      // 3. Montamos el encabezado
-      var html = '<div style="background: linear-gradient(135deg, #1a365d 0%, #2a4365 100%); color: white; padding: 15px; border-radius: 6px; margin-bottom: 15px;">';
-      html += '<h1 style="margin: 0; font-size: 20px; text-transform: uppercase;">🏆 La Gran Porra - Mundial 2026</h1>';
-      html += '<p style="margin: 4px 0 0 0; font-size: 12px; color: #e2e8f0;">Calendario Oficial de Partidos (Fase de Grupos)</p>';
-      html += '</div>';
+      // 2. Creamos un contenedor limpio en memoria para meter la copia de las tablas
+      var documentoTemporal = document.createElement("div");
+      documentoTemporal.style.padding = "15px";
+      documentoTemporal.style.fontFamily = "'Segoe UI', Arial, sans-serif";
     
-      // 4. Montamos la Guía de Referencia de Partidos con los datos reales del HTML
-      html += '<div style="background-color: #f7fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 12px; margin-bottom: 25px;">';
-      html += '<div style="font-size: 13px; font-weight: bold; color: #2c5282; margin-bottom: 8px; text-transform: uppercase; border-bottom: 2px solid #e2e8f0; padding-bottom: 3px;">📋 Guía de Referencia de Partidos Oficiales</div>';
-      html += '<div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; font-size: 11px;">';
-      
-      partidosImpresion.forEach(function(p) {
-        var local = p.l || "Local";
-        var visita = p.v || "Visitante";
-        var fecha = p.f || "";
-        var hora = p.h || "";
-        html += '<div style="background: white; padding: 5px; border: 1px solid #edf2f7; border-radius: 4px;">';
-        html += '<strong>P' + p.id + ':</strong> ' + local + ' vs ' + visita + ' <span style="color: #718096; font-size: 9px; font-style: italic; float: right;">' + fecha + ' ' + hora + '</span>';
-        html += '</div>';
+      // Encabezado rápido y al grano
+      documentoTemporal.innerHTML = '<div style="background: #1a365d; color: white; padding: 12px; border-radius: 4px; margin-bottom: 15px;">' +
+        '<h2 style="margin: 0; font-size: 16px; text-transform: uppercase;">🏆 MATRIZ DE PRONÓSTICOS OFICIAL</h2>' +
+        '</div>';
+    
+      // 3. Clonamos las tablas que estás viendo en la pantalla y las metemos en el PDF
+      tablas.forEach(function(tabla) {
+        var copiaTabla = tabla.cloneNode(true);
+        copiaTabla.style.width = "100%";
+        copiaTabla.style.marginBottom = "20px";
+        copiaTabla.style.fontSize = "10px";
+        copiaTabla.style.borderCollapse = "collapse";
+        
+        // Le aplicamos un borde limpio a las celdas para que se vea impecable al imprimir
+        copiaTabla.querySelectorAll("th, td").forEach(function(celda) {
+          celda.style.border = "1px solid #cbd5e0";
+          celda.style.padding = "4px";
+          celda.style.textAlign = "center";
+        });
+    
+        documentoTemporal.appendChild(copiaTabla);
       });
-      
-      html += '</div></div>';
-      contenedor.innerHTML = html;
     
-      // 5. Configuramos la librería html2pdf para descarga apaisada
+      // 4. Configuramos html2pdf para guardarlo en horizontal (Landscape)
       var opciones = {
-        margin:       10,
-        filename:     'Calendario_Oficial_LaGranPorra2026.pdf',
+        margin:       8,
+        filename:     'Matriz_Pronosticos_LaGranPorra.pdf',
         image:        { type: 'jpeg', quality: 0.98 },
         html2canvas:  { scale: 2, useCORS: true },
         jsPDF:        { unit: 'mm', format: 'a4', orientation: 'landscape' }
       };
     
-      // 6. Ejecutamos la generación y descarga directa
-      html2pdf().set(opciones).from(contenedor).save().then(function() {
+      // 5. Descarga directa en el navegador del usuario
+      html2pdf().set(opciones).from(documentoTemporal).save().then(function() {
         boton.disabled = false;
         boton.innerText = "📄 Generar PDF Oficial de Pronósticos";
         boton.style.background = "#2b6cb0";
@@ -631,7 +638,7 @@
         boton.disabled = false;
         boton.innerText = "📄 Generar PDF Oficial de Pronósticos";
         boton.style.background = "#2b6cb0";
-        alert("Error al generar el PDF local: " + err.message);
+        alert("Error al guardar: " + err.message);
       });
     }
 
