@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>La Gran PORRA - Mundial 2026</title>
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
-  
+
   <style>
     :root {
       --azul:   #0A1F5C;
@@ -32,10 +32,10 @@
     .btn-block { width: 100%; padding: 12px; background: var(--rojo); color: white; border: none; border-radius: 5px; font-weight: 600; cursor: pointer; font-size: 15px; }
     .btn-block:hover { background: #a50d25; }
 
-    .tabs-grupos { 
-      display: flex !important; 
+    .tabs-grupos {
+      display: flex !important;
       gap: 8px 6px !important;
-      margin-bottom: 15px !important; 
+      margin-bottom: 15px !important;
       flex-wrap: wrap !important;       /* 👈 Esto obliga a Bootstrap a saltar de línea */
       justify-content: left !important; /* Centra los botones de las dos filas */
       overflow-x: visible !important;   /* Elimina rastro de la barra de desplazamiento */
@@ -125,11 +125,11 @@
 
     <div id="page-quiniela" class="page">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px; flex-wrap:wrap; gap:10px;">
-        <h3 style="font-family:'Oswald'; color:var(--azul);" id="completados">0/48 completados</h3>
+        <h3 style="font-family:'Oswald'; color:var(--azul);" id="completados">0/72 completados</h3>
         <button id="btnGuardar" class="btn-save" style="background:var(--rojo); padding:10px 20px; font-size:14px;" onclick="guardarTodos()">💾 Guardar pronósticos</button>
       </div>
       <div id="quinielaCerradaMsg" class="msg danger" style="display:none; margin-bottom:15px;">🔒 Tiempo límite agotado. La quiniela está oficialmente CERRADA.</div>
-      
+
       <div class="tabs-grupos" id="tabsQuiniela"></div>
       <div style="overflow-x:auto;">
         <table>
@@ -169,20 +169,26 @@
 
     <div id="page-admin" class="page">
       <h3 style="font-family:'Oswald'; color:var(--azul); margin-bottom:15px;">⚙️ PANEL DE CONTROL (ADMIN)</h3>
-      
+
       <div style="background:#f8f9fa; padding:15px; border-radius:6px; margin-bottom:20px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
         <span id="estadoQuinielaTexto" style="font-size:14px; font-weight:600;">Cargando estado...</span>
         <button id="btnToggleQuiniela" class="btn-save" onclick="toggleQuiniela()">Cambiar Estado</button>
       </div>
-      <button id="btnPdf" onclick="solicitarPDF()" style="background-color: #2b6cb0; color: white; padding: 10px 15px; border: none; border-radius: 4px; font-weight: bold; cursor: pointer; margin-top: 10px;">
-        📄 Generar PDF Oficial de Pronósticos
-      </button>
- 
+
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
+        <span style="font-size:13px; color:#666; font-style:italic;">Imprimir pdf de pronóticos de todos los participantes:</span>
+        <button id="btnPdf" onclick="solicitarPDF()" style="background-color: #2b6cb0; color: white; padding: 10px 20px; border: none; border-radius: 4px; font-weight: bold; cursor: pointer; margin-top: 10px;">
+          📄 Generar PDF Oficial de Pronósticos
+        </button>
+      </div>
+
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
         <span style="font-size:13px; color:#666; font-style:italic;">Escribe los marcadores del grupo y dale a guardar:</span>
-        <button id="btnGuardarAdminGlobal" class="btn-save" style="background:var(--rojo); padding:10px 20px; font-size:14px;" onclick="guardarTodosResultadosAdmin()">💾 Guardar Resultados introducidos</button>
+        <button id="btnGuardarAdminGlobal" class="btn-save" style="background:var(--rojo); padding:10px 20px; font-size:14px;" onclick="guardarTodosResultadosAdmin()">
+          💾 Guardar Resultados introducidos
+        </button>
       </div>
-  
+
       <div class="tabs-grupos" id="tabsAdmin"></div>
       <div style="overflow-x:auto;">
         <table>
@@ -202,7 +208,7 @@
   <script src="config.js"></script>
   <script>
 
-  
+
   var FLAGS = {
     "México": "mx",
     "Sudáfrica": "za",
@@ -253,7 +259,7 @@
     "Uzbekistán": "uz",
     "Colombia": "co"
   };
-    
+
   function flag(pais){ var cod=FLAGS[pais]; if(!cod) return ""; return '<img src="https://flagcdn.com/24x18/'+cod+'.png" style="margin-right:4px;vertical-align:middle;">'; }
   var PARTIDOS = [
     // 👥 GRUPO A (Columnas 1 a 12 en el Excel)
@@ -263,7 +269,7 @@
     {id:4,g:"A",f:"19/06",h:"03:00",l:"México",v:"Corea del Sur"},
     {id:5,g:"A",f:"25/06",h:"03:00",l:"República Checa",v:"México"},
     {id:6,g:"A",f:"25/06",h:"03:00",l:"Sudáfrica",v:"Corea del Sur"},
-  
+
     // 👥 GRUPO B (Columnas 13 a 24 en el Excel)
     {id:7,g:"B",f:"12/06",h:"21:00",l:"Canadá",v:"Bosnia Herzegovina"},
     {id:8,g:"B",f:"13/06",h:"21:00",l:"Qatar",v:"Suiza"},
@@ -271,7 +277,7 @@
     {id:10,g:"B",f:"19/06",h:"00:00",l:"Canadá",v:"Qatar"},
     {id:11,g:"B",f:"24/06",h:"21:00",l:"Bosnia Herzegovina",v:"Qatar"},
     {id:12,g:"B",f:"24/06",h:"21:00",l:"Suiza",v:"Canadá"},
-  
+
     // 👥 GRUPO C (Columnas 25 a 36 en el Excel)
     {id:13,g:"C",f:"14/06",h:"00:00",l:"Brasil",v:"Marruecos"},
     {id:14,g:"C",f:"14/06",h:"03:00",l:"Haití",v:"Escocia"},
@@ -279,7 +285,7 @@
     {id:16,g:"C",f:"20/06",h:"02:30",l:"Brasil",v:"Haití"},
     {id:17,g:"C",f:"25/06",h:"00:00",l:"Marruecos",v:"Haití"},
     {id:18,g:"C",f:"25/06",h:"00:00",l:"Escocia",v:"Brasil"},
-  
+
     // 👥 GRUPO D (Columnas 37 a 48 en el Excel)
     {id:19,g:"D",f:"13/06",h:"03:00",l:"Estados Unidos",v:"Paraguay"},
     {id:20,g:"D",f:"14/06",h:"06:00",l:"Australia",v:"Turquía"},
@@ -287,7 +293,7 @@
     {id:22,g:"D",f:"20/06",h:"05:00",l:"Turquía",v:"Paraguay"},
     {id:23,g:"D",f:"26/06",h:"04:00",l:"Paraguay",v:"Australia"},
     {id:24,g:"D",f:"26/06",h:"04:00",l:"Turquía",v:"Estados Unidos"},
-  
+
     // 👥 GRUPO E (Columnas 49 a 60 en el Excel)
     {id:25,g:"E",f:"14/06",h:"19:00",l:"Alemania",v:"Curaçao"},
     {id:26,g:"E",f:"15/06",h:"01:00",l:"Costa de Marfil",v:"Ecuador"},
@@ -295,7 +301,7 @@
     {id:28,g:"E",f:"21/06",h:"02:00",l:"Ecuador",v:"Curaçao"},
     {id:29,g:"E",f:"25/06",h:"22:00",l:"Curaçao",v:"Costa de Marfil"},
     {id:30,g:"E",f:"25/06",h:"22:00",l:"Ecuador",v:"Alemania"},
-  
+
     // 👥 GRUPO F (Columnas 61 a 72 en el Excel)
     {id:31,g:"F",f:"14/06",h:"22:00",l:"Países Bajos",v:"Japón"},
     {id:32,g:"F",f:"15/06",h:"04:00",l:"Suecia",v:"Túnez"},
@@ -303,7 +309,7 @@
     {id:34,g:"F",f:"21/06",h:"06:00",l:"Túnez",v:"Japón"},
     {id:35,g:"F",f:"26/06",h:"01:00",l:"Japón",v:"Suecia"},
     {id:36,g:"F",f:"26/06",h:"01:00",l:"Túnez",v:"Países Bajos"},
-  
+
     // 👥 GRUPO G (Columnas 73 a 84 en el Excel)
     {id:37,g:"G",f:"15/06",h:"21:00",l:"Bélgica",v:"Egipto"},
     {id:38,g:"G",f:"16/06",h:"03:00",l:"Irán",v:"Nueva Zelanda"},
@@ -311,7 +317,7 @@
     {id:40,g:"G",f:"22/06",h:"03:00",l:"Nueva Zelanda",v:"Egipto"},
     {id:41,g:"G",f:"27/06",h:"05:00",l:"Egipto",v:"Irán"},
     {id:42,g:"G",f:"27/06",h:"05:00",l:"Nueva Zelanda",v:"Bélgica"},
-  
+
     // 👥 GRUPO H (Columnas 85 a 96 en el Excel)
     {id:43,g:"H",f:"15/06",h:"18:00",l:"España",v:"Cabo Verde"},
     {id:44,g:"H",f:"16/06",h:"00:00",l:"Arabia Saudí",v:"Uruguay"},
@@ -319,7 +325,7 @@
     {id:46,g:"H",f:"22/06",h:"00:00",l:"Uruguay",v:"Cabo Verde"},
     {id:47,g:"H",f:"27/06",h:"02:00",l:"Cabo Verde",v:"Arabia Saudí"},
     {id:48,g:"H",f:"27/06",h:"02:00",l:"Uruguay",v:"España"},
-  
+
     // 👥 GRUPO I (Columnas 97 a 108 en el Excel)
     {id:49,g:"I",f:"16/06",h:"21:00",l:"Francia",v:"Senegal"},
     {id:50,g:"I",f:"17/06",h:"00:00",l:"Iraq",v:"Noruega"},
@@ -327,7 +333,7 @@
     {id:52,g:"I",f:"23/06",h:"02:00",l:"Noruega",v:"Senegal"},
     {id:53,g:"I",f:"26/06",h:"21:00",l:"Noruega",v:"Francia"},
     {id:54,g:"I",f:"26/06",h:"21:00",l:"Senegal",v:"Iraq"},
-  
+
     // 👥 GRUPO J (Columnas 109 a 120 en el Excel)
     {id:55,g:"J",f:"17/06",h:"03:00",l:"Argentina",v:"Argelia"},
     {id:56,g:"J",f:"17/06",h:"06:00",l:"Austria",v:"Jordania"},
@@ -335,7 +341,7 @@
     {id:58,g:"J",f:"23/06",h:"05:00",l:"Jordania",v:"Argelia"},
     {id:59,g:"J",f:"28/06",h:"04:00",l:"Argelia",v:"Austria"},
     {id:60,g:"J",f:"28/06",h:"04:00",l:"Jordania",v:"Argentina"},
-  
+
     // 👥 GRUPO K (Columnas 121 a 132 en el Excel)
     {id:61,g:"K",f:"17/06",h:"19:00",l:"Portugal",v:"Congo"},
     {id:62,g:"K",f:"18/06",h:"04:00",l:"Uzbekistán",v:"Colombia"},
@@ -343,7 +349,7 @@
     {id:64,g:"K",f:"24/06",h:"04:00",l:"Colombia",v:"Congo"},
     {id:65,g:"K",f:"28/06",h:"01:30",l:"Colombia",v:"Portugal"},
     {id:66,g:"K",f:"28/06",h:"01:30",l:"Congo",v:"Uzbekistán"},
-  
+
     // 👥 GRUPO L (Columnas 133 a 144 en el Excel)
     {id:67,g:"L",f:"17/06",h:"22:00",l:"Inglaterra",v:"Croacia"},
     {id:68,g:"L",f:"18/06",h:"01:00",l:"Ghana",v:"Panamá"},
@@ -354,7 +360,7 @@
   ];
 
     var GRUPOS = ["A","B","C","D","E","F","G","H","I","J","K","L"];
-    
+
     async function fetchAPI(method, bodyData, queryParams = "") {
       const options = { method: method };
       if (method === "POST" && bodyData) options.body = JSON.stringify(bodyData);
@@ -395,7 +401,7 @@
       var quinielaBtn=document.getElementById("nav-quiniela"), adminBtn=document.getElementById("nav-admin");
       if(!h || !nav) return;
       if(me){
-        h.innerHTML='<span style="font-size:12px;margin-right:10px;">'+me.nombre+'</span>'
+        h.innerHTML='<span style="font-size:12px;margin-right:10px;">'+me.nombre+' '+me.apellidos+' (@'+me.alias+')</span>'
           +'<button onclick="doLogout()" style="font-size:11px;background:rgba(255,255,255,0.2);border:1px solid #fff;color:#fff;border-radius:4px;padding:2px 8px;cursor:pointer;">Salir</button>';
         nav.style.display="flex";
         if(me.admin){ if(quinielaBtn) quinielaBtn.style.display="none"; if(adminBtn) adminBtn.style.display="inline-block"; }
@@ -526,18 +532,18 @@
 
     async function guardarTodosResultadosAdmin() {
       if(!me||!me.admin) return;
-      
+
       var btn = document.getElementById("btnGuardarAdminGlobal");
       if(btn) { btn.disabled = true; btn.textContent = "⌛ Guardando marcadores..."; }
 
       // Recopilamos todos los inputs que tengan datos introducidos en la pantalla actual
       var resultadosAEnviar = {};
       var inputsLocal = document.querySelectorAll(".input-goles-local");
-      
+
       inputsLocal.forEach(inputL => {
         var id = inputL.getAttribute("data-partidoid");
         var inputV = document.getElementById("rv" + id);
-        
+
         // Si el administrador ha rellenado ambas casillas, las añadimos al paquete
         if(inputL.value !== "" && inputV && inputV.value !== "") {
           resultadosAEnviar[id] = {
@@ -572,23 +578,26 @@
       var pts=0, gep=(rr1>rr2&&rp1>rp2)||(rr1===rr2&&rp1===rp2)||(rr1<rr2&&rp1<rp2);
       if(gep) pts+=5; if(rr1===rp1&&rr2===rp2){pts+=3;} else{if(rr1===rp1)pts+=1;if(rr2===rp2)pts+=1;} return pts;
     }
-    
+
     function solicitarPDF() {
       var boton = document.getElementById("btnPdf");
-      
+
       boton.disabled = true;
       boton.innerText = "⏳ Extrayendo datos y generando PDF... Espera...";
       boton.style.background = "#718096";
-    
-      // Preparamos la lista de partidos real de tu HTML para mandársela a Google
-      var listaReal = (typeof infoPartidos !== 'undefined') ? infoPartidos : [];
+
+      // CORRECCIÓN: Usamos tu array real 'PARTIDOS' que contiene los id, grupos (g), locales (l) y visitantes (v)
+      var listaReal = (typeof PARTIDOS !== 'undefined') ? PARTIDOS : [];
+
       if (listaReal.length === 0) {
-        for (var i = 1; i <= 72; i++) {
-          listaReal.push({ id: i, l: "Partido " + i, v: "", f: "Fase", h: "Grupos" });
-        }
+        alert("Error: No se pudo cargar la lista de partidos de la porra.");
+        boton.disabled = false;
+        boton.innerText = "📄 Generar PDF Oficial de Pronósticos";
+        boton.style.background = "#2b6cb0";
+        return;
       }
-    
-      // Enviamos los datos por el cuerpo (POST) para que no sature la URL
+
+      // Enviamos los datos reales por POST al servidor
       fetch(API_URL, {
         method: "POST",
         mode: "cors",
@@ -602,9 +611,8 @@
         boton.disabled = false;
         boton.innerText = "📄 Generar PDF Oficial de Pronósticos";
         boton.style.background = "#2b6cb0";
-    
+
         if (data.ok && data.datos && data.datos.url) {
-          // Abre el PDF generado desde la base de datos en una pestaña nueva
           window.open(data.datos.url, '_blank');
         } else {
           alert("Error del servidor: " + (data.error || "No se recibió el archivo."));
@@ -617,7 +625,6 @@
         alert("Error de conexión: " + error.message);
       });
     }
-
 
   </script>
 </body>
