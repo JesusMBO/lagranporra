@@ -454,9 +454,6 @@
 
     function doLogout(){ me=null; misPronosticos={}; quinielaAbierta=true; document.getElementById("loginAlias").value=""; document.getElementById("loginPass").value=""; document.getElementById("loginForm").style.display="block"; document.getElementById("loginCargando").style.display="none"; updateHeader(); goTo("inicio"); }
 
-    // ═══════════════════════════════════════════════════════════
-    // DIBUJAR LA TABLA DE PRONÓSTICOS (CON BLOQUEO DE CASILLAS)
-    // ═══════════════════════════════════════════════════════════
     function renderQuiniela(){
       if(!me) return;
       var completados=PARTIDOS.filter(p=>{ var r=misPronosticos[p.id]||{}; return r.l!==""&&r.l!==undefined&&r.v!==""&&r.v!==undefined; }).length;
@@ -487,7 +484,6 @@
         tbody.appendChild(tr);
       });
     }
-
 
     function setPron(id,lado,val){ misPronosticos[id]=misPronosticos[id]||{}; misPronosticos[id][lado]=val===""?"":Math.max(0,parseInt(val)||0); }
 
