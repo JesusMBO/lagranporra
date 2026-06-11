@@ -3,648 +3,261 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>La Gran PORRA - Mundial 2026</title>
+  <title>Reglas — La Gran Porra del Mundial 2026</title>
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
-
   <style>
-    :root {
-      --azul: #0A1F5C;
-      --rojo: #C8102E;
-      --dorado: #C9A84C;
-      --gris: #f4f4f4;
-    }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: 'Open Sans', sans-serif; background: var(--gris); color: #333; padding-bottom: 40px; }
-    header { background: linear-gradient(135deg, var(--azul) 60%, var(--rojo) 100%); color: white; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 4px solid var(--dorado); }
-    header h2 { font-family: 'Oswald', sans-serif; font-size: 20px; color: var(--dorado); letter-spacing: 1px; }
-    .nav { display: flex; justify-content: center; background: #fff; box-shadow: 0 2px 4px rgba(0,0,0,0.05); gap: 5px; padding: 5px; }
-    .nav button { background: none; border: none; padding: 10px 20px; font-family: 'Oswald', sans-serif; font-size: 14px; text-transform: uppercase; cursor: pointer; color: #666; border-bottom: 3px solid transparent; }
-    .nav button.active { color: var(--azul); border-bottom-color: var(--azul); font-weight: 600; }
-    .container { max-width: 800px; margin: 20px auto; padding: 0 15px; }
-    .page { display: none; background: white; padding: 25px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); border: 1px solid #eee; }
-    .page.active { display: block; }
-    .msg { padding: 12px; border-radius: 6px; margin-bottom: 15px; font-size: 14px; display: none; text-align: center; font-weight: 600; }
-    .msg.danger { background: #fde8e8; color: #c81e1e; }
-    .msg.success { background: #def7ec; color: #03543f; }
-    .form-group { margin-bottom: 15px; }
-    .form-group label { display: block; margin-bottom: 5px; font-size: 13px; font-weight: 600; color: #555; }
-    .form-control { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; font-size: 14px; }
-    .btn-block { width: 100%; padding: 12px; background: var(--rojo); color: white; border: none; border-radius: 5px; font-weight: 600; cursor: pointer; font-size: 15px; }
-    .btn-block:hover { background: #a50d25; }
+    :root { --azul:#0A1F5C; --rojo:#C8102E; --dorado:#C9A84C; --gris:#f4f4f4; }
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:'Open Sans',sans-serif;background:var(--gris);color:#333;min-height:100vh;padding:20px;}
 
-    .tabs-grupos {
-      display: flex !important;
-      gap: 8px 6px !important;
-      margin-bottom: 15px !important;
-      flex-wrap: wrap !important;       /* 👈 Esto obliga a Bootstrap a saltar de línea */
-      justify-content: left !important; /* Centra los botones de las dos filas */
-      overflow-x: visible !important;   /* Elimina rastro de la barra de desplazamiento */
+    .card{background:#fff;max-width:700px;width:100%;margin:0 auto;border-radius:12px;overflow:hidden;box-shadow:0 8px 24px rgba(0,0,0,0.12);}
+
+    /* HEADER */
+    .hero{background:linear-gradient(135deg,var(--azul) 60%,var(--rojo) 100%);padding:32px 20px;text-align:center;border-bottom:4px solid var(--dorado);}
+    .hero h1{font-family:'Oswald',sans-serif;font-size:26px;color:var(--dorado);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;}
+    .hero p{font-size:13px;color:rgba(255,255,255,0.85);letter-spacing:1px;}
+
+    /* CONTENIDO */
+    .content{padding:28px 24px;}
+
+    .section{margin-bottom:28px;}
+    .section-title{
+      font-family:'Oswald',sans-serif;
+      font-size:18px;
+      color:var(--azul);
+      text-transform:uppercase;
+      letter-spacing:1px;
+      margin-bottom:14px;
+      padding-bottom:8px;
+      border-bottom:2px solid var(--dorado);
+      display:flex;
+      align-items:center;
+      gap:8px;
     }
 
-    .btn-tab { background: #e8edf7; border: 1px solid rgba(10,31,92,0.1); padding: 6px 12px; border-radius: 4px; font-size: 12px; font-weight: 600; color: var(--azul); cursor: pointer; white-space: nowrap; }
-    .btn-tab.active { background: var(--azul); color: white; }
-    table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 14px; }
-    th { background: #f8f9fa; color: #555; font-family: 'Oswald', sans-serif; font-weight: 600; padding: 10px; border-bottom: 2px solid #eee; text-align: left; }
-    td { padding: 10px; border-bottom: 1px solid #eee; vertical-align: middle; }
-    .badge { padding: 3px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; color: white; }
-    .badge.green { background: #2f9e44; }
-    .badge.yellow { background: #f59f00; color: #333; }
-    .badge.red { background: #e03131; }
-    .btn-save { background: var(--azul); color: white; border: none; padding: 6px 12px; border-radius: 4px; font-size: 12px; cursor: pointer; font-weight: 600; }
-    .cargando { text-align: center; padding: 20px; color: #666; font-style: italic; display: none; }
+    p{font-size:14px;line-height:1.7;color:#444;margin-bottom:10px;}
+
+    /* ALERTA CIERRE */
+    .alert{
+      background:var(--azul);
+      color:#fff;
+      border-radius:8px;
+      padding:16px 20px;
+      margin-bottom:28px;
+      border-left:5px solid var(--dorado);
+      text-align:center;
+    }
+    .alert .alert-title{
+      font-family:'Oswald',sans-serif;
+      font-size:16px;
+      color:var(--dorado);
+      text-transform:uppercase;
+      letter-spacing:1px;
+      margin-bottom:6px;
+    }
+    .alert p{color:rgba(255,255,255,0.9);margin:0;font-size:14px;}
+    .alert strong{color:var(--dorado);}
+
+    /* PUNTUACIÓN */
+    .puntos-grid{display:flex;flex-direction:column;gap:10px;}
+    .punto-item{
+      display:flex;
+      align-items:center;
+      gap:14px;
+      background:#f8f9ff;
+      border-radius:8px;
+      padding:12px 16px;
+      border-left:4px solid var(--azul);
+    }
+    .punto-badge{
+      background:var(--azul);
+      color:#fff;
+      font-family:'Oswald',sans-serif;
+      font-size:20px;
+      font-weight:600;
+      min-width:52px;
+      text-align:center;
+      border-radius:6px;
+      padding:6px 0;
+    }
+    .punto-badge.dorado{background:var(--dorado);color:var(--azul);}
+    .punto-badge.rojo{background:var(--rojo);}
+    .punto-desc{font-size:14px;color:#333;line-height:1.4;}
+    .punto-desc strong{color:var(--azul);}
+
+    /* EJEMPLOS */
+    .ejemplos{display:flex;flex-direction:column;gap:8px;}
+    .ejemplo{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      background:#f8f9ff;
+      border-radius:8px;
+      padding:10px 14px;
+      font-size:13px;
+      flex-wrap:wrap;
+      gap:6px;
+    }
+    .ejemplo .partidos{color:#555;flex:1;}
+    .ejemplo .resultado{font-weight:600;color:var(--azul);min-width:80px;text-align:right;}
+    .ejemplo .pts-badge{
+      background:var(--azul);
+      color:#fff;
+      border-radius:12px;
+      padding:3px 10px;
+      font-size:12px;
+      font-weight:600;
+      min-width:55px;
+      text-align:center;
+    }
+    .ejemplo .pts-badge.max{background:var(--dorado);color:var(--azul);}
+
+    /* PASOS */
+    .pasos{display:flex;flex-direction:column;gap:12px;}
+    .paso{display:flex;gap:14px;align-items:flex-start;}
+    .paso-num{
+      background:var(--rojo);
+      color:#fff;
+      font-family:'Oswald',sans-serif;
+      font-size:16px;
+      font-weight:600;
+      min-width:36px;
+      height:36px;
+      border-radius:50%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      flex-shrink:0;
+    }
+    .paso-text{font-size:14px;color:#444;line-height:1.6;padding-top:6px;}
+
+    /* BOTONES */
+    .botones{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:28px;}
+    .btn-main{background:var(--rojo);color:#fff;border:none;border-radius:6px;padding:13px 28px;font-size:14px;font-family:'Open Sans',sans-serif;font-weight:600;cursor:pointer;text-decoration:none;letter-spacing:0.5px;transition:background 0.2s;}
+    .btn-main:hover{background:#a50d25;color:#fff;}
+    .btn-sec{background:#fff;color:var(--azul);border:2px solid var(--azul);border-radius:6px;padding:12px 28px;font-size:14px;font-family:'Open Sans',sans-serif;font-weight:600;cursor:pointer;text-decoration:none;transition:all 0.2s;}
+    .btn-sec:hover{background:var(--azul);color:#fff;}
+
+    .footer{text-align:center;padding:14px;background:var(--azul);color:rgba(255,255,255,0.5);font-size:11px;font-style:italic;border-top:3px solid var(--dorado);}
+
+    @media(max-width:500px){
+      .ejemplo{flex-direction:column;align-items:flex-start;}
+      .ejemplo .resultado{text-align:left;}
+    }
   </style>
-  <script src="https://ssl.gstatic.com/accessibility/javascript/robot/acrobot.js"></script>
-  <script src="https://apis.google.com/js/api.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </head>
 <body>
+  <div class="card">
 
-  <header>
-    <h2>🏆 LA GRAN PORRA 2026</h2>
-    <div id="headerUser"></div>
-  </header>
+    <!-- HEADER -->
+    <div class="hero">
+      <h1>⚽ La Gran Porra del Mundial 2026</h1>
+      <p>Canadá • Estados Unidos • México</p>
+    </div>
 
-  <div class="nav" id="mainNav" style="display:none;">
-    <button id="nav-quiniela" class="active" onclick="goTo('quiniela')">📋 Mi Quiniela</button>
-    <button id="nav-ranking" onclick="goTo('ranking')">📊 Ranking</button>
-    <button id="nav-admin" style="display:none;" onclick="goTo('admin')">⚙️ Admin</button>
+    <div class="content">
+
+      <!-- ALERTA CIERRE -->
+      <div class="alert">
+        <div class="alert-title">⏰ Fecha límite para participar</div>
+        <p>Los pronósticos se podrán introducir hasta el <strong>10 de junio de 2026 a las 00:00h</strong>.<br>
+        Pasada esa hora, la quiniela se cerrará y no se podrán modificar los resultados.</p>
+      </div>
+
+      <!-- QUÉ ES -->
+      <div class="section">
+        <div class="section-title">📋 ¿En qué consiste?</div>
+        <p>La Gran Porra del Mundial 2026 es una competición entre amigos en la que cada participante pronostica el marcador exacto de los <strong>72 partidos de la fase de grupos</strong> del Mundial.</p>
+        <p>Cuanto más aciertes, más puntos acumulas. Al final de la fase de grupos, el que más puntos tenga <strong>¡gana la porra!</strong></p>
+      </div>
+
+      <!-- CÓMO PARTICIPAR -->
+      <div class="section">
+        <div class="section-title">🚀 ¿Cómo participar?</div>
+        <div class="pasos">
+          <div class="paso"><div class="paso-num">1</div><div class="paso-text">Regístrate con tu nombre y un alias en la app.</div></div>
+          <div class="paso"><div class="paso-num">2</div><div class="paso-text">Introduce tu marcador pronosticado para cada uno de los 72 partidos de la fase de grupos.</div></div>
+          <div class="paso"><div class="paso-num">3</div><div class="paso-text">Guarda tus pronósticos antes del <strong>10 de junio de 2026 a las 00:00h</strong>. Puedes modificarlos las veces que quieras hasta esa fecha.</div></div>
+          <div class="paso"><div class="paso-num">4</div><div class="paso-text">Sigue el ranking en tiempo real conforme se vayan jugando los partidos.</div></div>
+        </div>
+      </div>
+
+      <!-- PUNTUACIÓN -->
+      <div class="section">
+        <div class="section-title">🏆 Sistema de puntuación</div>
+        <div class="puntos-grid">
+          <div class="punto-item">
+            <div class="punto-badge dorado">8 pts</div>
+            <div class="punto-desc"><strong>Marcador exacto</strong> — aciertas exactamente el resultado del partido (ganador/empate + goles exactos de ambos equipos).</div>
+          </div>
+          <div class="punto-item">
+            <div class="punto-badge">5 pts</div>
+            <div class="punto-desc"><strong>Ganador o empate</strong> — aciertas quién gana el partido o que hay empate, pero no el marcador exacto.</div>
+          </div>
+          <div class="punto-item">
+            <div class="punto-badge">+1 pt</div>
+            <div class="punto-desc"><strong>Goles de un equipo</strong> — sin acertar el resultado, aciertas los goles que marca uno de los dos equipos. Se suman +1 punto por cada equipo acertado.</div>
+          </div>
+          <div class="punto-item">
+            <div class="punto-badge rojo">0 pts</div>
+            <div class="punto-desc"><strong>Fallo total</strong> — no aciertas ni el ganador ni los goles de ningún equipo.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- EJEMPLOS -->
+      <div class="section">
+        <div class="section-title">📊 Ejemplos</div>
+        <div class="ejemplos">
+          <div class="ejemplo">
+            <div class="partidos">Pronosticas <strong>2-1</strong> · Resultado real <strong>2-1</strong></div>
+            <div class="resultado">Marcador exacto</div>
+            <div class="pts-badge max">8 pts</div>
+          </div>
+          <div class="ejemplo">
+            <div class="partidos">Pronosticas <strong>2-1</strong> · Resultado real <strong>3-1</strong></div>
+            <div class="resultado">Ganador + goles visitante</div>
+            <div class="pts-badge">6 pts</div>
+          </div>
+          <div class="ejemplo">
+            <div class="partidos">Pronosticas <strong>2-1</strong> · Resultado real <strong>2-0</strong></div>
+            <div class="resultado">Ganador + goles local</div>
+            <div class="pts-badge">6 pts</div>
+          </div>
+          <div class="ejemplo">
+            <div class="partidos">Pronosticas <strong>2-1</strong> · Resultado real <strong>3-2</strong></div>
+            <div class="resultado">Solo ganador</div>
+            <div class="pts-badge">5 pts</div>
+          </div>
+          <div class="ejemplo">
+            <div class="partidos">Pronosticas <strong>1-1</strong> · Resultado real <strong>1-1</strong></div>
+            <div class="resultado">Marcador exacto</div>
+            <div class="pts-badge max">8 pts</div>
+          </div>
+          <div class="ejemplo">
+            <div class="partidos">Pronosticas <strong>2-1</strong> · Resultado real <strong>0-1</strong></div>
+            <div class="resultado">Solo goles visitante</div>
+            <div class="pts-badge">1 pt</div>
+          </div>
+          <div class="ejemplo">
+            <div class="partidos">Pronosticas <strong>2-1</strong> · Resultado real <strong>0-0</strong></div>
+            <div class="resultado">Fallo total</div>
+            <div class="pts-badge rojo" style="background:var(--rojo);">0 pts</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BOTONES -->
+      <div class="botones">
+        <!-- <a href="https://script.google.com/macros/s/AKfycby0qZOuJlOXhkEX4joh_lXfN16L3uqUYMbPvS6WYlT8qNnI7gp4e6zDGzfwOqL0CqQG/exec" target="_blank" class="btn-main">⚽ Ir a la porra</a>-->
+        <a href="porra.html" class="btn-main">⚽ Ir a la porra</a>
+        <a href="index.html" class="btn-sec">← Volver al inicio</a>
+      </div>
+
+
+    </div>
+
+    <div class="footer">- La Gran Porra del Mundial 2026 - © 2026</div>
   </div>
-
-  <div class="container">
-    <div id="msgBox" class="msg"></div>
-
-    <div id="page-inicio" class="page active">
-      <div id="loginForm">
-        <h3 style="font-family:'Oswald'; margin-bottom:15px; color:var(--azul);">INICIAR SESIÓN</h3>
-
-        <!--- ********************************************  LINEA DE PORRA CERRADA HAY QUE ELIMINARLA CUANDO SE ABRA**************************************************
-        <div style="background: #e8edf7; border-left: 5px solid var(--dorado); padding: 12px; margin-bottom: 20px; border-radius: 4px; font-size: 14px; color: var(--azul); font-weight: 600; text-align: center;">
-        🔒 La porra está cerrada temporalmente. ¡Se abrirá oficialmente en los próximos días para que registres tus pronósticos!
-        </div>
-        <!--- ******************************************************************************************************************************************************** -->
-        <div class="form-group">
-          <label>Tu Alias (Ej: juan99)</label>
-          <input type="text" id="loginAlias" class="form-control" placeholder="Introduce tu alias">
-        </div>
-        <div class="form-group">
-          <label>Contraseña</label>
-          <input type="password" id="loginPass" class="form-control" placeholder="••••••••">
-        </div>
-
-        <!--- ********************************************** BOTON INICIAR SESION Y REGISTRO ACTIVADO ***************************************************************
-        <button class="btn-block" onclick="doLogin()">INICIAR SESIÓN</button>
-        <p style="margin-top:20px; font-size:13px; text-align:center;">
-        ¿No tienes cuenta? <a href="#" onclick="document.getElementById('loginForm').style.display='none'; document.getElementById('registroForm').style.display='block'; return false;" style="color:var(--rojo); font-weight:600;">Regístrate aquí</a>
-        </p>
-         -->
-        <!--- ********************************************** BOTON INICIAR SESION ACTIVADO Y REGISTRO DESACTIVADO  *************************************************************** -->
-        <button class="btn-block" onclick="doLogin()">INICIAR SESIÓN</button>
-        <p style="margin-top:20px; font-size:13px; text-align:center; color: #777; font-weight: 600;">
-          🔒 El periodo de registro para la porra del Mundial ha finalizado.
-        </p>
-
-        <!--- ********************************************** BOTON INICIAR SESION Y REGISTRO DESACTIVADO  ************************************************************
-        <button class="btn-block" disabled style="background: #ccc; cursor: not-allowed; box-shadow: none;">INICIAR SESIÓN</button>
-        <p style="margin-top:20px; font-size:13px; text-align:center; color: #999;">
-          ¿No tienes cuenta? <span style="color:#ccc; font-weight:600; cursor: not-allowed;">Regístrate aquí</span>
-        </p>
-        <!--- ******************************************************************************************************************************************************** -->
-      </div>
-
-      <div id="registroForm" style="display:none;">
-        <h3 style="font-family:'Oswald'; margin-bottom:15px; color:var(--azul);">REGISTRO DE PARTICIPANTE</h3>
-        <div class="form-group"><label>Alias Único</label><input type="text" id="regAlias" class="form-control" placeholder="juan99"></div>
-        <div class="form-group"><label>Nombre</label><input type="text" id="regNombre" class="form-control" placeholder="Juan"></div>
-        <div class="form-group"><label>Apellidos</label><input type="text" id="regApellidos" class="form-control" placeholder="Pérez"></div>
-        <div class="form-group"><label>Contraseña</label><input type="password" id="regPass" class="form-control" placeholder="••••••••"></div>
-        <div class="form-group"><label>Repetir Contraseña</label><input type="password" id="regPass2" class="form-control" placeholder="••••••••"></div>
-        <button class="btn-block" style="background:var(--azul);" onclick="doRegistro()">CREAR MI CUENTA</button>
-        <p style="margin-top:20px; font-size:13px; text-align:center;">
-          ¿Ya tienes cuenta? <a href="#" onclick="document.getElementById('registroForm').style.display='none'; document.getElementById('loginForm').style.display='block'; return false;" style="color:var(--azul); font-weight:600;">Volver al Login</a>
-        </p>
-      </div>
-
-      <div id="loginCargando" class="cargando">🔌 Conectando de forma segura con el servidor...</div>
-      <div id="registroCargando" class="cargando">✍️ Creando tu cuenta en la base de datos...</div>
-    </div>
-
-    <div id="page-quiniela" class="page">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px; flex-wrap:wrap; gap:10px;">
-        <h3 style="font-family:'Oswald'; color:var(--azul);" id="completados">0/72 completados</h3>
-        <button id="btnGuardar" class="btn-save" style="background:var(--rojo); padding:10px 20px; font-size:14px;" onclick="guardarTodos()">💾 Guardar pronósticos</button>
-      </div>
-      <div id="quinielaCerradaMsg" class="msg danger" style="display:none; margin-bottom:15px;">🔒 Pronósticos CERRADOS no se pueden cambiar RESULTADOS.</div>
-
-      <div class="tabs-grupos" id="tabsQuiniela"></div>
-      <div style="overflow-x:auto;">
-        <table>
-          <thead>
-            <tr>
-              <th style="width:70px; text-align:center;">Fecha</th>
-              <th style="width:40px; text-align:center;">Gr.</th>
-              <th>Partido</th>
-              <th style="width:110px; text-align:center;">Mi Pronóstico</th>
-              <th style="width:80px; text-align:center;">Resultado</th>
-              <th style="width:70px; text-align:center;">Puntos</th>
-            </tr>
-          </thead>
-          <tbody id="bodyQuiniela"></tbody>
-        </table>
-      </div>
-    </div>
-
-    <div id="page-ranking" class="page">
-      <h3 style="font-family:'Oswald'; color:var(--azul); margin-bottom:15px;">📊 TABLA DE POSICIONES</h3>
-      <div id="rankingCargando" class="cargando">📈 Calculando puntuaciones y ordenando ranking...</div>
-      <div style="overflow-x:auto;">
-        <table>
-          <thead>
-            <tr>
-              <th style="text-align:center; width:60px;">Pos</th>
-              <th>Participante</th>
-              <th style="text-align:center; width:80px;">Puntos</th>
-              <th style="text-align:center; width:90px;">Acertados</th>
-              <th style="text-align:center; width:80px;">Exactos</th>
-            </tr>
-          </thead>
-          <tbody id="bodyRanking"></tbody>
-        </table>
-      </div>
-    </div>
-
-    <div id="page-admin" class="page">
-      <h3 style="font-family:'Oswald'; color:var(--azul); margin-bottom:15px;">⚙️ PANEL DE CONTROL (ADMIN)</h3>
-
-      <div style="background:#f8f9fa; padding:15px; border-radius:6px; margin-bottom:20px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
-        <span id="estadoQuinielaTexto" style="font-size:14px; font-weight:600;">Cargando estado...</span>
-        <button id="btnToggleQuiniela" class="btn-save" onclick="toggleQuiniela()">Cambiar Estado</button>
-      </div>
-
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
-        <span style="font-size:13px; color:#666; font-style:italic;">Imprimir pdf de pronóticos de todos los participantes:</span>
-        <button id="btnPdf" onclick="solicitarPDF()" style="background-color: #2b6cb0; color: white; padding: 10px 20px; border: none; border-radius: 4px; font-weight: bold; cursor: pointer; margin-top: 10px;">
-          📄 Generar PDF Oficial de Pronósticos
-        </button>
-      </div>
-
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
-        <span style="font-size:13px; color:#666; font-style:italic;">Escribe los marcadores del grupo y dale a guardar:</span>
-        <button id="btnGuardarAdminGlobal" class="btn-save" style="background:var(--rojo); padding:10px 20px; font-size:14px;" onclick="guardarTodosResultadosAdmin()">
-          💾 Guardar Resultados introducidos
-        </button>
-      </div>
-
-      <div class="tabs-grupos" id="tabsAdmin"></div>
-      <div style="overflow-x:auto;">
-        <table>
-          <thead>
-            <tr>
-              <th style="width:70px; text-align:center;">Fecha</th>
-              <th>Partido</th>
-              <th style="width:140px; text-align:center;">Marcador Real</th>
-            </tr>
-          </thead>
-          <tbody id="bodyAdmin"></tbody>
-        </table>
-      </div>
-    </div>
-
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="config.js"></script>
-  <script>
-
-
-  var FLAGS = {
-    "México": "mx",
-    "Sudáfrica": "za",
-    "Corea del Sur": "kr",
-    "República Checa": "cz",
-    "Canadá": "ca",
-    "Bosnia Herzegovina": "ba",
-    "Estados Unidos": "us",
-    "Paraguay": "py",
-    "Qatar": "qa",
-    "Suiza": "ch",
-    "Brasil": "br",
-    "Marruecos": "ma",
-    "Haití": "ht",
-    "Escocia": "gb-sct",
-    "Australia": "au",
-    "Turquía": "tr",
-    "Alemania": "de",
-    "Curaçao": "cw",
-    "Países Bajos": "nl",
-    "Japón": "jp",
-    "Costa de Marfil": "ci",
-    "Ecuador": "ec",
-    "Suecia": "se",
-    "Túnez": "tn",
-    "España": "es",
-    "Cabo Verde": "cv",
-    "Bélgica": "be",
-    "Egipto": "eg",
-    "Arabia Saudí": "sa",
-    "Uruguay": "uy",
-    "Irán": "ir",
-    "Nueva Zelanda": "nz",
-    "Francia": "fr",
-    "Senegal": "sn",
-    "Iraq": "iq",
-    "Noruega": "no",
-    "Argentina": "ar",
-    "Argelia": "dz",
-    "Austria": "at",
-    "Jordania": "jo",
-    "Portugal": "pt",
-    "Congo": "cg",
-    "Inglaterra": "gb-eng",
-    "Croacia": "hr",
-    "Ghana": "gh",
-    "Panamá": "pa",
-    "Uzbekistán": "uz",
-    "Colombia": "co"
-  };
-
-  function flag(pais){ var cod=FLAGS[pais]; if(!cod) return ""; return '<img src="https://flagcdn.com/24x18/'+cod+'.png" style="margin-right:4px;vertical-align:middle;">'; }
-  var PARTIDOS = [
-    // 👥 GRUPO A (Columnas 1 a 12 en el Excel)
-    {id:1,g:"A",f:"11/06",h:"21:00",l:"México",v:"Sudáfrica"},
-    {id:2,g:"A",f:"12/06",h:"04:00",l:"Corea del Sur",v:"República Checa"},
-    {id:3,g:"A",f:"18/06",h:"18:00",l:"República Checa",v:"Sudáfrica"},
-    {id:4,g:"A",f:"19/06",h:"03:00",l:"México",v:"Corea del Sur"},
-    {id:5,g:"A",f:"25/06",h:"03:00",l:"República Checa",v:"México"},
-    {id:6,g:"A",f:"25/06",h:"03:00",l:"Sudáfrica",v:"Corea del Sur"},
-
-    // 👥 GRUPO B (Columnas 13 a 24 en el Excel)
-    {id:7,g:"B",f:"12/06",h:"21:00",l:"Canadá",v:"Bosnia Herzegovina"},
-    {id:8,g:"B",f:"13/06",h:"21:00",l:"Qatar",v:"Suiza"},
-    {id:9,g:"B",f:"18/06",h:"21:00",l:"Suiza",v:"Bosnia Herzegovina"},
-    {id:10,g:"B",f:"19/06",h:"00:00",l:"Canadá",v:"Qatar"},
-    {id:11,g:"B",f:"24/06",h:"21:00",l:"Bosnia Herzegovina",v:"Qatar"},
-    {id:12,g:"B",f:"24/06",h:"21:00",l:"Suiza",v:"Canadá"},
-
-    // 👥 GRUPO C (Columnas 25 a 36 en el Excel)
-    {id:13,g:"C",f:"14/06",h:"00:00",l:"Brasil",v:"Marruecos"},
-    {id:14,g:"C",f:"14/06",h:"03:00",l:"Haití",v:"Escocia"},
-    {id:15,g:"C",f:"20/06",h:"00:00",l:"Escocia",v:"Marruecos"},
-    {id:16,g:"C",f:"20/06",h:"02:30",l:"Brasil",v:"Haití"},
-    {id:17,g:"C",f:"25/06",h:"00:00",l:"Marruecos",v:"Haití"},
-    {id:18,g:"C",f:"25/06",h:"00:00",l:"Escocia",v:"Brasil"},
-
-    // 👥 GRUPO D (Columnas 37 a 48 en el Excel)
-    {id:19,g:"D",f:"13/06",h:"03:00",l:"Estados Unidos",v:"Paraguay"},
-    {id:20,g:"D",f:"14/06",h:"06:00",l:"Australia",v:"Turquía"},
-    {id:21,g:"D",f:"19/06",h:"21:00",l:"Estados Unidos",v:"Australia"},
-    {id:22,g:"D",f:"20/06",h:"05:00",l:"Turquía",v:"Paraguay"},
-    {id:23,g:"D",f:"26/06",h:"04:00",l:"Paraguay",v:"Australia"},
-    {id:24,g:"D",f:"26/06",h:"04:00",l:"Turquía",v:"Estados Unidos"},
-
-    // 👥 GRUPO E (Columnas 49 a 60 en el Excel)
-    {id:25,g:"E",f:"14/06",h:"19:00",l:"Alemania",v:"Curaçao"},
-    {id:26,g:"E",f:"15/06",h:"01:00",l:"Costa de Marfil",v:"Ecuador"},
-    {id:27,g:"E",f:"20/06",h:"22:00",l:"Alemania",v:"Costa de Marfil"},
-    {id:28,g:"E",f:"21/06",h:"02:00",l:"Ecuador",v:"Curaçao"},
-    {id:29,g:"E",f:"25/06",h:"22:00",l:"Curaçao",v:"Costa de Marfil"},
-    {id:30,g:"E",f:"25/06",h:"22:00",l:"Ecuador",v:"Alemania"},
-
-    // 👥 GRUPO F (Columnas 61 a 72 en el Excel)
-    {id:31,g:"F",f:"14/06",h:"22:00",l:"Países Bajos",v:"Japón"},
-    {id:32,g:"F",f:"15/06",h:"04:00",l:"Suecia",v:"Túnez"},
-    {id:33,g:"F",f:"20/06",h:"19:00",l:"Países Bajos",v:"Suecia"},
-    {id:34,g:"F",f:"21/06",h:"06:00",l:"Túnez",v:"Japón"},
-    {id:35,g:"F",f:"26/06",h:"01:00",l:"Japón",v:"Suecia"},
-    {id:36,g:"F",f:"26/06",h:"01:00",l:"Túnez",v:"Países Bajos"},
-
-    // 👥 GRUPO G (Columnas 73 a 84 en el Excel)
-    {id:37,g:"G",f:"15/06",h:"21:00",l:"Bélgica",v:"Egipto"},
-    {id:38,g:"G",f:"16/06",h:"03:00",l:"Irán",v:"Nueva Zelanda"},
-    {id:39,g:"G",f:"21/06",h:"21:00",l:"Bélgica",v:"Irán"},
-    {id:40,g:"G",f:"22/06",h:"03:00",l:"Nueva Zelanda",v:"Egipto"},
-    {id:41,g:"G",f:"27/06",h:"05:00",l:"Egipto",v:"Irán"},
-    {id:42,g:"G",f:"27/06",h:"05:00",l:"Nueva Zelanda",v:"Bélgica"},
-
-    // 👥 GRUPO H (Columnas 85 a 96 en el Excel)
-    {id:43,g:"H",f:"15/06",h:"18:00",l:"España",v:"Cabo Verde"},
-    {id:44,g:"H",f:"16/06",h:"00:00",l:"Arabia Saudí",v:"Uruguay"},
-    {id:45,g:"H",f:"21/06",h:"18:00",l:"España",v:"Arabia Saudí"},
-    {id:46,g:"H",f:"22/06",h:"00:00",l:"Uruguay",v:"Cabo Verde"},
-    {id:47,g:"H",f:"27/06",h:"02:00",l:"Cabo Verde",v:"Arabia Saudí"},
-    {id:48,g:"H",f:"27/06",h:"02:00",l:"Uruguay",v:"España"},
-
-    // 👥 GRUPO I (Columnas 97 a 108 en el Excel)
-    {id:49,g:"I",f:"16/06",h:"21:00",l:"Francia",v:"Senegal"},
-    {id:50,g:"I",f:"17/06",h:"00:00",l:"Iraq",v:"Noruega"},
-    {id:51,g:"I",f:"22/06",h:"23:00",l:"Francia",v:"Iraq"},
-    {id:52,g:"I",f:"23/06",h:"02:00",l:"Noruega",v:"Senegal"},
-    {id:53,g:"I",f:"26/06",h:"21:00",l:"Noruega",v:"Francia"},
-    {id:54,g:"I",f:"26/06",h:"21:00",l:"Senegal",v:"Iraq"},
-
-    // 👥 GRUPO J (Columnas 109 a 120 en el Excel)
-    {id:55,g:"J",f:"17/06",h:"03:00",l:"Argentina",v:"Argelia"},
-    {id:56,g:"J",f:"17/06",h:"06:00",l:"Austria",v:"Jordania"},
-    {id:57,g:"J",f:"22/06",h:"19:00",l:"Argentina",v:"Austria"},
-    {id:58,g:"J",f:"23/06",h:"05:00",l:"Jordania",v:"Argelia"},
-    {id:59,g:"J",f:"28/06",h:"04:00",l:"Argelia",v:"Austria"},
-    {id:60,g:"J",f:"28/06",h:"04:00",l:"Jordania",v:"Argentina"},
-
-    // 👥 GRUPO K (Columnas 121 a 132 en el Excel)
-    {id:61,g:"K",f:"17/06",h:"19:00",l:"Portugal",v:"Congo"},
-    {id:62,g:"K",f:"18/06",h:"04:00",l:"Uzbekistán",v:"Colombia"},
-    {id:63,g:"K",f:"23/06",h:"19:00",l:"Portugal",v:"Uzbekistán"},
-    {id:64,g:"K",f:"24/06",h:"04:00",l:"Colombia",v:"Congo"},
-    {id:65,g:"K",f:"28/06",h:"01:30",l:"Colombia",v:"Portugal"},
-    {id:66,g:"K",f:"28/06",h:"01:30",l:"Congo",v:"Uzbekistán"},
-
-    // 👥 GRUPO L (Columnas 133 a 144 en el Excel)
-    {id:67,g:"L",f:"17/06",h:"22:00",l:"Inglaterra",v:"Croacia"},
-    {id:68,g:"L",f:"18/06",h:"01:00",l:"Ghana",v:"Panamá"},
-    {id:69,g:"L",f:"23/06",h:"22:00",l:"Inglaterra",v:"Ghana"},
-    {id:70,g:"L",f:"24/06",h:"01:00",l:"Panamá",v:"Croacia"},
-    {id:71,g:"L",f:"27/06",h:"23:00",l:"Croacia",v:"Ghana"},
-    {id:72,g:"L",f:"27/06",h:"23:00",l:"Panamá",v:"Inglaterra"}
-  ];
-
-    var GRUPOS = ["A","B","C","D","E","F","G","H","I","J","K","L"];
-
-    async function fetchAPI(method, bodyData, queryParams = "") {
-      const options = { method: method };
-      if (method === "POST" && bodyData) options.body = JSON.stringify(bodyData);
-      try {
-        const response = await fetch(`${API_URL}${queryParams}`, options);
-        const result = await response.json();
-        if (!result.ok) throw new Error(result.error || "Error interno del servidor");
-        return result.datos !== undefined ? result.datos : result;
-      } catch (err) { throw err; }
-    }
-
-    var me=null, grupoQ="A", grupoA="A", quinielaAbierta=true;
-    var misPronosticos={}, resultados={};
-
-    function showMsg(txt,type){
-      type=type||"danger"; var m=document.getElementById("msgBox"); if(!m) return;
-      m.className="msg "+type; m.textContent=txt; m.style.display="block";
-      setTimeout(function(){m.style.display="none";},5000);
-    }
-    function clearMsg(){ var m=document.getElementById("msgBox"); if(m) m.style.display="none";}
-    function onError(e){showMsg(e.message||e);}
-
-    async function goTo(page){
-      document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
-      const pageElem = document.getElementById("page-"+page); if(pageElem) pageElem.classList.add("active");
-      document.querySelectorAll(".nav button").forEach(b=>b.classList.remove("active"));
-      var nb=document.getElementById("nav-"+page); if(nb) nb.classList.add("active");
-
-      if(page==="quiniela") renderQuiniela();
-      if(page==="ranking")  renderRanking();
-      if(page==="admin"){
-        try { const res = await fetchAPI("GET", null, "?action=getEstado"); quinielaAbierta = res.abierto; renderAdmin(); } catch (err) { onError(err); }
-      }
-    }
-
-    function updateHeader(){
-      var h=document.getElementById("headerUser"), nav=document.getElementById("mainNav");
-      var quinielaBtn=document.getElementById("nav-quiniela"), adminBtn=document.getElementById("nav-admin");
-      if(!h || !nav) return;
-      if(me){
-        h.innerHTML='<span style="font-size:12px;margin-right:10px;">'+me.nombre+' '+me.apellidos+' (@'+me.alias+')</span>'
-          +'<button onclick="doLogout()" style="font-size:11px;background:rgba(255,255,255,0.2);border:1px solid #fff;color:#fff;border-radius:4px;padding:2px 8px;cursor:pointer;">Salir</button>';
-        nav.style.display="flex";
-        if(me.admin){ if(quinielaBtn) quinielaBtn.style.display="none"; if(adminBtn) adminBtn.style.display="inline-block"; }
-        else { if(quinielaBtn) quinielaBtn.style.display="inline-block"; if(adminBtn) adminBtn.style.display="none"; }
-      } else { h.innerHTML=""; nav.style.display="none"; }
-    }
-
-    async function doLogin(){
-      var alias=document.getElementById("loginAlias").value.trim();
-      var pass=document.getElementById("loginPass").value;
-      if(!alias||!pass){showMsg("Rellena todos los campos.");return;}
-      document.getElementById("loginForm").style.display="none"; document.getElementById("loginCargando").style.display="block";
-      try {
-        const user = await fetchAPI("POST", { action: "verificarPassword", form: { alias: alias, password: pass } });
-        me = user; updateHeader();
-        const estado = await fetchAPI("GET", null, "?action=getEstado"); quinielaAbierta = estado.abierto;
-        if(me.admin){ document.getElementById("loginCargando").style.display="none"; goTo("admin"); }
-        else {
-          const pron = await fetchAPI("GET", null, `?action=getPronosticos&alias=${encodeURIComponent(user.alias)}`); misPronosticos = pron || {};
-          const res = await fetchAPI("GET", null, "?action=getResultados"); resultados = res || {};
-          document.getElementById("loginCargando").style.display="none"; goTo("quiniela"); clearMsg();
-        }
-      } catch (err) { document.getElementById("loginCargando").style.display="none"; document.getElementById("loginForm").style.display="block"; onError(err); }
-    }
-
-    async function doRegistro(){
-      var alias=document.getElementById("regAlias").value.trim();
-      var nombre=document.getElementById("regNombre").value.trim();
-      var apellidos=document.getElementById("regApellidos").value.trim();
-      var pass=document.getElementById("regPass").value;
-      var pass2=document.getElementById("regPass2").value;
-      if(!alias||!nombre||!apellidos||!pass){showMsg("Rellena todos los campos.");return;}
-      if(pass!==pass2){showMsg("Las contraseñas no coinciden.");return;}
-      document.getElementById("registroForm").style.display="none"; document.getElementById("registroCargando").style.display="block";
-      try {
-        await fetchAPI("POST", { action: "crearUsuario", form: { alias: alias, nombre: nombre, apellidos: apellidos, password: pass } });
-        const user = await fetchAPI("POST", { action: "verificarPassword", form: { alias: alias, password: pass } });
-        me = user; updateHeader();
-        const estado = await fetchAPI("GET", null, "?action=getEstado"); quinielaAbierta = estado.abierto; misPronosticos = {};
-        const res = await fetchAPI("GET", null, "?action=getResultados"); resultados = res || {};
-        document.getElementById("registroCargando").style.display="none"; goTo("quiniela");
-        showMsg("¡Bienvenido "+nombre+"! Ya puedes participar.","success");
-      } catch (err) { document.getElementById("registroCargando").style.display="none"; document.getElementById("registroForm").style.display="block"; onError(err); }
-    }
-
-    function doLogout(){ me=null; misPronosticos={}; quinielaAbierta=true; document.getElementById("loginAlias").value=""; document.getElementById("loginPass").value=""; document.getElementById("loginForm").style.display="block"; document.getElementById("loginCargando").style.display="none"; updateHeader(); goTo("inicio"); }
-
-    function renderQuiniela(){
-      if(!me) return;
-      var completados=PARTIDOS.filter(p=>{ var r=misPronosticos[p.id]||{}; return r.l!==""&&r.l!==undefined&&r.v!==""&&r.v!==undefined; }).length;
-      document.getElementById("completados").textContent = completados + "/72 completados";
-      var btnG=document.getElementById("btnGuardar"), msgC=document.getElementById("quinielaCerradaMsg");
-
-      // Creamos una variable para saber si debemos deshabilitar los inputs
-      var isDisabled = "";
-
-      if(quinielaAbierta){
-        if(btnG) btnG.style.display="inline-block";
-        if(msgC) msgC.style.display="none";
-      } else {
-        if(btnG) btnG.style.display="none";
-        if(msgC) msgC.style.display="block";
-        isDisabled = "disabled"; // 👈 Si está cerrada, activamos el bloqueo
-      }
-
-      var tc=document.getElementById("tabsQuiniela"); tc.innerHTML="";
-      GRUPOS.forEach(g=>{ var b=document.createElement("button"); b.className="btn-tab"+(grupoQ===g?" active":""); b.textContent="Grupo "+g; b.onclick=function(){grupoQ=g; renderQuiniela();}; tc.appendChild(b); });
-      var tbody=document.getElementById("bodyQuiniela"); tbody.innerHTML="";
-      
-      PARTIDOS.filter(p=>p.g===grupoQ).forEach(p=>{
-        var rp=misPronosticos[p.id]||{}, rr=resultados[p.id];
-        var pts=rr?calcPts(rr.l,rr.v,rp.l,rp.v):null, ptsHtml="–";
-        if(pts!==null){ var cls=pts>=5?"green":pts>0?"yellow":"red"; ptsHtml='<span class="badge '+cls+'">'+pts+' pts</span>'; }
-        var tr=document.createElement("tr");
-
-        // 💡 Añadimos la variable ${isDisabled} dentro de las etiquetas <input>
-        tr.innerHTML = '<td style="text-align:center;color:#666;font-size:12px;">'+p.f+'<br>'+p.h+'</td>' +
-           '<td style="text-align:center;font-size:11px;color:#999;">'+p.g+'</td>' +
-           '<td><div>'+flag(p.l)+p.l+'</div><div>'+flag(p.v)+p.v+'</div></td>' +
-           '<td style="text-align:center;">' +
-           '<div style="display:flex;align-items:center;justify-content:center;gap:6px;">' +
-           '<input type="number" min="0" value="'+(rp.l!==undefined&&rp.l!==""?rp.l:"")+'" onchange="setPron('+p.id+',\'l\',this.value)" '+isDisabled+' style="width:42px;text-align:center;padding:6px 4px;border:1px solid #ccc;border-radius:4px;font-weight:bold;">' +
-           '<span style="color:#999;font-weight:bold;">-</span>' +
-           '<input type="number" min="0" value="'+(rp.v!==undefined&&rp.v!==""?rp.v:"")+'" onchange="setPron('+p.id+',\'v\',this.value)" '+isDisabled+' style="width:42px;text-align:center;padding:6px 4px;border:1px solid #ccc;border-radius:4px;font-weight:bold;">' +
-           '</div>' +
-           '</td>' +
-           '<td style="text-align:center;font-weight:bold;color:var(--azul);">'+(rr?rr.l+'-'+rr.v:'–')+'</td>' +
-           '<td style="text-align:center;">'+ptsHtml+'</td>';
-        tbody.appendChild(tr);
-      });
-    }
-
-    function setPron(id,lado,val){ misPronosticos[id]=misPronosticos[id]||{}; misPronosticos[id][lado]=val===""?"":Math.max(0,parseInt(val)||0); }
-
-    async function guardarTodos(){
-      if(!me){showMsg("Debes iniciar sesión.");return;}
-      var btnG=document.getElementById("btnGuardar"); if(btnG){btnG.disabled=true; btnG.textContent="Guardando...";}
-      try {
-        await fetchAPI("POST", { action: "guardarPronosticos", alias: me.alias, pronosticos: misPronosticos });
-        if(btnG){btnG.disabled=false; btnG.textContent="💾 Guardar pronósticos";} showMsg("Pronósticos guardados correctamente.","success");
-      } catch (err) { if(btnG){btnG.disabled=false; btnG.textContent="💾 Guardar pronósticos";} onError(err); }
-    }
-
-    async function renderRanking(){
-      document.getElementById("rankingCargando").style.display="block"; document.getElementById("bodyRanking").innerHTML="";
-      try {
-        const ranking = await fetchAPI("GET", null, "?action=getRanking"); document.getElementById("rankingCargando").style.display="none";
-        var tbody=document.getElementById("bodyRanking"); if(!tbody) return;
-        if(!ranking||ranking.length===0){ tbody.innerHTML='<tr><td colspan="5" style="text-align:center;padding:20px;color:#999;">Aún no hay participantes.</td></tr>'; return; }
-        var med=["🥇","🥈","🥉"];
-        ranking.forEach((u,i)=>{
-          var esYo=me&&u.alias===me.alias; var tr=document.createElement("tr"); if(esYo) tr.style.background="rgba(10,31,92,0.07)";
-          tr.innerHTML = '<td style="text-align:center;font-size:16px;">'+(i<3?med[i]:i+1)+'</td><td><div style="font-weight:bold; font-size:15px; color:#333;">'+u.alias+'</div></td><td style="text-align:center;font-size:16px;font-weight:bold;color:var(--azul);">'+u.total+'</td><td style="text-align:center;">'+u.acertados+'</td><td style="text-align:center;">'+u.exactos+'</td>'; tbody.appendChild(tr);
-        });
-      } catch (err) { document.getElementById("rankingCargando").style.display="none"; onError(err); }
-    }
-
-    async function renderAdmin(){
-      if(!me||!me.admin) return; actualizarBotonesAdmin();
-      var tc=document.getElementById("tabsAdmin"); if(!tc) return; tc.innerHTML="";
-      GRUPOS.forEach(g=>{ var b=document.createElement("button"); b.className="btn-tab"+(grupoA===g?" active":""); b.textContent="Grupo "+g; b.onclick=function(){grupoA=g; renderAdmin();}; tc.appendChild(b); });
-      try {
-        const res = await fetchAPI("GET", null, "?action=getResultados"); resultados=res||{};
-        var tbody=document.getElementById("bodyAdmin"); if(!tbody) return; tbody.innerHTML="";
-        PARTIDOS.filter(p=>p.g===grupoA).forEach(p=>{
-          var rr=resultados[p.id]||{}, guardado=rr.l!==undefined&&rr.l!==""; var tr=document.createElement("tr"); if(guardado) tr.style.background="#e8f5e9";
-          tr.innerHTML='<td style="text-align:center;font-size:12px;color:#666;">'+p.f+'<br>'+p.h+'</td><td><div>'+flag(p.l)+p.l+'</div><div>'+flag(p.v)+p.v+'</div></td><td style="text-align:center;"><div style="display:flex;align-items:center;justify-content:center;gap:4px;"><input type="number" min="0" id="rl'+p.id+'" value="'+(guardado?rr.l:"")+'" style="width:45px;text-align:center;font-weight:bold;" data-partidoid="'+p.id+'" class="input-goles-local"><span style="color:#999;">-</span><input type="number" min="0" id="rv'+p.id+'" value="'+(guardado?rr.v:"")+'" style="width:45px;text-align:center;font-weight:bold;" data-partidoid="'+p.id+'" class="input-goles-visitante"></div></td>'; tbody.appendChild(tr);
-        });
-      } catch (err) { onError(err); }
-    }
-
-    function actualizarBotonesAdmin(){
-      var txt=document.getElementById("estadoQuinielaTexto"), btn=document.getElementById("btnToggleQuiniela"); if(!txt||!btn) return;
-      if(quinielaAbierta){ txt.textContent="✅ Abierta (Se pueden editar pronósticos)"; btn.textContent="🔒 Cerrar quiniela"; btn.style.background="var(--rojo)"; }
-      else { txt.textContent="⛔ Cerrada (Edición bloqueada)"; btn.textContent="🔓 Abrir quiniela"; btn.style.background="var(--azul)"; }
-    }
-
-    async function toggleQuiniela(){
-      if(!me||!me.admin) return;
-      try { const res = await fetchAPI("POST", { action: "toggleQuiniela", alias: me.alias }); quinielaAbierta = res.abierto; actualizarBotonesAdmin(); showMsg(quinielaAbierta?"✅ Abierta.":"⛔ Cerrada.","success"); } catch (err) { onError(err); }
-    }
-
-    async function guardarTodosResultadosAdmin() {
-      if(!me||!me.admin) return;
-
-      var btn = document.getElementById("btnGuardarAdminGlobal");
-      if(btn) { btn.disabled = true; btn.textContent = "⌛ Guardando marcadores..."; }
-
-      // Recopilamos todos los inputs que tengan datos introducidos en la pantalla actual
-      var resultadosAEnviar = {};
-      var inputsLocal = document.querySelectorAll(".input-goles-local");
-
-      inputsLocal.forEach(inputL => {
-        var id = inputL.getAttribute("data-partidoid");
-        var inputV = document.getElementById("rv" + id);
-
-        // Si el administrador ha rellenado ambas casillas, las añadimos al paquete
-        if(inputL.value !== "" && inputV && inputV.value !== "") {
-          resultadosAEnviar[id] = {
-            l: parseInt(inputL.value, 10),
-            v: parseInt(inputV.value, 10)
-          };
-        }
-      });
-
-      // Si no se ha escrito ningún marcador completo, avisamos y paramos
-      if(Object.keys(resultadosAEnviar).length === 0) {
-        showMsg("No has introducido ningún marcador completo nuevo.");
-        if(btn) { btn.disabled = false; btn.textContent = "💾 Guardar Resultados introducidos"; }
-        return;
-      }
-
-      try {
-        // Enviamos el bloque completo a la nueva función del servidor
-        await fetchAPI("POST", { action: "guardarTodosResultados", alias: me.alias, resultados: resultadosAEnviar });
-        showMsg("Todos los resultados se han guardado e indexado con éxito.", "success");
-        await renderAdmin(); // Recarga la tabla para aplicar los fondos verdes decorativos
-      } catch (err) {
-        onError(err);
-      } finally {
-        if(btn) { btn.disabled = false; btn.textContent = "💾 Guardar Resultados introducidos"; }
-      }
-    }
-
-    function calcPts(rr1,rr2,rp1,rp2){
-      if(rp1===""||rp2===""||rp1===undefined||rp2===undefined) return null;
-      rr1=parseInt(rr1); rr2=parseInt(rr2); rp1=parseInt(rp1); rp2=parseInt(rp2); if(isNaN(rp1)||isNaN(rp2)) return null;
-      var pts=0, gep=(rr1>rr2&&rp1>rp2)||(rr1===rr2&&rp1===rp2)||(rr1<rr2&&rp1<rp2);
-      if(gep) pts+=5; if(rr1===rp1&&rr2===rp2){pts+=3;} else{if(rr1===rp1)pts+=1;if(rr2===rp2)pts+=1;} return pts;
-    }
-
-    function solicitarPDF() {
-      var boton = document.getElementById("btnPdf");
-
-      boton.disabled = true;
-      boton.innerText = "⏳ Extrayendo datos y generando PDF... Espera...";
-      boton.style.background = "#718096";
-
-      // CORRECCIÓN: Usamos tu array real 'PARTIDOS' que contiene los id, grupos (g), locales (l) y visitantes (v)
-      var listaReal = (typeof PARTIDOS !== 'undefined') ? PARTIDOS : [];
-
-      if (listaReal.length === 0) {
-        alert("Error: No se pudo cargar la lista de partidos de la porra.");
-        boton.disabled = false;
-        boton.innerText = "📄 Generar PDF Oficial de Pronósticos";
-        boton.style.background = "#2b6cb0";
-        return;
-      }
-
-      // Enviamos los datos reales por POST al servidor
-      fetch(API_URL, {
-        method: "POST",
-        mode: "cors",
-        body: JSON.stringify({
-          action: "exportarPDF",
-          partidos: listaReal
-        })
-      })
-      .then(function(response) { return response.json(); })
-      .then(function(data) {
-        boton.disabled = false;
-        boton.innerText = "📄 Generar PDF Oficial de Pronósticos";
-        boton.style.background = "#2b6cb0";
-
-        if (data.ok && data.datos && data.datos.url) {
-          window.open(data.datos.url, '_blank');
-        } else {
-          alert("Error del servidor: " + (data.error || "No se recibió el archivo."));
-        }
-      })
-      .catch(function(error) {
-        boton.disabled = false;
-        boton.innerText = "📄 Generar PDF Oficial de Pronósticos";
-        boton.style.background = "#2b6cb0";
-        alert("Error de conexión: " + error.message);
-      });
-    }
-
-  </script>
 </body>
 </html>
