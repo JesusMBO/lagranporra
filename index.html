@@ -1,4 +1,4 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
@@ -201,56 +201,43 @@
       <p>Canadá • Estados Unidos • México</p>
     </div>
 
-    <!-- Contenido -->
-    <div class="main-content">
-      <p class="intro-text">¡Bienvenido al portal de gestión de la porra del Mundial 2026!
-      <br>Accede al sistema para gestionar partidos y consultar las puntuaciones en tiempo real.</p>
-      <p class="intro-text2">¡Léete las reglas y participa!</p>
 
-      <!-- Cuenta atrás dinámica -->
-      <div class="countdown-container">
-        <div class="countdown-title" id="countdown-status">Tiempo restante para el pitazo inicial</div>
-        <div class="timer" id="timer-grid">
-          <div class="time-block">
-            <span id="days">00</span>
-            <div class="label">Días</div>
-          </div>
-          <div class="time-block">
-            <span id="hours">00</span>
-            <div class="label">Horas</div>
-          </div>
-          <div class="time-block">
-            <span id="minutes">00</span>
-            <div class="label">Min.</div>
-          </div>
-          <div class="time-block">
-            <span id="seconds">00</span>
-            <div class="label">Seg.</div>
-          </div>
+      <!-- Contenido DESPUES DEL INICIO DEL MUNDIAL -->
+      <div class="main-content">
+        <p>Inicia sesión para ver tus aciertos y puntuaciones en cada partido.</p>
+
+      <!-- Cuenta PARTIDDOS RESTANTES -->
+      <div class="stats-container" style="display: flex; gap: 15px; justify-content: center; margin: 20px 0; flex-wrap: wrap;">
+
+        <div class="stat-box" style="background: #fff; border: 1px solid #ddd; border-radius: 8px; padding: 15px 25px; text-align: center; min-width: 140px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); flex: 1;">
+          <span id="total-jugadores" style="display: block; font-family: 'Oswald', sans-serif; font-size: 36px; font-weight: 600; color: var(--azul); line-height: 1;">--</span>
+          <span class="stat-label" style="font-size: 12px; color: #666; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; margin-top: 5px; display: block;">Participantes</span>
         </div>
-      </div>
 
+        <div class="stat-box" style="background: #fff; border: 1px solid #ddd; border-radius: 8px; padding: 15px 25px; text-align: center; min-width: 140px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); flex: 1;">
+          <span id="partidos-pendientes" style="display: block; font-family: 'Oswald', sans-serif; font-size: 36px; font-weight: 600; color: var(--rojo); line-height: 1;">--</span>
+          <span class="stat-label" style="font-size: 12px; color: #666; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; margin-top: 5px; display: block;">Partidos por Jugar</span>
+        </div>
+
+      </div>
       <div style="text-align: center; margin-top: 20px;">
-      
+
       <div style="text-align: center; margin-top: 25px;">
-      
-        <div>
-          <a href="porra.html" class="btn-enter" style="margin: 0; min-width: 140px;">
+
+        <div style="display: flex; gap: 10px; justify-content: center; align-items: center; flex-wrap: wrap; margin-top: 25px;">
+          <a href="porra.html" class="btn-enter" style="margin: 0; min-width: 140px; text-align: center;">
             INICIA SESIÓN
           </a>
-          <a href="reglas.html" class="btn-enter" style="background: #0A1F5C; box-shadow: 0 4px 12px rgba(10,31,92,0.3); margin: 0; min-width: 140px;">
+          <a href="reglas.html" class="btn-enter" style="background: #0A1F5C; box-shadow: 0 4px 12px rgba(10,31,92,0.3); margin: 0; min-width: 140px; text-align: center;">
             📋 VER REGLAS
           </a>
+          <a href="ranking.html" class="btn-enter" style="margin: 0; min-width: 140px; text-align: center;">
+            📊 RANKING
+          </a>
         </div>
-      
-        <div style="display: block; margin-top: 15px;">
-          <div id="contador-caja" style="font-size: 14px; color: #555; background: #e8edf7; display: inline-block; padding: 6px 15px; border-radius: 20px; font-weight: 600;">
-            🏃 Participantes registrados: <span id="total-jugadores" style="color: var(--azul); font-weight: bold;">...</span>
-          </div>
-        </div>
-      
+
       </div>
-      
+
       <!-- Sedes -->
       <div class="sedes-badge">
         <span class="country">🇨🇦 Canadá</span>
@@ -297,19 +284,19 @@
     async function obtenerTotalParticipantes() {
       const selectorContador = document.getElementById("total-jugadores");
       if (!selectorContador) return;
-  
+
       try {
         // Usamos la variable API_URL (comprueba si en tu archivo se llama API_URL o API_URL_INDEX)
         // Aseguramos que si la URL ya tiene un '?', el truco de la caché use '&'
         const baseURl = typeof API_URL !== 'undefined' ? API_URL : API_URL_INDEX;
         const conector = baseURl.includes('?') ? '&' : '?';
         const cacheBuster = `${conector}action=getTotalParticipantes&_cb=` + new Date().getTime();
-        
+
         const response = await fetch(`${baseURl}${cacheBuster}`);
         const result = await response.json();
-        
+
         console.log("Respuesta de la API recibida en portada:", result); // Esto te servirá para espiar en la consola (F12)
-        
+
         if (result && result.ok === true && result.datos && result.datos.total !== undefined) {
           // Forzamos a convertir el dato en número real
           const totalFinal = parseInt(result.datos.total, 10);
@@ -322,10 +309,42 @@
         selectorContador.textContent = "0";
       }
     }
-  
+
+    async function obtenerPartidosRestantes() {
+      const selectorContador = document.getElementById("partidos-pendientes");
+      if (!selectorContador) return;
+
+      try {
+        const baseURl = typeof API_URL !== 'undefined' ? API_URL : API_URL_INDEX;
+        const conector = baseURl.includes('?') ? '&' : '?';
+        const cacheBuster = `${conector}action=getResultados&_cb=` + new Date().getTime();
+
+        const response = await fetch(`${baseURl}${cacheBuster}`);
+        const result = await response.json();
+
+        if (result && result.ok === true && result.datos) {
+          const partidosJugados = Object.keys(result.datos).length;
+
+          // Total de la fase de grupos
+          const partidosRestantes = 72 - partidosJugados;
+
+          selectorContador.textContent = partidosRestantes < 0 ? "0" : partidosRestantes;
+        } else {
+          selectorContador.textContent = "72";
+        }
+      } catch (err) {
+        console.error("Error al calcular partidos restantes:", err);
+        selectorContador.textContent = "72";
+      }
+    }
+
     // Se ejecuta en cuanto carga la página por completo
-    window.addEventListener('load', obtenerTotalParticipantes);
+    window.addEventListener('load', () => {
+      obtenerTotalParticipantes();
+      obtenerPartidosRestantes(); // 👈 Añade esto aquí
+    });
+
   </script>
-  
+
 </body>
 </html>
