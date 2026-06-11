@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ranking — La Gran Porra del Mundial 2026</title>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --azul:   #0A1F5C;
+      --rojo:   #C8102E;
+      --dorado: #C9A84C;
+      --gris:   #f4f4f4;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Open Sans', sans-serif;
+      background-color: var(--gris);
+      color: #333;
+      padding: 20px 10px;
+      min-height: 100vh;
+    }
+
+    .ranking-card {
+      background: #ffffff;
+      max-width: 750px;
+      width: 100%;
+      margin: 0 auto;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+      border: 1px solid #ddd;
+    }
+
+    /* Encabezado */
+    .hero-header {
+      background: linear-gradient(135deg, var(--azul) 60%, var(--rojo) 100%);
+      color: #fff;
+      padding: 30px 20px;
+      text-align: center;
+      border-bottom: 5px solid var(--dorado);
+    }
+
+    .hero-header h1 {
+      font-family: 'Oswald', sans-serif;
+      font-weight: 600;
+      font-size: 28px;
+      letter-spacing: 2px;
+      color: var(--dorado);
+      text-transform: uppercase;
+      margin-bottom: 5px;
+    }
+
+    .hero-header p {
+      font-size: 13px;
+      opacity: 0.9;
+      letter-spacing: 1px;
+    }
+
+    /* Contenido de la Tabla */
+    .main-content {
+      padding: 25px 20px;
+    }
+
+    .table-container {
+      overflow-x: auto;
+      margin-top: 10px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+
+    th {
+      background: #f8f9fa;
+      color: #555;
+      font-family: 'Oswald', sans-serif;
+      font-weight: 600;
+      padding: 12px 10px;
+      border-bottom: 2px solid #eee;
+      text-align: left;
+      text-transform: uppercase;
+    }
+
+    td {
+      padding: 12px 10px;
+      border-bottom: 1px solid #eee;
+      vertical-align: middle;
+    }
+
+    tr:hover {
+      background-color: #fafdff;
+    }
+
+    /* Cargando */
+    .cargando {
+      text-align: center;
+      padding: 40px 20px;
+      color: #666;
+      font-style: italic;
+    }
+
+    /* Botones de navegación inferiores */
+    .botones {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      margin-top: 25px;
+    }
+
+    .btn-sec {
+      background: #fff;
+      color: var(--azul);
+      border: 2px solid var(--azul);
+      border-radius: 6px;
+      padding: 10px 20px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+
+    .btn-sec:hover {
+      background: var(--azul);
+      color: #fff;
+    }
+
+    @media (max-width: 600px) {
+      .hero-header h1 {
+        font-size: 22px;
+      }
+      td, th {
+        padding: 10px 6px;
+        font-size: 13px;
+      }
+    }
+
+    /* BOTÓN PRINCIPAL (TÓNICA GENERAL) */
+    .btn-enter {
+      background: var(--rojo);
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      padding: 12px 24px;
+      font-size: 14px;
+      font-family: 'Open Sans', sans-serif;
+      font-weight: 600;
+      cursor: pointer;
+      letter-spacing: 0.5px;
+      transition: background 0.3s ease;
+      text-decoration: none;
+      display: inline-block;
+      box-shadow: 0 4px 12px rgba(200, 16, 46, 0.3);
+    }
+
+    .btn-enter:hover {
+      background: #a50d25;
+      color: #fff;
+    }
+
+    /* BOTÓN SECUNDARIO (AZUL) */
+    .btn-azul {
+      background: var(--azul);
+      box-shadow: 0 4px 12px rgba(10, 31, 92, 0.3);
+    }
+
+    .btn-azul:hover {
+      background: #051030;
+    }
+
+  </style>
+</head>
+<body>
+
+  <div class="ranking-card">
+    <div class="hero-header" style="background: linear-gradient(135deg, var(--azul) 60%, var(--rojo) 100%); color: #fff; padding: 35px 20px; text-align: center; border-bottom: 5px solid var(--dorado); position: relative;">
+      <h1 style="font-family: 'Oswald', sans-serif; font-weight: 600; font-size: 32px; letter-spacing: 2px; color: var(--dorado); text-transform: uppercase; margin-bottom: 8px; text-shadow: 0 2px 4px rgba(0,0,0,0.3); margin: 0;">
+        📊 CLASIFICACIÓN GENERAL
+      </h1>
+      <p style="font-family: 'Open Sans', sans-serif; font-size: 13px; font-weight: 600; letter-spacing: 1px; color: #ffffff; opacity: 0.95; text-transform: uppercase; margin: 0;">
+        Puntuaciones en Tiempo Real • LaGranPorra   Mundial 2026
+      </p>
+    </div>
+
+    <div class="main-content">
+
+      <div id="rankingCargando" class="cargando">
+        📈 Calculando puntuaciones y ordenando el ranking...
+      </div>
+
+      <div class="table-container">
+        <table id="tablaRanking" style="display: none;">
+          <thead>
+            <tr>
+              <th style="text-align: center; width: 60px;">Pos</th>
+              <th>Participante</th>
+              <th style="text-align: center; width: 80px;">Puntos</th>
+              <th style="text-align: center; width: 90px;">Acertados</th>
+              <th style="text-align: center; width: 80px;">Exactos</th>
+            </tr>
+          </thead>
+          <tbody id="bodyRanking">
+            </tbody>
+        </table>
+      </div>
+
+      <div class="botones" style="display: flex; gap: 12px; justify-content: center; margin-top: 30px; flex-wrap: wrap;">
+        <a href="index.html" class="btn-enter btn-azul" style="min-width: 140px; text-align: center;">
+          Inicio
+        </a>
+        <a href="reglas.html" class="btn-enter" style="min-width: 140px; text-align: center;">
+          No me acuerdo de las REGLAS
+        </a>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="config.js"></script>
+
+  <script>
+    async function cargarRankingPublico() {
+      const cargandoDiv = document.getElementById("rankingCargando");
+      const tablaElem = document.getElementById("tablaRanking");
+      const tbody = document.getElementById("bodyRanking");
+
+      try {
+        // Añadimos un cacheBuster para evitar que el navegador guarde el JSON viejo en caché
+        const conector = API_URL.includes('?') ? '&' : '?';
+        const cacheBuster = `${conector}action=getRanking&_cb=` + new Date().getTime();
+
+        const response = await fetch(`${API_URL}${cacheBuster}`);
+        const result = await response.json();
+
+        if (!response.ok || !result.ok) {
+          throw new Error(result.error || "Error al conectar con el servidor.");
+        }
+
+        const ranking = result.datos;
+        cargandoDiv.style.display = "none";
+        tablaElem.style.display = "table";
+
+        if (!ranking || ranking.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding:20px; color:#999;">Aún no hay participantes registrados o calculados.</td></tr>';
+          return;
+        }
+
+        const medallas = ["🥇", "🥈", "🥉"];
+        const totalParticipantes = ranking.length;
+
+        // Determinamos el puntaje máximo para entrar en la vergüenza (el tercero por el final)
+        const indiceCorte = Math.max(0, totalParticipantes - 3);
+        const puntosCorteVerguenza = totalParticipantes > 0 ? ranking[indiceCorte].total : -1;
+
+        // Bandera para pintar la línea divisoria solo la primera vez que entramos en la zona
+        let yaSePintoDivisor = false;
+
+        ranking.forEach((usuario, i) => {
+          // Entran en la vergüenza si tienen los mismos puntos o menos que el corte
+          const esVerguenza = totalParticipantes > 3 && usuario.total <= puntosCorteVerguenza;
+
+          // Si entramos en la zona de la vergüenza y aún no hemos pintado la separación, la inyectamos
+          if (esVerguenza && !yaSePintoDivisor) {
+            const trDivisor = document.createElement("tr");
+            trDivisor.innerHTML = `
+              <td colspan="5" style="background: linear-gradient(90deg, rgba(200,16,46,0.1) 0%, rgba(200,16,46,0.2) 50%, rgba(200,16,46,0.1) 100%);
+                                     text-align: center;
+                                     color: var(--rojo);
+                                     font-family: 'Oswald', sans-serif;
+                                     font-weight: bold;
+                                     font-size: 13px;
+                                     letter-spacing: 2px;
+                                     padding: 10px;
+                                     border-top: 2px dashed var(--rojo);
+                                     border-bottom: 2px dashed var(--rojo);">
+                ⚠️ LA GLORIA DE LA VERGÜENZA ⚠️
+              </td>
+            `;
+            tbody.appendChild(trDivisor);
+            yaSePintoDivisor = true; // Nos aseguramos de que solo salga una vez
+          }
+
+          const tr = document.createElement("tr");
+          if (esVerguenza) {
+            tr.style.backgroundColor = "rgba(200, 16, 46, 0.04)"; // Fondo sutil para los "castigados"
+          }
+
+          const posicionHtml = i < 3 ? medallas[i] : i + 1;
+
+          tr.innerHTML = `
+            <td style="text-align: center; font-size: 16px; font-weight: bold; ${esVerguenza ? 'color: var(--rojo);' : ''}">${posicionHtml}</td>
+            <td>
+              <div style="font-weight: bold; font-size: 15px; color: ${esVerguenza ? 'var(--rojo)' : '#333'};">${usuario.alias}</div>
+            </td>
+            <td style="text-align: center; font-size: 16px; font-weight: bold; color: ${esVerguenza ? 'var(--rojo)' : 'var(--azul)'};">${usuario.total}</td>
+            <td style="text-align: center; color: #555;">${usuario.acertados}</td>
+            <td style="text-align: center; color: #555;">${usuario.exactos}</td>
+          `;
+          tbody.appendChild(tr);
+        });
+
+      } catch (err) {
+        console.error("Error al cargar el ranking:", err);
+        cargandoDiv.style.textShadow = "none";
+        cargandoDiv.style.color = "#c81e1e";
+        cargandoDiv.innerHTML = "❌ Error al cargar las puntuaciones. Por favor, inténtalo de nuevo más tarde.";
+      }
+    }
+
+    // Ejecutar la función inmediatamente al cargar la página
+    window.addEventListener('load', cargarRankingPublico);
+  </script>
+</body>
+</html>
