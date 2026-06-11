@@ -421,8 +421,13 @@
       document.getElementById("loginForm").style.display="none"; document.getElementById("loginCargando").style.display="block";
       try {
         const user = await fetchAPI("POST", { action: "verificarPassword", form: { alias: alias, password: pass } });
-        me = user; updateHeader();
-        const estado = await fetchAPI("GET", null, "?action=getEstado"); quinielaAbierta = estado.abierto;
+        me = user; 
+        
+        // 🔥 CORRECCIÓN: Descargamos el estado real (Abierto/Cerrado) antes de renderizar
+        const estado = await fetchAPI("GET", null, "?action=getEstado"); 
+        quinielaAbierta = estado.abierto;
+        
+        updateHeader();
         if(me.admin){ document.getElementById("loginCargando").style.display="none"; goTo("admin"); }
         else {
           const pron = await fetchAPI("GET", null, `?action=getPronosticos&alias=${encodeURIComponent(user.alias)}`); misPronosticos = pron || {};
@@ -456,27 +461,40 @@
 
     function renderQuiniela(){
       if(!me) return;
+      
+      // 1. Contar partidos completados
       var completados=PARTIDOS.filter(p=>{ var r=misPronosticos[p.id]||{}; return r.l!==""&&r.l!==undefined&&r.v!==""&&r.v!==undefined; }).length;
       document.getElementById("completados").textContent = completados + "/72 completados";
+      
+      // 2. Control visual del botón guardar y mensaje de porra cerrada
       var btnG=document.getElementById("btnGuardar"), msgC=document.getElementById("quinielaCerradaMsg");
       if(quinielaAbierta){ if(btnG) btnG.style.display="inline-block"; if(msgC) msgC.style.display="none"; }
       else { if(btnG) btnG.style.display="none"; if(msgC) msgC.style.display="block"; }
+      
+      // 🔒 LOCK INTELIGENTE: Si la porra está cerrada (quinielaAbierta === false), inyectamos "disabled"
+      var inputsDisabled = !quinielaAbierta ? "disabled" : "";
+
+      // 3. Renderizar las pestañas de los grupos usando los nombres exactos de tu archivo original
       var tc=document.getElementById("tabsQuiniela"); tc.innerHTML="";
       GRUPOS.forEach(g=>{ var b=document.createElement("button"); b.className="btn-tab"+(grupoQ===g?" active":""); b.textContent="Grupo "+g; b.onclick=function(){grupoQ=g; renderQuiniela();}; tc.appendChild(b); });
+      
+      // 4. Pintar las filas del grupo activo
       var tbody=document.getElementById("bodyQuiniela"); tbody.innerHTML="";
       PARTIDOS.filter(p=>p.g===grupoQ).forEach(p=>{
         var rp=misPronosticos[p.id]||{}, rr=resultados[p.id];
         var pts=rr?calcPts(rr.l,rr.v,rp.l,rp.v):null, ptsHtml="–";
         if(pts!==null){ var cls=pts>=5?"green":pts>0?"yellow":"red"; ptsHtml='<span class="badge '+cls+'">'+pts+' pts</span>'; }
+        
         var tr=document.createElement("tr");
         tr.innerHTML = '<td style="text-align:center;color:#666;font-size:12px;">'+p.f+'<br>'+p.h+'</td>' +
            '<td style="text-align:center;font-size:11px;color:#999;">'+p.g+'</td>' +
            '<td><div>'+flag(p.l)+p.l+'</div><div>'+flag(p.v)+p.v+'</div></td>' +
            '<td style="text-align:center;">' +
            '<div style="display:flex;align-items:center;justify-content:center;gap:6px;">' +
-           '<input type="number" min="0" value="'+(rp.l!==undefined&&rp.l!==""?rp.l:"")+'" onchange="setPron('+p.id+',\'l\',this.value)" style="width:42px;text-align:center;padding:6px 4px;border:1px solid #ccc;border-radius:4px;font-weight:bold;">' +
+           // 🔥 CASILLAS SEGURAS: Añadido inputsDisabled para congelar o liberar los marcadores
+           '<input type="number" min="0" ' + inputsDisabled + ' value="'+(rp.l!==undefined&&rp.l!==""?rp.l:"")+'" onchange="setPron('+p.id+',\'l\',this.value)" style="width:42px;text-align:center;padding:6px 4px;border:1px solid #ccc;border-radius:4px;font-weight:bold;">' +
            '<span style="color:#999;font-weight:bold;">-</span>' +
-           '<input type="number" min="0" value="'+(rp.v!==undefined&&rp.v!==""?rp.v:"")+'" onchange="setPron('+p.id+',\'v\',this.value)" style="width:42px;text-align:center;padding:6px 4px;border:1px solid #ccc;border-radius:4px;font-weight:bold;">' +
+           '<input type="number" min="0" ' + inputsDisabled + ' value="'+(rp.v!==undefined&&rp.v!==""?rp.v:"")+'" onchange="setPron('+p.id+',\'v\',this.value)" style="width:42px;text-align:center;padding:6px 4px;border:1px solid #ccc;border-radius:4px;font-weight:bold;">' +
            '</div>' +
            '</td>' +
            '<td style="text-align:center;font-weight:bold;color:var(--azul);">'+(rr?rr.l+'-'+rr.v:'–')+'</td>' +
