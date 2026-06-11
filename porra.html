@@ -454,33 +454,83 @@
 
     function doLogout(){ me=null; misPronosticos={}; quinielaAbierta=true; document.getElementById("loginAlias").value=""; document.getElementById("loginPass").value=""; document.getElementById("loginForm").style.display="block"; document.getElementById("loginCargando").style.display="none"; updateHeader(); goTo("inicio"); }
 
-    function renderQuiniela(){
-      if(!me) return;
-      var completados=PARTIDOS.filter(p=>{ var r=misPronosticos[p.id]||{}; return r.l!==""&&r.l!==undefined&&r.v!==""&&r.v!==undefined; }).length;
+    // ═══════════════════════════════════════════════════════════
+    // DIBUJAR LA TABLA DE PRONÓSTICOS (CON BLOQUEO DE CASILLAS)
+    // ═══════════════════════════════════════════════════════════
+    function renderQuiniela() {
+      // 1. Contar cuántos partidos ha rellenado el usuario por completo
+      var completados = PARTIDOS.filter(function(p) {
+        var r = datosPronosticos[p.id] || {};
+        return r.l !== "" && r.l !== undefined && r.v !== "" && r.v !== undefined;
+      }).length;
       document.getElementById("completados").textContent = completados + "/72 completados";
-      var btnG=document.getElementById("btnGuardar"), msgC=document.getElementById("quinielaCerradaMsg");
-      if(quinielaAbierta){ if(btnG) btnG.style.display="inline-block"; if(msgC) msgC.style.display="none"; }
-      else { if(btnG) btnG.style.display="none"; if(msgC) msgC.style.display="block"; }
-      var tc=document.getElementById("tabsQuiniela"); tc.innerHTML="";
-      GRUPOS.forEach(g=>{ var b=document.createElement("button"); b.className="btn-tab"+(grupoQ===g?" active":""); b.textContent="Grupo "+g; b.onclick=function(){grupoQ=g; renderQuiniela();}; tc.appendChild(b); });
-      var tbody=document.getElementById("bodyQuiniela"); tbody.innerHTML="";
-      PARTIDOS.filter(p=>p.g===grupoQ).forEach(p=>{
-        var rp=misPronosticos[p.id]||{}, rr=resultados[p.id];
-        var pts=rr?calcPts(rr.l,rr.v,rp.l,rp.v):null, ptsHtml="–";
-        if(pts!==null){ var cls=pts>=5?"green":pts>0?"yellow":"red"; ptsHtml='<span class="badge '+cls+'">'+pts+' pts</span>'; }
-        var tr=document.createElement("tr");
-        tr.innerHTML = '<td style="text-align:center;color:#666;font-size:12px;">'+p.f+'<br>'+p.h+'</td>' +
-           '<td style="text-align:center;font-size:11px;color:#999;">'+p.g+'</td>' +
-           '<td><div>'+flag(p.l)+p.l+'</div><div>'+flag(p.v)+p.v+'</div></td>' +
-           '<td style="text-align:center;">' +
-           '<div style="display:flex;align-items:center;justify-content:center;gap:6px;">' +
-           '<input type="number" min="0" value="'+(rp.l!==undefined&&rp.l!==""?rp.l:"")+'" onchange="setPron('+p.id+',\'l\',this.value)" style="width:42px;text-align:center;padding:6px 4px;border:1px solid #ccc;border-radius:4px;font-weight:bold;">' +
-           '<span style="color:#999;font-weight:bold;">-</span>' +
-           '<input type="number" min="0" value="'+(rp.v!==undefined&&rp.v!==""?rp.v:"")+'" onchange="setPron('+p.id+',\'v\',this.value)" style="width:42px;text-align:center;padding:6px 4px;border:1px solid #ccc;border-radius:4px;font-weight:bold;">' +
-           '</div>' +
-           '</td>' +
-           '<td style="text-align:center;font-weight:bold;color:var(--azul);">'+(rr?rr.l+'-'+rr.v:'–')+'</td>' +
-           '<td style="text-align:center;">'+ptsHtml+'</td>';
+  
+      // 2. Construcción dinámica de las pestañas de grupos
+      var gruposUnicos = [];
+      PARTIDOS.forEach(function(p) {
+        if (!gruposUnicos.includes(p.g)) gruposUnicos.push(p.g);
+      });
+  
+      var tc = document.getElementById("tabsGrupos");
+      tc.innerHTML = "";
+      gruposUnicos.forEach(function(g) {
+        var b = document.createElement("button");
+        b.className = "btn-tab" + (grupoSeleccionado === g ? " active" : "");
+        b.textContent = g;
+        b.onclick = function() {
+          grupoSeleccionado = g;
+          renderQuiniela();
+        };
+        tc.appendChild(b);
+      });
+  
+      // 🔒 DETECTOR DE BLOQUEO: Comprobamos si el botón de guardar está oculto (Porra cerrada)
+      var btnG = document.getElementById("btnGuardar");
+      var porraEstaCerrada = (btnG && btnG.style.display === "none");
+      var inputsDisabled = porraEstaCerrada ? "disabled" : ""; // Inyectará 'disabled' si está cerrada
+  
+      // 3. Pintar las filas del grupo seleccionado
+      var tbody = document.getElementById("bodyQuiniela");
+      tbody.innerHTML = "";
+  
+      var partidosFiltrados = PARTIDOS.filter(function(p) { return p.g === grupoSeleccionado; });
+  
+      partidosFiltrados.forEach(function(p) {
+        var rp = datosPronosticos[p.id] || {};
+        var rr = datosResultados[p.id];
+  
+        // Calculamos puntos locales para pintar los colores de las medallas (badges)
+        var pts = rr ? localCalcPts(rr.l, rr.v, rp.l, rp.v) : null;
+        var ptsHtml = "–";
+        if (pts !== null) {
+          var cls = pts === 8 ? "green" : pts > 0 ? "yellow" : "red";
+          ptsHtml = '<span class="badge ' + cls + '">' + pts + ' pts</span>';
+        }
+  
+        var tr = document.createElement("tr");
+        tr.innerHTML =
+          '<td style="width:10%; text-align:center; font-size:11px; color:#999; font-weight:bold;">' + p.g + '</td>' +
+          
+          '<td style="width:45%; font-size:14px; font-weight:600;">' +
+            '<div style="margin-bottom:8px;">' + flag(p.l) + p.l + '</div>' +
+            '<div>' + flag(p.v) + p.v + '</div>' +
+          '</td>' +
+          
+          '<td style="width:30%; text-align:center; vertical-align:middle;">' +
+            '<div style="display:flex; align-items:center; justify-content:center; gap:6px;">' +
+              // 🔥 CLAVE: Añadido "inputsDisabled" para apagar las cajas de texto si la porra está cerrada
+              '<input type="number" min="0" ' + inputsDisabled + ' value="' + (rp.l !== undefined && rp.l !== "" ? rp.l : "") + '" onchange="actualizarGoles(' + p.id + ',\'l\',this.value)" style="width:50px; text-align:center; padding:6px 4px; border:1px solid #ccc; border-radius:4px; font-weight:bold;">' +
+              '<span style="color:#999; font-weight:bold;">-</span>' +
+              '<input type="number" min="0" ' + inputsDisabled + ' value="' + (rp.v !== undefined && rp.v !== "" ? rp.v : "") + '" onchange="actualizarGoles(' + p.id + ',\'v\',this.value)" style="width:50px; text-align:center; padding:6px 4px; border:1px solid #ccc; border-radius:4px; font-weight:bold;">' +
+            '</div>' +
+          '</td>' +
+          
+          '<td style="width:15%; text-align:center; font-weight:bold; color:var(--azul); font-size:14px; vertical-align:middle;">' +
+            (rr ? rr.l + ' - ' + rr.v : '–') +
+          '</td>' +
+          
+          '<td style="width:10%; text-align:center; vertical-align:middle;">' + ptsHtml + '</td>';
+        
         tbody.appendChild(tr);
       });
     }
