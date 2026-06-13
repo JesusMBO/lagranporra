@@ -149,12 +149,21 @@
     }
 
     @media (max-width: 600px) {
+      /* Hacemos el título más pequeño en móvil para ahorrar espacio vertical */
       .hero-header h1 {
-        font-size: 22px;
+        font-size: 20px !important;
       }
-      td, th {
-        padding: 10px 6px;
-        font-size: 13px;
+      .hero-header p {
+        font-size: 11px !important;
+      }
+      /* Forzamos a que las celdas sigan estando súper pegadas en el móvil */
+      td {
+        padding: 3px 5px !important;
+        font-size: 12px !important;
+      }
+      th {
+        padding: 4px 5px !important;
+        font-size: 10.5px !important;
       }
     }
 
