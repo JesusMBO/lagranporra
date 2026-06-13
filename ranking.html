@@ -35,49 +35,53 @@
       margin: 0 auto;
       border-radius: 12px;
       overflow: hidden;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.15);
-      border: 1px solid #ddd;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+      padding-bottom: 15px; /* Quitamos paddings innecesarios arriba y a los lados */
     }
 
-    /* Encabezado */
     .hero-header {
       background: linear-gradient(135deg, var(--azul) 60%, var(--rojo) 100%);
       color: #fff;
-      padding: 30px 20px;
+      padding: 15px 10px; /* 🔍 Mucho más estrecho (antes tenía 35px) */
       text-align: center;
-      border-bottom: 5px solid var(--dorado);
+      border-bottom: 4px solid var(--dorado);
+      position: relative;
+      margin-bottom: 5px; /* 🔍 Reducido al mínimo para pegar la tabla */
     }
 
-    .hero-header h1 {
-      font-family: 'Oswald', sans-serif;
-      font-weight: 600;
-      font-size: 28px;
-      letter-spacing: 2px;
-      color: var(--dorado);
-      text-transform: uppercase;
-      margin-bottom: 5px;
-    }
-
-    .hero-header p {
-      font-size: 13px;
-      opacity: 0.9;
-      letter-spacing: 1px;
-    }
-
-    /* Contenido de la Tabla */
-    .main-content {
-      padding: 25px 20px;
+    .hero-header {
+      background: linear-gradient(135deg, var(--azul) 60%, var(--rojo) 100%);
+      color: #fff;
+      padding: 12px 10px;        /* 🔍 Reducido aún más */
+      text-align: center;
+      border-bottom: 4px solid var(--dorado);
+      position: relative;
+      margin-bottom: 0px;        /* 🔍 CERO margen inferior */
     }
 
     .table-container {
+      width: 100%;
       overflow-x: auto;
-      margin-top: 10px;
+      padding: 0 10px;
+      margin-top: 0px;           /* 🔍 CERO margen superior */
+    }
+
+    .main-content {
+      padding: 0px 10px 25px 10px; /* 🔍 Cambiamos los lados de 20px a 10px */
+    }
+
+    .table-container {
+      width: 100%;
+      overflow-x: auto;
+      padding: 0; /* 🔍 Dejamos el padding en 0 porque ya lo controla el contenedor principal */
+      margin-top: 0 !important;
     }
 
     table {
       width: 100%;
       border-collapse: collapse;
       font-size: 14px;
+      margin: 0; /* 🔍 Añade esto para evitar desfases */
     }
 
     th {
@@ -85,31 +89,40 @@
       color: #555;
       font-family: 'Oswald', sans-serif;
       font-weight: 600;
-      padding: 12px 10px;
+      padding: 4px 6px; /* 🔍 Reducido para que la fila de títulos sea bajita */
       border-bottom: 2px solid #eee;
       text-align: left;
       text-transform: uppercase;
+      font-size: 11px;  /* 🔍 Letra un pelín más estilizada y compacta */
+      line-height: 1;
     }
 
     td {
-      padding: 12px 10px;
+      padding: 3px 6px;       /* 🔍 Bajamos de 5px a 3px arriba y abajo. ¡Súper ceñido! */
       border-bottom: 1px solid #eee;
       vertical-align: middle;
+      line-height: 1.1;       /* 🔍 Forzamos a que el texto ocupe solo su espacio real */
+    }
+
+    .table-container {
+      width: 100%;
+      overflow-x: auto;
+      padding: 0 10px; /* Añade un pequeño respiro solo a los lados */
+      margin-top: 5px; /* 🔍 Pega la tabla casi inmediatamente después del banner */
     }
 
     tr:hover {
       background-color: #fafdff;
     }
 
-    /* Cargando */
     .cargando {
       text-align: center;
-      padding: 40px 20px;
+      padding: 5px 0;
+      font-size: 14px;
       color: #666;
-      font-style: italic;
+      margin: 0 !important;      /* Forzamos a quitar márgenes */
     }
 
-    /* Botones de navegación inferiores */
     .botones {
       display: flex;
       gap: 10px;
@@ -183,11 +196,11 @@
 <body>
 
   <div class="ranking-card">
-    <div class="hero-header" style="background: linear-gradient(135deg, var(--azul) 60%, var(--rojo) 100%); color: #fff; padding: 35px 20px; text-align: center; border-bottom: 5px solid var(--dorado); position: relative;">
-      <h1 style="font-family: 'Oswald', sans-serif; font-weight: 600; font-size: 32px; letter-spacing: 2px; color: var(--dorado); text-transform: uppercase; margin-bottom: 8px; text-shadow: 0 2px 4px rgba(0,0,0,0.3); margin: 0;">
+    <div class="hero-header" style="background: linear-gradient(135deg, var(--azul) 60%, var(--rojo) 100%); color: #fff; padding: 12px 10px; text-align: center; border-bottom: 4px solid var(--dorado); position: relative; margin-bottom: 0px;">
+      <h1 style="font-family: 'Oswald', sans-serif; font-weight: 600; font-size: 32px; letter-spacing: 2px; color: var(--dorado); text-transform: uppercase; text-shadow: 0 2px 4px rgba(0,0,0,0.3); margin: 0;">
         📊 CLASIFICACIÓN GENERAL
       </h1>
-      <p style="font-family: 'Open Sans', sans-serif; font-size: 13px; font-weight: 600; letter-spacing: 1px; color: #ffffff; opacity: 0.95; text-transform: uppercase; margin: 0;">
+      <p style="font-family: 'Open Sans', sans-serif; font-size: 13px; font-weight: 600; letter-spacing: 1px; color: #ffffff; opacity: 0.95; text-transform: uppercase; margin: 0; padding: 0; line-height: 1;">
         Puntuaciones en Tiempo Real • LaGranPorra   Mundial 2026
       </p>
     </div>
@@ -199,7 +212,7 @@
       </div>
 
       <div class="table-container">
-        <table id="tablaRanking" style="display: none;">
+        <table id="tablaRanking" style="display: none; width: 100%; border-collapse: collapse;">
           <thead>
             <tr>
               <th style="text-align: center; width: 60px;">Pos</th>
@@ -209,21 +222,27 @@
               <th style="text-align: center; width: 80px;">Exactos</th>
             </tr>
           </thead>
+
           <tbody id="bodyRanking">
             </tbody>
+
+          <tfoot>
+            <tr>
+              <td colspan="5" style="padding: 10px 0 0 0; border: none; background: transparent;">
+                <div style="padding: 10px; background-color: #f9f9f9; border-radius: 6px; border: 1px solid #eee; font-size: 11px; color: #666; line-height: 1.4; text-align: left;">
+                  <p style="margin-bottom: 4px; font-weight: bold;">ℹ️ Guía de columnas:</p>
+                  <p style="margin: 0;">• <strong>Puntos:</strong> Puntos totales acumulados.</p>
+                  <p style="margin: 0;">• <strong>Acertados:</strong> Partidos donde adivinaste el equipo Ganador o el Empate.</p>
+                  <p style="margin: 0;">• <strong>Exactos:</strong> Partidos donde acertaste el resultado exacto (inlcuidos los goles de ambos equipos).</p>
+                </div>
+              </td>
+            </tr>
+          </tfoot>
+
         </table>
       </div>
 
-      <div style="margin-top: 15px; padding: 10px; background-color: #f9f9f9; border-radius: 6px; border: 1px solid #eee; font-size: 11px; color: #666; line-height: 1.4;">
-        <p style="margin-bottom: 4px;"><strong>ℹ️ Guía de columnas:</strong></p>
-        <ul style="list-style: none; padding-left: 5px;">
-          <li>• <strong>Puntos:</strong> Puntos totales acumulados.</li>
-          <li>• <strong>Acertados:</strong> Partidos donde adivinaste el Ganador o el Empate (Signo correcto).</li>
-          <li>• <strong>Exactos:</strong> Partidos donde acertaste el resultado exacto con los goles de ambos equipos.</li>
-        </ul>
-      </div>
-
-      <div class="botones" style="display: flex; gap: 12px; justify-content: center; margin-top: 30px; flex-wrap: wrap;">
+      <div class="botones" style="display: flex; gap: 12px; justify-content: center; margin-top: 5px; flex-wrap: wrap;">
         <a href="index.html" class="btn-enter btn-azul" style="min-width: 140px; text-align: center;">
           Inicio
         </a>
@@ -256,8 +275,10 @@
         }
 
         const ranking = result.datos;
+
         cargandoDiv.style.display = "none";
         tablaElem.style.display = "table";
+        tablaElem.style.marginTop = "0px"; // 👈 Fuerza a la tabla a pegarse arriba del todo
 
         if (!ranking || ranking.length === 0) {
           tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding:20px; color:#999;">Aún no hay participantes registrados o calculados.</td></tr>';
@@ -307,13 +328,13 @@
           const posicionHtml = i < 3 ? medallas[i] : i + 1;
 
           tr.innerHTML = `
-            <td style="text-align: center; font-size: 16px; font-weight: bold; ${esVerguenza ? 'color: var(--rojo);' : ''}">${posicionHtml}</td>
+            <td style="text-align: center; font-size: 14px; font-weight: bold; ${esVerguenza ? 'color: var(--rojo);' : ''}">${posicionHtml}</td>
             <td>
-              <div style="font-weight: bold; font-size: 15px; color: ${esVerguenza ? 'var(--rojo)' : '#333'};">${usuario.alias}</div>
+              <div style="font-weight: bold; font-size: 13.5px; color: ${esVerguenza ? 'var(--rojo)' : '#333'}; margin: 0; padding: 0; line-height: 1;">@${usuario.alias}</div>
             </td>
-            <td style="text-align: center; font-size: 16px; font-weight: bold; color: ${esVerguenza ? 'var(--rojo)' : 'var(--azul)'};">${usuario.total}</td>
-            <td style="text-align: center; color: #555;">${usuario.acertados}</td>
-            <td style="text-align: center; color: #555;">${usuario.exactos}</td>
+            <td style="text-align: center; font-size: 14px; font-weight: bold; color: ${esVerguenza ? 'var(--rojo)' : 'var(--azul)'};">${usuario.total}</td>
+            <td style="text-align: center; color: #555; font-size: 13px;">${usuario.acertados}</td>
+            <td style="text-align: center; color: #555; font-size: 13px;">${usuario.exactos}</td>
           `;
           tbody.appendChild(tr);
         });
